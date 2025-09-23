@@ -1,0 +1,10 @@
+{
+    "origem": "Nova Descoberta",
+    "destino": "Boa Viagem",
+    "custo": 4.0,
+    "caminho": [
+        "Nova Descoberta",
+        "Brejo da Guabiraba",
+        "Boa Viagem"
+    ]
+}
