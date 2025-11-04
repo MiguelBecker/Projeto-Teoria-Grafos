@@ -1,0 +1,2 @@
+Bairro com maior grau: Casa Amarela
+Bairro com maior densidade_ego: Hipódromo

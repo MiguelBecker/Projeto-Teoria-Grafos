@@ -1,95 +1,99 @@
 bairro,grau,ordem_ego,tamanho_ego,densidade_ego
-Recife,16,17,121,0.8897058823529411
-Santo Amaro,1,2,1,1.0
-Boa Vista,21,22,141,0.6103896103896104
-Cabanga,6,7,21,1.0
-Ilha do Leite,6,7,21,1.0
-Paissandu,6,7,21,1.0
-Santo Antonio,6,7,21,1.0
-Sao Jose,6,7,21,1.0
-Soledade,6,7,21,1.0
-Coelhos,16,17,121,0.8897058823529411
-Ilha Joana Bezerra,1,2,1,1.0
-Arruda,23,24,156,0.5652173913043478
-Campina do Barreto,8,9,36,1.0
-Campo Grande,8,9,36,1.0
-Encruzilhada,8,9,36,1.0
-Hipodromo,8,9,36,1.0
-Peixinhos,8,9,36,1.0
-Ponto de Parada,8,9,36,1.0
-Rosarinho,8,9,36,1.0
-Torreao,8,9,36,1.0
-Agua Fria,23,24,156,0.5652173913043478
-Alto Santa Teresinha,8,9,36,1.0
-Bomba do Hemeterio,8,9,36,1.0
-Cajueiro,8,9,36,1.0
-Fundao,8,9,36,1.0
-Porto da Madeira,8,9,36,1.0
-Beberibe,8,9,36,1.0
-Dois Unidos,8,9,36,1.0
-Linha do Tiro,8,9,36,1.0
-Aflitos,30,31,240,0.5161290322580645
-Alto do Mandu,15,16,120,1.0
-Apipucos,15,16,120,1.0
-Casa Amarela,15,16,120,1.0
-Casa Forte,15,16,120,1.0
-Derby,15,16,120,1.0
-Dois Irmaos,15,16,120,1.0
-Espinheiro,15,16,120,1.0
-Gracas,15,16,120,1.0
-Jaqueira,15,16,120,1.0
-Monteiro,15,16,120,1.0
-Parnamirim,15,16,120,1.0
-Poco,15,16,120,1.0
-Santana,15,16,120,1.0
-Sitio dos Pintos,15,16,120,1.0
-Tamarineira,15,16,120,1.0
-Alto Jose Bonifacio,19,20,130,0.6842105263157895
-Alto Jose do Pinho,4,5,10,1.0
-Mangabeira,4,5,10,1.0
-Morro da Conceicao,4,5,10,1.0
-Vasco da Gama,4,5,10,1.0
-Brejo da Guabiraba,22,23,148,0.5849802371541502
-Brejo de Beberibe,7,8,28,1.0
-Corrego do Jenipapo,7,8,28,1.0
-Guabiraba,7,8,28,1.0
-Macaxeira,7,8,28,1.0
-Nova Descoberta,7,8,28,1.0
-Passarinho,7,8,28,1.0
-Pau-Ferro,7,8,28,1.0
-Cordeiro,21,22,141,0.6103896103896104
-Ilha do Retiro,6,7,21,1.0
-Iputinga,6,7,21,1.0
-Madalena,6,7,21,1.0
-Prado,6,7,21,1.0
-Torre,6,7,21,1.0
-Zumbi,6,7,21,1.0
-Engenho do Meio,16,17,121,0.8897058823529411
-Torroes,1,2,1,1.0
-Caxanga,17,18,123,0.803921568627451
-Cidade Universitaria,2,3,3,1.0
-Varzea,2,3,3,1.0
-Afogados,19,20,130,0.6842105263157895
-Bongi,4,5,10,1.0
-Mangueira,4,5,10,1.0
-Mustardinha,4,5,10,1.0
-San Martin,4,5,10,1.0
-Areias,18,19,126,0.7368421052631579
-Cacote,3,4,6,1.0
-Estancia,3,4,6,1.0
-Jiquia,3,4,6,1.0
-Barro,21,22,141,0.6103896103896104
-Coqueiral,6,7,21,1.0
-Curado,6,7,21,1.0
-Jardim Sao Paulo,6,7,21,1.0
-Sancho,6,7,21,1.0
-Tejipio,6,7,21,1.0
-Toto,6,7,21,1.0
-Boa Viagem,19,20,130,0.6842105263157895
-Brasilia Teimosa,4,5,10,1.0
-Imbiribeira,4,5,10,1.0
-Ipsep,4,5,10,1.0
-Pina,4,5,10,1.0
-Ibura,17,18,123,0.803921568627451
-Jordao,2,3,3,1.0
-Cohab,2,3,3,1.0
+Recife,3,4,5,0.8333
+Santo Amaro,7,8,13,0.4643
+Boa Vista,9,10,18,0.4
+Cabanga,3,4,4,0.6667
+Ilha Do Leite,4,5,8,0.8
+Paissandu,6,7,13,0.619
+Santo Antônio,5,6,10,0.6667
+São José,6,7,11,0.5238
+Soledade,2,3,3,1.0
+Coelhos,5,6,10,0.6667
+Ilha Joana Bezerra,6,7,12,0.5714
+Arruda,8,9,16,0.4444
+Campina Do Barreto,5,6,9,0.6
+Campo Grande,7,8,14,0.5
+Encruzilhada,8,9,19,0.5278
+Hipódromo,3,4,6,1.0
+Peixinhos,3,4,5,0.8333
+Ponto De Parada,6,7,13,0.619
+Rosarinho,5,6,11,0.7333
+Torreão,4,5,8,0.8
+Água Fria,8,9,16,0.4444
+Alto Santa Teresinha,0,0,0,0.0
+Bomba Do Hemetério,5,6,10,0.6667
+Cajueiro,3,4,5,0.8333
+Fundão,4,5,8,0.8
+Porto Da Madeira,4,5,7,0.7
+Beberibe,4,5,7,0.7
+Dois Unidos,4,5,7,0.7
+Linha Do Tiro,6,7,12,0.5714
+Aflitos,4,5,9,0.9
+Alto Do Mandu,5,6,10,0.6667
+Apipucos,7,8,14,0.5
+Casa Amarela,11,12,23,0.3485
+Casa Forte,4,5,8,0.8
+Derby,5,6,11,0.7333
+Dois Irmãos,5,6,9,0.6
+Espinheiro,6,7,13,0.619
+Graças,10,11,22,0.4
+Jaqueira,5,6,10,0.6667
+Monteiro,5,6,9,0.6
+Parnamirim,5,6,10,0.6667
+Poço,4,5,7,0.7
+Santana,6,7,11,0.5238
+Sítio Dos Pintos,0,0,0,0.0
+Tamarineira,9,10,19,0.4222
+Alto José Bonifácio,6,7,13,0.619
+Alto José Do Pinho,7,8,16,0.5714
+Mangabeira,5,6,11,0.7333
+Morro Da Conceição,5,6,11,0.7333
+Vasco Da Gama,5,6,10,0.6667
+Brejo Da Guabiraba,5,6,10,0.6667
+Brejo De Beberibe,7,8,14,0.5
+Córrego Do Jenipapo,6,7,12,0.5714
+Guabiraba,5,6,8,0.5333
+Macaxeira,4,5,8,0.8
+Nova Descoberta,7,8,14,0.5
+Passarinho,4,5,7,0.7
+Pau-Ferro,0,0,0,0.0
+Cordeiro,8,9,15,0.4167
+Ilha Do Retiro,6,7,13,0.619
+Iputinga,7,8,13,0.4643
+Madalena,7,8,15,0.5357
+Prado,7,8,14,0.5
+Torre,6,7,12,0.5714
+Zumbi,4,5,8,0.8
+Engenho Do Meio,5,6,10,0.6667
+Torrões,4,5,8,0.8
+Caxangá,5,6,9,0.6
+Cidade Universitária,4,5,8,0.8
+Várzea,4,5,7,0.7
+Afogados,10,11,18,0.3273
+Bongi,4,5,8,0.8
+Mangueira,4,5,8,0.8
+Mustardinha,4,5,8,0.8
+San Martin,10,11,19,0.3455
+Areias,7,8,13,0.4643
+Caçote,3,4,6,1.0
+Estância,3,4,5,0.8333
+Jiquiá,5,6,9,0.6
+Barro,5,6,9,0.6
+Coqueiral,3,4,5,0.8333
+Curado,8,9,14,0.3889
+Jardim São Paulo,5,6,8,0.5333
+Sancho,4,5,7,0.7
+Tejipió,4,5,6,0.6
+Totó,3,4,5,0.8333
+Boa Viagem,4,5,6,0.6
+Brasília Teimosa,1,2,1,1.0
+Imbiribeira,4,5,6,0.6
+Ipsep,4,5,8,0.8
+Pina,3,4,3,0.5
+Ibura,8,9,17,0.4722
+Jordão,3,4,5,0.8333
+Cohab,0,0,0,0.0
+Alto Santa Terezinha,6,7,13,0.619
+Cohab - Ibura De Cima,3,4,5,0.8333
+Sítio Dos Pintos - São Brás,2,3,3,1.0
+Pau Ferro,1,2,1,1.0

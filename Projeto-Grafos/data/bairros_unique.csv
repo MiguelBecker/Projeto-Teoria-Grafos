@@ -1,95 +1,98 @@
-Bairros,Microregiões
-Recife,1
-Santo Amaro,1
-Boa Vista,1
-Cabanga,1
-Ilha do Leite,1
-Paissandu,1
-Santo Antônio,1
-São José,1
-Soledade,1
-Coelhos,1
-Ilha Joana Bezerra,1
-Arruda,2
-Campina do Barreto,2
-Campo Grande,2
-Encruzilhada,2
-Hipódromo,2
-Peixinhos,2
-Ponto de Parada,2
-Rosarinho,2
-Torreão,2
-Água Fria,2
-Alto Santa Teresinha,2
-Bomba do Hemetério,2
-Cajueiro,2
-Fundão,2
-Porto da Madeira,2
-Beberibe,2
-Dois Unidos,2
-Linha do Tiro,2
-Aflitos,3
-Alto do Mandu,3
-Apipucos,3
-Casa Amarela,3
-Casa Forte,3
-Derby,3
-Dois Irmãos,3
-Espinheiro,3
-Graças,3
-Jaqueira,3
-Monteiro,3
-Parnamirim,3
-Poço,3
-Santana,3
-Sítio dos Pintos,3
-Tamarineira,3
-Alto José Bonifácio,3
-Alto José do Pinho,3
-Mangabeira,3
-Morro da Conceição,3
-Vasco da Gama,3
-Brejo da Guabiraba,3
-Brejo de Beberibe,3
-Córrego do Jenipapo,3
-Guabiraba,3
-Macaxeira,3
-Nova Descoberta,3
-Passarinho,3
-Pau-Ferro,3
-Cordeiro,4
-Ilha do Retiro,4
-Iputinga,4
-Madalena,4
-Prado,4
-Torre,4
-Zumbi,4
-Engenho do Meio,4
-Torrões,4
-Caxangá,4
-Cidade Universitária,4
-Várzea,4
-Afogados,5
-Bongi,5
-Mangueira,5
-Mustardinha,5
-San Martin,5
-Areias,5
-Caçote,5
-Estância,5
-Jiquiá,5
-Barro,5
-Coqueiral,5
-Curado,5
-Jardim São Paulo,5
-Sancho,5
-Tejipió,5
-Totó,5
-Boa Viagem,6
-Brasília Teimosa,6
-Imbiribeira,6
-Ipsep,6
-Pina,6
-Ibura,6
-Jordão,6
-Cohab,6
+microrregiao,bairro
+1,Recife
+1,Santo Amaro
+1,Boa Vista
+1,Cabanga
+1,Ilha Do Leite
+1,Paissandu
+1,Santo Antônio
+1,São José
+1,Soledade
+1,Coelhos
+1,Ilha Joana Bezerra
+2,Arruda
+2,Campina Do Barreto
+2,Campo Grande
+2,Encruzilhada
+2,Hipódromo
+2,Peixinhos
+2,Ponto De Parada
+2,Rosarinho
+2,Torreão
+2,Água Fria
+2,Alto Santa Teresinha
+2,Bomba Do Hemetério
+2,Cajueiro
+2,Fundão
+2,Porto Da Madeira
+2,Beberibe
+2,Dois Unidos
+2,Linha Do Tiro
+2,Beberibe
+2,Dois Unidos
+2,Linha Do Tiro
+3,Aflitos
+3,Alto Do Mandu
+3,Apipucos
+3,Casa Amarela
+3,Casa Forte
+3,Derby
+3,Dois Irmãos
+3,Espinheiro
+3,Graças
+3,Jaqueira
+3,Monteiro
+3,Parnamirim
+3,Poço
+3,Santana
+3,Sítio Dos Pintos
+3,Tamarineira
+3,Alto José Bonifácio
+3,Alto José Do Pinho
+3,Mangabeira
+3,Morro Da Conceição
+3,Vasco Da Gama
+3,Brejo Da Guabiraba
+3,Brejo De Beberibe
+3,Córrego Do Jenipapo
+3,Guabiraba
+3,Macaxeira
+3,Nova Descoberta
+3,Passarinho
+3,Pau-Ferro
+4,Cordeiro
+4,Ilha Do Retiro
+4,Iputinga
+4,Madalena
+4,Prado
+4,Torre
+4,Zumbi
+4,Engenho Do Meio
+4,Torrões
+4,Caxangá
+4,Cidade Universitária
+4,Várzea
+5,Afogados
+5,Bongi
+5,Mangueira
+5,Mustardinha
+5,San Martin
+5,Areias
+5,Caçote
+5,Estância
+5,Jiquiá
+5,Barro
+5,Coqueiral
+5,Curado
+5,Jardim São Paulo
+5,Sancho
+5,Tejipió
+5,Totó
+6,Boa Viagem
+6,Brasília Teimosa
+6,Imbiribeira
+6,Ipsep
+6,Pina
+6,Ibura
+6,Jordão
+6,Cohab

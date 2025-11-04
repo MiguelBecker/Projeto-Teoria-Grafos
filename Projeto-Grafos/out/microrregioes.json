@@ -1,32 +1,38 @@
-{
-    "1": {
-        "ordem": 9,
-        "tamanho": 15,
-        "densidade": 0.4166666666666667
-    },
-    "2": {
-        "ordem": 13,
-        "tamanho": 36,
-        "densidade": 0.46153846153846156
-    },
-    "3": {
-        "ordem": 21,
-        "tamanho": 89,
-        "densidade": 0.4238095238095238
-    },
-    "4": {
-        "ordem": 8,
-        "tamanho": 22,
-        "densidade": 0.7857142857142857
-    },
-    "5": {
-        "ordem": 10,
-        "tamanho": 19,
-        "densidade": 0.4222222222222222
-    },
-    "6": {
-        "ordem": 6,
-        "tamanho": 8,
-        "densidade": 0.5333333333333333
-    }
-}
+[
+  {
+    "microrregiao": "1",
+    "ordem": 11,
+    "tamanho": 21,
+    "densidade": 0.3818
+  },
+  {
+    "microrregiao": "2",
+    "ordem": 17,
+    "tamanho": 33,
+    "densidade": 0.2426
+  },
+  {
+    "microrregiao": "3",
+    "ordem": 27,
+    "tamanho": 60,
+    "densidade": 0.1709
+  },
+  {
+    "microrregiao": "4",
+    "ordem": 12,
+    "tamanho": 21,
+    "densidade": 0.3182
+  },
+  {
+    "microrregiao": "5",
+    "ordem": 16,
+    "tamanho": 31,
+    "densidade": 0.2583
+  },
+  {
+    "microrregiao": "6",
+    "ordem": 7,
+    "tamanho": 9,
+    "densidade": 0.4286
+  }
+]

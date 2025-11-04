@@ -1,6 +1,0 @@
-X,Y,bairro_X,bairro_Y,custo,caminho
-Aflitos,Arruda,Aflitos,Arruda,3.0,Aflitos -> Arruda
-Ilha do Retiro,Jordao,Ilha do Retiro,Jordao,8.0,Ilha do Retiro -> Cordeiro -> Ibura -> Jordao
-Recife, Santo Amaro,Recife, Santo Amaro,,sem caminho
-Linha do Tiro, Vasco da Gama,Linha do Tiro, Vasco da Gama,,sem caminho
-Nova Descoberta,Boa Viagem,Nova Descoberta,Boa Viagem,4.0,Nova Descoberta -> Brejo da Guabiraba -> Boa Viagem
