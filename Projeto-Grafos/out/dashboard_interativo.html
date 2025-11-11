@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Interativo - Bairros do Recife</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1d29;
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            grid-template-rows: 70px 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+        
+        .header {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #242837 0%, #1a1d29 100%);
+            padding: 20px 30px;
+            border-bottom: 3px solid #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            color: #e2e8f0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .header h1 .subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+        
+        .header .stats {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #06b6d4;
+        }
+        
+        .stat-label {
+            color: #94a3b8;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .sidebar {
+            background: #242837;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #334155;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: #1a1d29;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #2563eb;
+            border-radius: 4px;
+        }
+        
+        .control-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .control-section:last-child {
+            border-bottom: none;
+        }
+        
+        .control-section h3 {
+            font-size: 13px;
+            color: #06b6d4;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #334155;
+        }
+        
+        label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background: #1a1d29;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #e2e8f0;
+            font-size: 13px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 11px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+        
+        button:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #334155;
+            color: #e2e8f0;
+            border-color: #94a3b8;
+        }
+        
+        .result-box {
+            background: #1a1d29;
+            border-left: 3px solid #06b6d4;
+            border-radius: 4px;
+            padding: 14px;
+            margin-top: 12px;
+            font-size: 12px;
+            line-height: 1.7;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .result-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .result-box::-webkit-scrollbar-thumb {
+            background: #06b6d4;
+            border-radius: 3px;
+        }
+        
+        .result-title {
+            color: #06b6d4;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .path-step {
+            color: #f59e0b;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            background: #1a1d29;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        #graph {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .filter-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #2563eb;
+            color: white;
+            border-radius: 12px;
+            font-size: 11px;
+            margin: 4px 4px 4px 0;
+        }
+        
+        .info-badge {
+            background: #2563eb;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 10px;
+            display: inline-block;
+            margin-right: 6px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>ANÁLISE DE REDE URBANA
+                    <span class="subtitle">Sistema de Bairros do Recife</span>
+                </h1>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">98</div>
+                    <div class="stat-label">BAIRROS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">244</div>
+                    <div class="stat-label">CONEXÕES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="visibleNodes">98</div>
+                    <div class="stat-label">ATIVOS</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="control-section">
+                <h3>BUSCA DE BAIRROS</h3>
+                <label>Nome do bairro:</label>
+                <input type="text" id="searchInput" list="bairrosList" placeholder="Digite o nome..." 
+                       oninput="buscarAoDigitar()" onkeypress="if(event.key==='Enter')buscarBairro()">
+                <datalist id="bairrosList">
+                    <option value="Aflitos"><option value="Afogados"><option value="Alto Do Mandu"><option value="Alto José Bonifácio"><option value="Alto José Do Pinho"><option value="Alto Santa Teresinha"><option value="Alto Santa Terezinha"><option value="Apipucos"><option value="Areias"><option value="Arruda"><option value="Barro"><option value="Beberibe"><option value="Boa Viagem"><option value="Boa Vista"><option value="Bomba Do Hemetério"><option value="Bongi"><option value="Brasília Teimosa"><option value="Brejo Da Guabiraba"><option value="Brejo De Beberibe"><option value="Cabanga"><option value="Cajueiro"><option value="Campina Do Barreto"><option value="Campo Grande"><option value="Casa Amarela"><option value="Casa Forte"><option value="Caxangá"><option value="Caçote"><option value="Cidade Universitária"><option value="Coelhos"><option value="Cohab"><option value="Cohab - Ibura De Cima"><option value="Coqueiral"><option value="Cordeiro"><option value="Curado"><option value="Córrego Do Jenipapo"><option value="Derby"><option value="Dois Irmãos"><option value="Dois Unidos"><option value="Encruzilhada"><option value="Engenho Do Meio"><option value="Espinheiro"><option value="Estância"><option value="Fundão"><option value="Graças"><option value="Guabiraba"><option value="Hipódromo"><option value="Ibura"><option value="Ilha Do Leite"><option value="Ilha Do Retiro"><option value="Ilha Joana Bezerra"><option value="Imbiribeira"><option value="Ipsep"><option value="Iputinga"><option value="Jaqueira"><option value="Jardim São Paulo"><option value="Jiquiá"><option value="Jordão"><option value="Linha Do Tiro"><option value="Macaxeira"><option value="Madalena"><option value="Mangabeira"><option value="Mangueira"><option value="Monteiro"><option value="Morro Da Conceição"><option value="Mustardinha"><option value="Nova Descoberta"><option value="Paissandu"><option value="Parnamirim"><option value="Passarinho"><option value="Pau Ferro"><option value="Pau-Ferro"><option value="Peixinhos"><option value="Pina"><option value="Ponto De Parada"><option value="Porto Da Madeira"><option value="Poço"><option value="Prado"><option value="Recife"><option value="Rosarinho"><option value="San Martin"><option value="Sancho"><option value="Santana"><option value="Santo Amaro"><option value="Santo Antônio"><option value="Soledade"><option value="São José"><option value="Sítio Dos Pintos"><option value="Sítio Dos Pintos - São Brás"><option value="Tamarineira"><option value="Tejipió"><option value="Torre"><option value="Torreão"><option value="Torrões"><option value="Totó"><option value="Vasco Da Gama"><option value="Várzea"><option value="Zumbi"><option value="Água Fria">
+                </datalist>
+                <div id="sugestoes" style="margin-top: -8px; margin-bottom: 8px; font-size: 11px; color: #06b6d4;"></div>
+                <button onclick="buscarBairro()">BUSCAR</button>
+                <button class="btn-secondary" onclick="limparBusca()">LIMPAR</button>
+                <div id="searchResult"></div>
+            </div>
+            
+            <div class="control-section">
+                <h3>CÁLCULO DE ROTA</h3>
+                <label>Ponto de origem:</label>
+                <select id="origemSelect">
+                    <option value="">Selecione a origem...</option>
+                    <option value="Aflitos">Aflitos</option><option value="Afogados">Afogados</option><option value="Alto Do Mandu">Alto Do Mandu</option><option value="Alto José Bonifácio">Alto José Bonifácio</option><option value="Alto José Do Pinho">Alto José Do Pinho</option><option value="Alto Santa Teresinha">Alto Santa Teresinha</option><option value="Alto Santa Terezinha">Alto Santa Terezinha</option><option value="Apipucos">Apipucos</option><option value="Areias">Areias</option><option value="Arruda">Arruda</option><option value="Barro">Barro</option><option value="Beberibe">Beberibe</option><option value="Boa Viagem">Boa Viagem</option><option value="Boa Vista">Boa Vista</option><option value="Bomba Do Hemetério">Bomba Do Hemetério</option><option value="Bongi">Bongi</option><option value="Brasília Teimosa">Brasília Teimosa</option><option value="Brejo Da Guabiraba">Brejo Da Guabiraba</option><option value="Brejo De Beberibe">Brejo De Beberibe</option><option value="Cabanga">Cabanga</option><option value="Cajueiro">Cajueiro</option><option value="Campina Do Barreto">Campina Do Barreto</option><option value="Campo Grande">Campo Grande</option><option value="Casa Amarela">Casa Amarela</option><option value="Casa Forte">Casa Forte</option><option value="Caxangá">Caxangá</option><option value="Caçote">Caçote</option><option value="Cidade Universitária">Cidade Universitária</option><option value="Coelhos">Coelhos</option><option value="Cohab">Cohab</option><option value="Cohab - Ibura De Cima">Cohab - Ibura De Cima</option><option value="Coqueiral">Coqueiral</option><option value="Cordeiro">Cordeiro</option><option value="Curado">Curado</option><option value="Córrego Do Jenipapo">Córrego Do Jenipapo</option><option value="Derby">Derby</option><option value="Dois Irmãos">Dois Irmãos</option><option value="Dois Unidos">Dois Unidos</option><option value="Encruzilhada">Encruzilhada</option><option value="Engenho Do Meio">Engenho Do Meio</option><option value="Espinheiro">Espinheiro</option><option value="Estância">Estância</option><option value="Fundão">Fundão</option><option value="Graças">Graças</option><option value="Guabiraba">Guabiraba</option><option value="Hipódromo">Hipódromo</option><option value="Ibura">Ibura</option><option value="Ilha Do Leite">Ilha Do Leite</option><option value="Ilha Do Retiro">Ilha Do Retiro</option><option value="Ilha Joana Bezerra">Ilha Joana Bezerra</option><option value="Imbiribeira">Imbiribeira</option><option value="Ipsep">Ipsep</option><option value="Iputinga">Iputinga</option><option value="Jaqueira">Jaqueira</option><option value="Jardim São Paulo">Jardim São Paulo</option><option value="Jiquiá">Jiquiá</option><option value="Jordão">Jordão</option><option value="Linha Do Tiro">Linha Do Tiro</option><option value="Macaxeira">Macaxeira</option><option value="Madalena">Madalena</option><option value="Mangabeira">Mangabeira</option><option value="Mangueira">Mangueira</option><option value="Monteiro">Monteiro</option><option value="Morro Da Conceição">Morro Da Conceição</option><option value="Mustardinha">Mustardinha</option><option value="Nova Descoberta">Nova Descoberta</option><option value="Paissandu">Paissandu</option><option value="Parnamirim">Parnamirim</option><option value="Passarinho">Passarinho</option><option value="Pau Ferro">Pau Ferro</option><option value="Pau-Ferro">Pau-Ferro</option><option value="Peixinhos">Peixinhos</option><option value="Pina">Pina</option><option value="Ponto De Parada">Ponto De Parada</option><option value="Porto Da Madeira">Porto Da Madeira</option><option value="Poço">Poço</option><option value="Prado">Prado</option><option value="Recife">Recife</option><option value="Rosarinho">Rosarinho</option><option value="San Martin">San Martin</option><option value="Sancho">Sancho</option><option value="Santana">Santana</option><option value="Santo Amaro">Santo Amaro</option><option value="Santo Antônio">Santo Antônio</option><option value="Soledade">Soledade</option><option value="São José">São José</option><option value="Sítio Dos Pintos">Sítio Dos Pintos</option><option value="Sítio Dos Pintos - São Brás">Sítio Dos Pintos - São Brás</option><option value="Tamarineira">Tamarineira</option><option value="Tejipió">Tejipió</option><option value="Torre">Torre</option><option value="Torreão">Torreão</option><option value="Torrões">Torrões</option><option value="Totó">Totó</option><option value="Vasco Da Gama">Vasco Da Gama</option><option value="Várzea">Várzea</option><option value="Zumbi">Zumbi</option><option value="Água Fria">Água Fria</option>
+                </select>
+                <label>Ponto de destino:</label>
+                <select id="destinoSelect">
+                    <option value="">Selecione o destino...</option>
+                    <option value="Aflitos">Aflitos</option><option value="Afogados">Afogados</option><option value="Alto Do Mandu">Alto Do Mandu</option><option value="Alto José Bonifácio">Alto José Bonifácio</option><option value="Alto José Do Pinho">Alto José Do Pinho</option><option value="Alto Santa Teresinha">Alto Santa Teresinha</option><option value="Alto Santa Terezinha">Alto Santa Terezinha</option><option value="Apipucos">Apipucos</option><option value="Areias">Areias</option><option value="Arruda">Arruda</option><option value="Barro">Barro</option><option value="Beberibe">Beberibe</option><option value="Boa Viagem">Boa Viagem</option><option value="Boa Vista">Boa Vista</option><option value="Bomba Do Hemetério">Bomba Do Hemetério</option><option value="Bongi">Bongi</option><option value="Brasília Teimosa">Brasília Teimosa</option><option value="Brejo Da Guabiraba">Brejo Da Guabiraba</option><option value="Brejo De Beberibe">Brejo De Beberibe</option><option value="Cabanga">Cabanga</option><option value="Cajueiro">Cajueiro</option><option value="Campina Do Barreto">Campina Do Barreto</option><option value="Campo Grande">Campo Grande</option><option value="Casa Amarela">Casa Amarela</option><option value="Casa Forte">Casa Forte</option><option value="Caxangá">Caxangá</option><option value="Caçote">Caçote</option><option value="Cidade Universitária">Cidade Universitária</option><option value="Coelhos">Coelhos</option><option value="Cohab">Cohab</option><option value="Cohab - Ibura De Cima">Cohab - Ibura De Cima</option><option value="Coqueiral">Coqueiral</option><option value="Cordeiro">Cordeiro</option><option value="Curado">Curado</option><option value="Córrego Do Jenipapo">Córrego Do Jenipapo</option><option value="Derby">Derby</option><option value="Dois Irmãos">Dois Irmãos</option><option value="Dois Unidos">Dois Unidos</option><option value="Encruzilhada">Encruzilhada</option><option value="Engenho Do Meio">Engenho Do Meio</option><option value="Espinheiro">Espinheiro</option><option value="Estância">Estância</option><option value="Fundão">Fundão</option><option value="Graças">Graças</option><option value="Guabiraba">Guabiraba</option><option value="Hipódromo">Hipódromo</option><option value="Ibura">Ibura</option><option value="Ilha Do Leite">Ilha Do Leite</option><option value="Ilha Do Retiro">Ilha Do Retiro</option><option value="Ilha Joana Bezerra">Ilha Joana Bezerra</option><option value="Imbiribeira">Imbiribeira</option><option value="Ipsep">Ipsep</option><option value="Iputinga">Iputinga</option><option value="Jaqueira">Jaqueira</option><option value="Jardim São Paulo">Jardim São Paulo</option><option value="Jiquiá">Jiquiá</option><option value="Jordão">Jordão</option><option value="Linha Do Tiro">Linha Do Tiro</option><option value="Macaxeira">Macaxeira</option><option value="Madalena">Madalena</option><option value="Mangabeira">Mangabeira</option><option value="Mangueira">Mangueira</option><option value="Monteiro">Monteiro</option><option value="Morro Da Conceição">Morro Da Conceição</option><option value="Mustardinha">Mustardinha</option><option value="Nova Descoberta">Nova Descoberta</option><option value="Paissandu">Paissandu</option><option value="Parnamirim">Parnamirim</option><option value="Passarinho">Passarinho</option><option value="Pau Ferro">Pau Ferro</option><option value="Pau-Ferro">Pau-Ferro</option><option value="Peixinhos">Peixinhos</option><option value="Pina">Pina</option><option value="Ponto De Parada">Ponto De Parada</option><option value="Porto Da Madeira">Porto Da Madeira</option><option value="Poço">Poço</option><option value="Prado">Prado</option><option value="Recife">Recife</option><option value="Rosarinho">Rosarinho</option><option value="San Martin">San Martin</option><option value="Sancho">Sancho</option><option value="Santana">Santana</option><option value="Santo Amaro">Santo Amaro</option><option value="Santo Antônio">Santo Antônio</option><option value="Soledade">Soledade</option><option value="São José">São José</option><option value="Sítio Dos Pintos">Sítio Dos Pintos</option><option value="Sítio Dos Pintos - São Brás">Sítio Dos Pintos - São Brás</option><option value="Tamarineira">Tamarineira</option><option value="Tejipió">Tejipió</option><option value="Torre">Torre</option><option value="Torreão">Torreão</option><option value="Torrões">Torrões</option><option value="Totó">Totó</option><option value="Vasco Da Gama">Vasco Da Gama</option><option value="Várzea">Várzea</option><option value="Zumbi">Zumbi</option><option value="Água Fria">Água Fria</option>
+                </select>
+                <button onclick="calcularRota()">CALCULAR PERCURSO</button>
+                <button class="btn-secondary" onclick="limparRota()">LIMPAR ROTA</button>
+                <div id="routeResult"></div>
+            </div>
+            
+            <div class="control-section">
+                <h3>FILTROS AVANÇADOS</h3>
+                <label>Microrregião (RPA):</label>
+                <select id="microFilter" onchange="aplicarFiltros()">
+                    <option value="">Todas as regiões</option>
+                    <option value="1">RPA 1</option><option value="2">RPA 2</option><option value="3">RPA 3</option><option value="4">RPA 4</option><option value="5">RPA 5</option><option value="6">RPA 6</option>
+                </select>
+                <label>Conectividade mínima:</label>
+                <input type="number" id="grauMin" min="0" max="20" value="0" onchange="aplicarFiltros()">
+                <label>Densidade mínima:</label>
+                <input type="number" id="densidadeMin" min="0" max="1" step="0.1" value="0" onchange="aplicarFiltros()">
+                <button onclick="resetarFiltros()">RESETAR</button>
+                <div id="filterInfo"></div>
+            </div>
+            
+            <div class="control-section">
+                <h3>ANÁLISE DE DADOS</h3>
+                <button onclick="mostrarTop10()">TOP 10 CONECTADOS</button>
+                <button onclick="mostrarEstatisticas()">MÉTRICAS GERAIS</button>
+                <div id="analysisResult"></div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div id="graph"></div>
+        </div>
+    </div>
+    
+    <script>
+        const nodesData = [{"id": "Recife", "x": 0.07040720031528575, "y": 0.9912173252378037, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 1}, {"id": "Santo Amaro", "x": -0.17368544522000465, "y": 0.44252264432086463, "grau": 7, "densidade": 0.4642857142857143, "microregiao": 1}, {"id": "Boa Vista", "x": -0.4340696892479582, "y": 0.1868876165290582, "grau": 9, "densidade": 0.4, "microregiao": 1}, {"id": "Cabanga", "x": -0.6668226976847886, "y": 0.0335723319010282, "grau": 3, "densidade": 0.6666666666666666, "microregiao": 1}, {"id": "Ilha Do Leite", "x": 0.006893865146814915, "y": 0.4084112081204838, "grau": 4, "densidade": 0.8, "microregiao": 1}, {"id": "Paissandu", "x": -0.37941781422697723, "y": 0.5186564754834913, "grau": 6, "densidade": 0.6190476190476191, "microregiao": 1}, {"id": "Santo Ant\u00f4nio", "x": 0.43733479387956437, "y": -0.42617300331276703, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 1}, {"id": "S\u00e3o Jos\u00e9", "x": -0.15557475535226797, "y": -0.589491617630871, "grau": 6, "densidade": 0.5238095238095238, "microregiao": 1}, {"id": "Soledade", "x": -0.629222972240917, "y": 0.6083991674532006, "grau": 2, "densidade": 1.0, "microregiao": 1}, {"id": "Coelhos", "x": -0.014974486496530366, "y": -0.8683858433991569, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 1}, {"id": "Ilha Joana Bezerra", "x": 0.3420593892722671, "y": -0.6809750230185911, "grau": 6, "densidade": 0.5714285714285714, "microregiao": 1}, {"id": "Arruda", "x": 0.14314200924362414, "y": 0.3925569050233314, "grau": 8, "densidade": 0.4444444444444444, "microregiao": 2}, {"id": "Campina Do Barreto", "x": -0.030400176226180253, "y": 0.9472531311318803, "grau": 5, "densidade": 0.6, "microregiao": 2}, {"id": "Campo Grande", "x": -0.024802944066814433, "y": 0.5809804680513707, "grau": 7, "densidade": 0.5, "microregiao": 2}, {"id": "Encruzilhada", "x": -0.17228728644156702, "y": -0.4982707549214172, "grau": 8, "densidade": 0.5277777777777778, "microregiao": 2}, {"id": "Hip\u00f3dromo", "x": 0.48669482806554665, "y": -0.8104607112828482, "grau": 3, "densidade": 1.0, "microregiao": 2}, {"id": "Peixinhos", "x": -0.511773968048217, "y": 0.9097366145704543, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 2}, {"id": "Ponto De Parada", "x": 0.5068618249606824, "y": -0.0670312569692993, "grau": 6, "densidade": 0.6190476190476191, "microregiao": 2}, {"id": "Rosarinho", "x": 0.042314853335468125, "y": -0.6337417598791575, "grau": 5, "densidade": 0.7333333333333333, "microregiao": 2}, {"id": "Torre\u00e3o", "x": -0.1393933881400546, "y": 0.13052364517530343, "grau": 4, "densidade": 0.8, "microregiao": 2}, {"id": "\u00c1gua Fria", "x": -0.0319500686071608, "y": 0.35846819451518136, "grau": 8, "densidade": 0.4444444444444444, "microregiao": 2}, {"id": "Alto Santa Teresinha", "x": -0.8318557247793504, "y": 0.6106864942188349, "grau": 0, "densidade": 0.0, "microregiao": 2}, {"id": "Bomba Do Hemet\u00e9rio", "x": -0.3246653227316555, "y": 0.8566963134493598, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 2}, {"id": "Cajueiro", "x": 0.4719130431197299, "y": 0.6789326343547376, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 2}, {"id": "Fund\u00e3o", "x": 0.32373195938461874, "y": 0.047898634872277766, "grau": 4, "densidade": 0.8, "microregiao": 2}, {"id": "Porto Da Madeira", "x": 0.8233438571057428, "y": 0.5556171686805316, "grau": 4, "densidade": 0.7, "microregiao": 2}, {"id": "Beberibe", "x": 0.4403447072083502, "y": 0.8920345550867159, "grau": 4, "densidade": 0.7, "microregiao": 2}, {"id": "Dois Unidos", "x": 0.1436070500956546, "y": 0.9999999999999999, "grau": 4, "densidade": 0.7, "microregiao": 2}, {"id": "Linha Do Tiro", "x": -0.4650604711651592, "y": 0.14735636332720506, "grau": 6, "densidade": 0.5714285714285714, "microregiao": 2}, {"id": "Aflitos", "x": -0.8435618090501016, "y": -0.37078126679648993, "grau": 4, "densidade": 0.9, "microregiao": 3}, {"id": "Alto Do Mandu", "x": -0.24882632963513657, "y": -0.8279125421849025, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 3}, {"id": "Apipucos", "x": 0.5618846045497942, "y": -0.4874728256040316, "grau": 7, "densidade": 0.5, "microregiao": 3}, {"id": "Casa Amarela", "x": 0.03274733570089647, "y": -0.352368236615356, "grau": 11, "densidade": 0.3484848484848485, "microregiao": 3}, {"id": "Casa Forte", "x": -0.17062424613675403, "y": 0.21702488976071077, "grau": 4, "densidade": 0.8, "microregiao": 3}, {"id": "Derby", "x": -0.5079869624833216, "y": 0.6585251313362626, "grau": 5, "densidade": 0.7333333333333333, "microregiao": 3}, {"id": "Dois Irm\u00e3os", "x": 0.7926759942056392, "y": -0.2866143289164407, "grau": 5, "densidade": 0.6, "microregiao": 3}, {"id": "Espinheiro", "x": -0.7089972051165916, "y": -0.11327382682655933, "grau": 6, "densidade": 0.6190476190476191, "microregiao": 3}, {"id": "Gra\u00e7as", "x": -0.17221252050507876, "y": -0.16097713330659646, "grau": 10, "densidade": 0.4, "microregiao": 3}, {"id": "Jaqueira", "x": 0.7631715837531591, "y": -0.47976274582958545, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 3}, {"id": "Monteiro", "x": 0.0956691107806677, "y": -0.9097933952573992, "grau": 5, "densidade": 0.6, "microregiao": 3}, {"id": "Parnamirim", "x": 0.7633655221372662, "y": 0.22440981237730456, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 3}, {"id": "Po\u00e7o", "x": -0.1299937361577553, "y": -0.9411592923408896, "grau": 4, "densidade": 0.7, "microregiao": 3}, {"id": "Santana", "x": 0.14670877335646623, "y": -0.22712461306288872, "grau": 6, "densidade": 0.5238095238095238, "microregiao": 3}, {"id": "S\u00edtio Dos Pintos", "x": 0.7028571196819153, "y": 0.6556308830547899, "grau": 0, "densidade": 0.0, "microregiao": 3}, {"id": "Tamarineira", "x": 0.5828215497190447, "y": -0.18520079176838797, "grau": 9, "densidade": 0.4222222222222222, "microregiao": 3}, {"id": "Alto Jos\u00e9 Bonif\u00e1cio", "x": -0.882936462362064, "y": 0.12862795091641943, "grau": 6, "densidade": 0.6190476190476191, "microregiao": 3}, {"id": "Alto Jos\u00e9 Do Pinho", "x": 0.29807694884515107, "y": 0.20403453090359663, "grau": 7, "densidade": 0.5714285714285714, "microregiao": 3}, {"id": "Mangabeira", "x": 0.6655296324479036, "y": 0.23672727311332958, "grau": 5, "densidade": 0.7333333333333333, "microregiao": 3}, {"id": "Morro Da Concei\u00e7\u00e3o", "x": -0.1800498019585134, "y": -0.4153927672854751, "grau": 5, "densidade": 0.7333333333333333, "microregiao": 3}, {"id": "Vasco Da Gama", "x": -0.869145702311483, "y": -0.4714307965347577, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 3}, {"id": "Brejo Da Guabiraba", "x": -0.2991199968844884, "y": 0.38550832011582903, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 3}, {"id": "Brejo De Beberibe", "x": -0.6740467699820282, "y": 0.3253145959391383, "grau": 7, "densidade": 0.5, "microregiao": 3}, {"id": "C\u00f3rrego Do Jenipapo", "x": 0.18881293628919085, "y": -0.22896889295913148, "grau": 6, "densidade": 0.5714285714285714, "microregiao": 3}, {"id": "Guabiraba", "x": 0.3997157332785996, "y": 0.42476292914273606, "grau": 5, "densidade": 0.5333333333333333, "microregiao": 3}, {"id": "Macaxeira", "x": -0.33992807253324536, "y": -0.8865691035094019, "grau": 4, "densidade": 0.8, "microregiao": 3}, {"id": "Nova Descoberta", "x": -0.6504299636776447, "y": -0.5960832872094337, "grau": 7, "densidade": 0.5, "microregiao": 3}, {"id": "Passarinho", "x": 0.2856318980035758, "y": 0.7758156189026738, "grau": 4, "densidade": 0.7, "microregiao": 3}, {"id": "Pau-Ferro", "x": 0.372320511582583, "y": 0.9335960070682573, "grau": 0, "densidade": 0.0, "microregiao": 3}, {"id": "Cordeiro", "x": -0.10439264366433788, "y": -0.2612105131149959, "grau": 8, "densidade": 0.4166666666666667, "microregiao": 4}, {"id": "Ilha Do Retiro", "x": 0.31091550749326413, "y": -0.19056621308995475, "grau": 6, "densidade": 0.6190476190476191, "microregiao": 4}, {"id": "Iputinga", "x": 0.44531689659146245, "y": 0.22741830580069428, "grau": 7, "densidade": 0.4642857142857143, "microregiao": 4}, {"id": "Madalena", "x": -0.36682698639645245, "y": -0.193999220937621, "grau": 7, "densidade": 0.5357142857142857, "microregiao": 4}, {"id": "Prado", "x": -0.30750544764654936, "y": -0.5453737354130556, "grau": 7, "densidade": 0.5, "microregiao": 4}, {"id": "Torre", "x": 0.19631655625500977, "y": 0.04697381062482986, "grau": 6, "densidade": 0.5714285714285714, "microregiao": 4}, {"id": "Zumbi", "x": -0.9173046179965234, "y": -0.21080128333284218, "grau": 4, "densidade": 0.8, "microregiao": 4}, {"id": "Engenho Do Meio", "x": -0.3899108889238899, "y": -0.05082364508650597, "grau": 5, "densidade": 0.6666666666666666, "microregiao": 4}, {"id": "Torr\u00f5es", "x": -0.801880265753415, "y": -0.41839604807171477, "grau": 4, "densidade": 0.8, "microregiao": 4}, {"id": "Caxang\u00e1", "x": 0.9852169860861546, "y": 0.11657085899890021, "grau": 5, "densidade": 0.6, "microregiao": 4}, {"id": "Cidade Universit\u00e1ria", "x": 0.03553094731125661, "y": 0.7020465542865697, "grau": 4, "densidade": 0.8, "microregiao": 4}, {"id": "V\u00e1rzea", "x": 0.1609596694407398, "y": 0.8159657348548787, "grau": 4, "densidade": 0.7, "microregiao": 4}, {"id": "Afogados", "x": 0.2619968156823715, "y": -0.43808872762741013, "grau": 10, "densidade": 0.32727272727272727, "microregiao": 5}, {"id": "Bongi", "x": 0.25728763370193886, "y": -0.773525753348754, "grau": 4, "densidade": 0.8, "microregiao": 5}, {"id": "Mangueira", "x": -0.1757282521420747, "y": -0.9453293476879768, "grau": 4, "densidade": 0.8, "microregiao": 5}, {"id": "Mustardinha", "x": 0.33965839714518264, "y": -0.5341979569567211, "grau": 4, "densidade": 0.8, "microregiao": 5}, {"id": "San Martin", "x": -0.10425614618536092, "y": -0.36021734265804517, "grau": 10, "densidade": 0.34545454545454546, "microregiao": 5}, {"id": "Areias", "x": 0.3253796849296681, "y": 0.14219468752638625, "grau": 7, "densidade": 0.4642857142857143, "microregiao": 5}, {"id": "Ca\u00e7ote", "x": 0.07264081868950249, "y": -0.02580736073471277, "grau": 3, "densidade": 1.0, "microregiao": 5}, {"id": "Est\u00e2ncia", "x": 0.9488946995021103, "y": -0.41122970346554893, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 5}, {"id": "Jiqui\u00e1", "x": 0.4412742097007183, "y": -0.13447043994779642, "grau": 5, "densidade": 0.6, "microregiao": 5}, {"id": "Barro", "x": -0.2743314422325901, "y": 0.8117688624380637, "grau": 5, "densidade": 0.6, "microregiao": 5}, {"id": "Coqueiral", "x": -0.5455477028479752, "y": 0.4232943355287318, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 5}, {"id": "Curado", "x": -0.3944442413877619, "y": 0.005189572089954205, "grau": 8, "densidade": 0.3888888888888889, "microregiao": 5}, {"id": "Jardim S\u00e3o Paulo", "x": -0.622597068499773, "y": 0.42761759048650194, "grau": 5, "densidade": 0.5333333333333333, "microregiao": 5}, {"id": "Sancho", "x": -0.6355572423228685, "y": -0.6426295707341283, "grau": 4, "densidade": 0.7, "microregiao": 5}, {"id": "Tejipi\u00f3", "x": -0.9478390434430893, "y": 0.18026123592146945, "grau": 4, "densidade": 0.6, "microregiao": 5}, {"id": "Tot\u00f3", "x": 0.11245162668400269, "y": -0.9261147653669485, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 5}, {"id": "Boa Viagem", "x": 0.1260176198952217, "y": -0.3484930079166728, "grau": 4, "densidade": 0.6, "microregiao": 6}, {"id": "Bras\u00edlia Teimosa", "x": 0.5582923485696912, "y": -0.7700556567093466, "grau": 1, "densidade": 1.0, "microregiao": 6}, {"id": "Imbiribeira", "x": 0.8721698707070056, "y": -0.21579255806922054, "grau": 4, "densidade": 0.6, "microregiao": 6}, {"id": "Ipsep", "x": 0.8424283902960443, "y": -0.35609521013719725, "grau": 4, "densidade": 0.8, "microregiao": 6}, {"id": "Pina", "x": -0.049886505504623355, "y": -0.9397885147128189, "grau": 3, "densidade": 0.5, "microregiao": 6}, {"id": "Ibura", "x": 0.23593571063415483, "y": 0.34420542119273834, "grau": 8, "densidade": 0.4722222222222222, "microregiao": 6}, {"id": "Jord\u00e3o", "x": -0.7138929399013657, "y": 0.41243192260408407, "grau": 3, "densidade": 0.8333333333333334, "microregiao": 6}, {"id": "Cohab", "x": 0.9611693249106393, "y": 0.20041393351019401, "grau": 0, "densidade": 0.0, "microregiao": 6}, {"id": "Alto Santa Terezinha", "x": -0.3054180672818656, "y": 0.07543674584073083, "grau": 6, "densidade": 0.6190476190476191, "microregiao": "N/A"}, {"id": "Cohab - Ibura De Cima", "x": -0.29409774527025606, "y": 0.9756047055117292, "grau": 3, "densidade": 0.8333333333333334, "microregiao": "N/A"}, {"id": "S\u00edtio Dos Pintos - S\u00e3o Br\u00e1s", "x": 0.9782329796566862, "y": 0.2739131006140055, "grau": 2, "densidade": 1.0, "microregiao": "N/A"}, {"id": "Pau Ferro", "x": -0.7434912924774467, "y": -0.4412708204227981, "grau": 1, "densidade": 1.0, "microregiao": "N/A"}];
+        const edgesData = [{"source": "Recife", "target": "Santo Ant\u00f4nio", "x0": 0.07040720031528575, "y0": 0.9912173252378037, "x1": 0.43733479387956437, "y1": -0.42617300331276703, "peso": 2.0, "logradouro": "Ponte Buarque de Macedo"}, {"source": "Recife", "target": "Santo Amaro", "x0": 0.07040720031528575, "y0": 0.9912173252378037, "x1": -0.17368544522000465, "y1": 0.44252264432086463, "peso": 2.0, "logradouro": "Ponte do Limoeiro"}, {"source": "Recife", "target": "S\u00e3o Jos\u00e9", "x0": 0.07040720031528575, "y0": 0.9912173252378037, "x1": -0.15557475535226797, "y1": -0.589491617630871, "peso": 2.0, "logradouro": "Ponte Girat\u00f3ria"}, {"source": "Santo Amaro", "target": "Campo Grande", "x0": -0.17368544522000465, "y0": 0.44252264432086463, "x1": -0.024802944066814433, "y1": 0.5809804680513707, "peso": 5.0, "logradouro": "Avenida Dr Jayme da Fonte"}, {"source": "Santo Amaro", "target": "Torre\u00e3o", "x0": -0.17368544522000465, "y0": 0.44252264432086463, "x1": -0.1393933881400546, "y1": 0.13052364517530343, "peso": 5.0, "logradouro": "Avenida Dr Jayme da Fonte"}, {"source": "Santo Amaro", "target": "Boa Vista", "x0": -0.17368544522000465, "y0": 0.44252264432086463, "x1": -0.4340696892479582, "y1": 0.1868876165290582, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Santo Amaro", "target": "Espinheiro", "x0": -0.17368544522000465, "y0": 0.44252264432086463, "x1": -0.7089972051165916, "y1": -0.11327382682655933, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Santo Amaro", "target": "Soledade", "x0": -0.17368544522000465, "y0": 0.44252264432086463, "x1": -0.629222972240917, "y1": 0.6083991674532006, "peso": 5.0, "logradouro": "Avenida Jo\u00e3o de Barros"}, {"source": "Santo Amaro", "target": "Santo Ant\u00f4nio", "x0": -0.17368544522000465, "y0": 0.44252264432086463, "x1": 0.43733479387956437, "y1": -0.42617300331276703, "peso": 2.0, "logradouro": "Ponte Princesa Izabel"}, {"source": "Boa Vista", "target": "Soledade", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": -0.629222972240917, "y1": 0.6083991674532006, "peso": 5.0, "logradouro": "Avenida Conde da Boa Vista"}, {"source": "Boa Vista", "target": "Derby", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": -0.5079869624833216, "y1": 0.6585251313362626, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Boa Vista", "target": "Espinheiro", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": -0.7089972051165916, "y1": -0.11327382682655933, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Boa Vista", "target": "Gra\u00e7as", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": -0.17221252050507876, "y1": -0.16097713330659646, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Boa Vista", "target": "Ilha Do Leite", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": 0.006893865146814915, "y1": 0.4084112081204838, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Boa Vista", "target": "Paissandu", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": -0.37941781422697723, "y1": 0.5186564754834913, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Boa Vista", "target": "Santo Ant\u00f4nio", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": 0.43733479387956437, "y1": -0.42617300331276703, "peso": 2.0, "logradouro": "Ponte Duarte Coelho"}, {"source": "Boa Vista", "target": "Coelhos", "x0": -0.4340696892479582, "y0": 0.1868876165290582, "x1": -0.014974486496530366, "y1": -0.8683858433991569, "peso": 2.0, "logradouro": "Rua de S\u00e3o Gon\u00e7alo"}, {"source": "Cabanga", "target": "S\u00e3o Jos\u00e9", "x0": -0.6668226976847886, "y0": 0.0335723319010282, "x1": -0.15557475535226797, "y1": -0.589491617630871, "peso": 5.0, "logradouro": "Avenida Engenheiro Jos\u00e9 Estelita"}, {"source": "Cabanga", "target": "Afogados", "x0": -0.6668226976847886, "y0": 0.0335723319010282, "x1": 0.2619968156823715, "y1": -0.43808872762741013, "peso": 5.0, "logradouro": "Avenida Sul Gov. Cid Sampaio"}, {"source": "Cabanga", "target": "Pina", "x0": -0.6668226976847886, "y0": 0.0335723319010282, "x1": -0.049886505504623355, "y1": -0.9397885147128189, "peso": 2.0, "logradouro": "Ponte Agamenon Magalh\u00e3es"}, {"source": "Ilha Do Leite", "target": "Paissandu", "x0": 0.006893865146814915, "y0": 0.4084112081204838, "x1": -0.37941781422697723, "y1": 0.5186564754834913, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Ilha Do Leite", "target": "Ilha Joana Bezerra", "x0": 0.006893865146814915, "y0": 0.4084112081204838, "x1": 0.3420593892722671, "y1": -0.6809750230185911, "peso": 2.0, "logradouro": "Ponte Jos\u00e9 Barros Lima"}, {"source": "Ilha Do Leite", "target": "Coelhos", "x0": 0.006893865146814915, "y0": 0.4084112081204838, "x1": -0.014974486496530366, "y1": -0.8683858433991569, "peso": 2.0, "logradouro": "Rua Capit\u00e3o Jos\u00e9 da Luz"}, {"source": "Paissandu", "target": "Derby", "x0": -0.37941781422697723, "y0": 0.5186564754834913, "x1": -0.5079869624833216, "y1": 0.6585251313362626, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "Paissandu", "target": "Ilha Joana Bezerra", "x0": -0.37941781422697723, "y0": 0.5186564754834913, "x1": 0.3420593892722671, "y1": -0.6809750230185911, "peso": 2.0, "logradouro": "Ponte Jos\u00e9 de Barros lima"}, {"source": "Paissandu", "target": "Ilha Do Retiro", "x0": -0.37941781422697723, "y0": 0.5186564754834913, "x1": 0.31091550749326413, "y1": -0.19056621308995475, "peso": 2.0, "logradouro": "Ponte Prefeito Lima de Castro"}, {"source": "Paissandu", "target": "Madalena", "x0": -0.37941781422697723, "y0": 0.5186564754834913, "x1": -0.36682698639645245, "y1": -0.193999220937621, "peso": 2.0, "logradouro": "Ponte Prefeito Lima de Castro"}, {"source": "Santo Ant\u00f4nio", "target": "S\u00e3o Jos\u00e9", "x0": 0.43733479387956437, "y0": -0.42617300331276703, "x1": -0.15557475535226797, "y1": -0.589491617630871, "peso": 5.0, "logradouro": "Avenida Dantas Barreto"}, {"source": "Santo Ant\u00f4nio", "target": "Coelhos", "x0": 0.43733479387956437, "y0": -0.42617300331276703, "x1": -0.014974486496530366, "y1": -0.8683858433991569, "peso": 2.0, "logradouro": "Ponte Seis de Mar\u00e7o"}, {"source": "S\u00e3o Jos\u00e9", "target": "Afogados", "x0": -0.15557475535226797, "y0": -0.589491617630871, "x1": 0.2619968156823715, "y1": -0.43808872762741013, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "S\u00e3o Jos\u00e9", "target": "Ilha Joana Bezerra", "x0": -0.15557475535226797, "y0": -0.589491617630871, "x1": 0.3420593892722671, "y1": -0.6809750230185911, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "S\u00e3o Jos\u00e9", "target": "Coelhos", "x0": -0.15557475535226797, "y0": -0.589491617630871, "x1": -0.014974486496530366, "y1": -0.8683858433991569, "peso": 2.0, "logradouro": "Ponte Seis de Mar\u00e7o"}, {"source": "Coelhos", "target": "Ilha Joana Bezerra", "x0": -0.014974486496530366, "y0": -0.8683858433991569, "x1": 0.3420593892722671, "y1": -0.6809750230185911, "peso": 2.0, "logradouro": "Ponte Joaquim Cardoso"}, {"source": "Ilha Joana Bezerra", "target": "Afogados", "x0": 0.3420593892722671, "y0": -0.6809750230185911, "x1": 0.2619968156823715, "y1": -0.43808872762741013, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Ilha Joana Bezerra", "target": "Ilha Do Retiro", "x0": 0.3420593892722671, "y0": -0.6809750230185911, "x1": 0.31091550749326413, "y1": -0.19056621308995475, "peso": 5.0, "logradouro": "Avenida Prefeito Lima Castro"}, {"source": "Arruda", "target": "Ponto De Parada", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": 0.5068618249606824, "y1": -0.0670312569692993, "peso": 5.0, "logradouro": "Avenida Beberibe"}, {"source": "Arruda", "target": "\u00c1gua Fria", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": -0.0319500686071608, "y1": 0.35846819451518136, "peso": 5.0, "logradouro": "Avenida Beberibe"}, {"source": "Arruda", "target": "Tamarineira", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 5.0, "logradouro": "Avenida Engenheiro Agamenon de Magalh\u00e3es Melo"}, {"source": "Arruda", "target": "Campo Grande", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": -0.024802944066814433, "y1": 0.5809804680513707, "peso": 5.0, "logradouro": "Avenida Professor Jos\u00e9 dos Anjos"}, {"source": "Arruda", "target": "Mangabeira", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": 0.6655296324479036, "y1": 0.23672727311332958, "peso": 5.0, "logradouro": "Avenida Professor Jos\u00e9 dos Anjos"}, {"source": "Arruda", "target": "Peixinhos", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": -0.511773968048217, "y1": 0.9097366145704543, "peso": 5.0, "logradouro": "Avenida Professor Jos\u00e9 dos Anjos"}, {"source": "Arruda", "target": "Bomba Do Hemet\u00e9rio", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": -0.3246653227316555, "y1": 0.8566963134493598, "peso": 1.0, "logradouro": "Estrada Velha de \u00c1gua Fria"}, {"source": "Arruda", "target": "Campina Do Barreto", "x0": 0.14314200924362414, "y0": 0.3925569050233314, "x1": -0.030400176226180253, "y1": 0.9472531311318803, "peso": 2.0, "logradouro": "Rua Celcina Maia Pereira"}, {"source": "Campina Do Barreto", "target": "Cajueiro", "x0": -0.030400176226180253, "y0": 0.9472531311318803, "x1": 0.4719130431197299, "y1": 0.6789326343547376, "peso": 5.0, "logradouro": "Avenida Nova do Fund\u00e3o"}, {"source": "Campina Do Barreto", "target": "Fund\u00e3o", "x0": -0.030400176226180253, "y0": 0.9472531311318803, "x1": 0.32373195938461874, "y1": 0.047898634872277766, "peso": 5.0, "logradouro": "Avenida Nova do Fund\u00e3o"}, {"source": "Campina Do Barreto", "target": "Peixinhos", "x0": -0.030400176226180253, "y0": 0.9472531311318803, "x1": -0.511773968048217, "y1": 0.9097366145704543, "peso": 5.0, "logradouro": "Avenida Poeta Vin\u00edcius de Morais"}, {"source": "Campina Do Barreto", "target": "\u00c1gua Fria", "x0": -0.030400176226180253, "y0": 0.9472531311318803, "x1": -0.0319500686071608, "y1": 0.35846819451518136, "peso": 2.0, "logradouro": "Rua Constan\u00e7a"}, {"source": "Campo Grande", "target": "Peixinhos", "x0": -0.024802944066814433, "y0": 0.5809804680513707, "x1": -0.511773968048217, "y1": 0.9097366145704543, "peso": 5.0, "logradouro": "Avenida Correia de Brito"}, {"source": "Campo Grande", "target": "Torre\u00e3o", "x0": -0.024802944066814433, "y0": 0.5809804680513707, "x1": -0.1393933881400546, "y1": 0.13052364517530343, "peso": 5.0, "logradouro": "Avenida Dr Jayme da Fonte"}, {"source": "Campo Grande", "target": "Ponto De Parada", "x0": -0.024802944066814433, "y0": 0.5809804680513707, "x1": 0.5068618249606824, "y1": -0.0670312569692993, "peso": 5.0, "logradouro": "Avenida Professor Jos\u00e9 dos Anjos"}, {"source": "Campo Grande", "target": "Encruzilhada", "x0": -0.024802944066814433, "y0": 0.5809804680513707, "x1": -0.17228728644156702, "y1": -0.4982707549214172, "peso": 1.0, "logradouro": "Estrada de Bel\u00e9m"}, {"source": "Campo Grande", "target": "Hip\u00f3dromo", "x0": -0.024802944066814433, "y0": 0.5809804680513707, "x1": 0.48669482806554665, "y1": -0.8104607112828482, "peso": 1.0, "logradouro": "Estrada de Bel\u00e9m"}, {"source": "Encruzilhada", "target": "Ponto De Parada", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": 0.5068618249606824, "y1": -0.0670312569692993, "peso": 5.0, "logradouro": "Avenida Beberibe"}, {"source": "Encruzilhada", "target": "Aflitos", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": -0.8435618090501016, "y1": -0.37078126679648993, "peso": 5.0, "logradouro": "Avenida Jo\u00e3o de Barros"}, {"source": "Encruzilhada", "target": "Espinheiro", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": -0.7089972051165916, "y1": -0.11327382682655933, "peso": 5.0, "logradouro": "Avenida Jo\u00e3o de Barros"}, {"source": "Encruzilhada", "target": "Rosarinho", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": 0.042314853335468125, "y1": -0.6337417598791575, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Encruzilhada", "target": "Torre\u00e3o", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": -0.1393933881400546, "y1": 0.13052364517530343, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Encruzilhada", "target": "Gra\u00e7as", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": -0.17221252050507876, "y1": -0.16097713330659646, "peso": 5.0, "logradouro": "Avenida Santos Dumont"}, {"source": "Encruzilhada", "target": "Hip\u00f3dromo", "x0": -0.17228728644156702, "y0": -0.4982707549214172, "x1": 0.48669482806554665, "y1": -0.8104607112828482, "peso": 1.0, "logradouro": "Estrada de Bel\u00e9m"}, {"source": "Hip\u00f3dromo", "target": "Ponto De Parada", "x0": 0.48669482806554665, "y0": -0.8104607112828482, "x1": 0.5068618249606824, "y1": -0.0670312569692993, "peso": 2.0, "logradouro": "Rua Costa Pinto"}, {"source": "Ponto De Parada", "target": "Rosarinho", "x0": 0.5068618249606824, "y0": -0.0670312569692993, "x1": 0.042314853335468125, "y1": -0.6337417598791575, "peso": 5.0, "logradouro": "Avenida Professor Jos\u00e9 dos Anjos"}, {"source": "Ponto De Parada", "target": "Tamarineira", "x0": 0.5068618249606824, "y0": -0.0670312569692993, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 5.0, "logradouro": "Avenida Professor Jos\u00e9 dos Anjos"}, {"source": "Rosarinho", "target": "Tamarineira", "x0": 0.042314853335468125, "y0": -0.6337417598791575, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 5.0, "logradouro": "Avenida Engenheiro Agamenon de Magalh\u00e3es Melo"}, {"source": "Rosarinho", "target": "Aflitos", "x0": 0.042314853335468125, "y0": -0.6337417598791575, "x1": -0.8435618090501016, "y1": -0.37078126679648993, "peso": 5.0, "logradouro": "Avenida Santos Dumont"}, {"source": "Rosarinho", "target": "Gra\u00e7as", "x0": 0.042314853335468125, "y0": -0.6337417598791575, "x1": -0.17221252050507876, "y1": -0.16097713330659646, "peso": 5.0, "logradouro": "Avenida Santos Dumont"}, {"source": "Torre\u00e3o", "target": "Espinheiro", "x0": -0.1393933881400546, "y0": 0.13052364517530343, "x1": -0.7089972051165916, "y1": -0.11327382682655933, "peso": 5.0, "logradouro": "Avenida Governador Agamenon Magalh\u00e3es"}, {"source": "\u00c1gua Fria", "target": "Alto Santa Terezinha", "x0": -0.0319500686071608, "y0": 0.35846819451518136, "x1": -0.3054180672818656, "y1": 0.07543674584073083, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "\u00c1gua Fria", "target": "Beberibe", "x0": -0.0319500686071608, "y0": 0.35846819451518136, "x1": 0.4403447072083502, "y1": 0.8920345550867159, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "\u00c1gua Fria", "target": "Fund\u00e3o", "x0": -0.0319500686071608, "y0": 0.35846819451518136, "x1": 0.32373195938461874, "y1": 0.047898634872277766, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "\u00c1gua Fria", "target": "Linha Do Tiro", "x0": -0.0319500686071608, "y0": 0.35846819451518136, "x1": -0.4650604711651592, "y1": 0.14735636332720506, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "\u00c1gua Fria", "target": "Porto Da Madeira", "x0": -0.0319500686071608, "y0": 0.35846819451518136, "x1": 0.8233438571057428, "y1": 0.5556171686805316, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "\u00c1gua Fria", "target": "Bomba Do Hemet\u00e9rio", "x0": -0.0319500686071608, "y0": 0.35846819451518136, "x1": -0.3246653227316555, "y1": 0.8566963134493598, "peso": 1.0, "logradouro": "Estrada Velha de \u00c1gua Fria"}, {"source": "Bomba Do Hemet\u00e9rio", "target": "Alto Santa Terezinha", "x0": -0.3246653227316555, "y0": 0.8566963134493598, "x1": -0.3054180672818656, "y1": 0.07543674584073083, "peso": 2.0, "logradouro": "Rua Air\u00ed"}, {"source": "Bomba Do Hemet\u00e9rio", "target": "Alto Jos\u00e9 Do Pinho", "x0": -0.3246653227316555, "y0": 0.8566963134493598, "x1": 0.29807694884515107, "y1": 0.20403453090359663, "peso": 2.0, "logradouro": "Rua Arlindo Cisneiros"}, {"source": "Bomba Do Hemet\u00e9rio", "target": "Mangabeira", "x0": -0.3246653227316555, "y0": 0.8566963134493598, "x1": 0.6655296324479036, "y1": 0.23672727311332958, "peso": 2.0, "logradouro": "Rua Desembargador Her\u00e1clito Cavalcanti"}, {"source": "Cajueiro", "target": "Fund\u00e3o", "x0": 0.4719130431197299, "y0": 0.6789326343547376, "x1": 0.32373195938461874, "y1": 0.047898634872277766, "peso": 5.0, "logradouro": "Avenida Beberibe"}, {"source": "Cajueiro", "target": "Porto Da Madeira", "x0": 0.4719130431197299, "y0": 0.6789326343547376, "x1": 0.8233438571057428, "y1": 0.5556171686805316, "peso": 5.0, "logradouro": "Avenida Beberibe"}, {"source": "Fund\u00e3o", "target": "Porto Da Madeira", "x0": 0.32373195938461874, "y0": 0.047898634872277766, "x1": 0.8233438571057428, "y1": 0.5556171686805316, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "Porto Da Madeira", "target": "Beberibe", "x0": 0.8233438571057428, "y0": 0.5556171686805316, "x1": 0.4403447072083502, "y1": 0.8920345550867159, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "Beberibe", "target": "Linha Do Tiro", "x0": 0.4403447072083502, "y0": 0.8920345550867159, "x1": -0.4650604711651592, "y1": 0.14735636332720506, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "Beberibe", "target": "Dois Unidos", "x0": 0.4403447072083502, "y0": 0.8920345550867159, "x1": 0.1436070500956546, "y1": 0.9999999999999999, "peso": 5.0, "logradouro": "Avenida Hildebrando de Vasconcelos"}, {"source": "Dois Unidos", "target": "Passarinho", "x0": 0.1436070500956546, "y0": 0.9999999999999999, "x1": 0.2856318980035758, "y1": 0.7758156189026738, "peso": 5.0, "logradouro": "Avenida Chagas Ferreira"}, {"source": "Dois Unidos", "target": "Linha Do Tiro", "x0": 0.1436070500956546, "y0": 0.9999999999999999, "x1": -0.4650604711651592, "y1": 0.14735636332720506, "peso": 5.0, "logradouro": "Avenida Hildebrando de Vasconcelos"}, {"source": "Dois Unidos", "target": "Brejo De Beberibe", "x0": 0.1436070500956546, "y0": 0.9999999999999999, "x1": -0.6740467699820282, "y1": 0.3253145959391383, "peso": 2.0, "logradouro": "Rua Sitio Dos Nobres"}, {"source": "Linha Do Tiro", "target": "Alto Santa Terezinha", "x0": -0.4650604711651592, "y0": 0.14735636332720506, "x1": -0.3054180672818656, "y1": 0.07543674584073083, "peso": 5.0, "logradouro": "Avenida An\u00edbal Ben\u00e9volo"}, {"source": "Linha Do Tiro", "target": "Alto Jos\u00e9 Bonif\u00e1cio", "x0": -0.4650604711651592, "y0": 0.14735636332720506, "x1": -0.882936462362064, "y1": 0.12862795091641943, "peso": 2.0, "logradouro": "Rua Alto Ita\u00fana"}, {"source": "Linha Do Tiro", "target": "Brejo De Beberibe", "x0": -0.4650604711651592, "y0": 0.14735636332720506, "x1": -0.6740467699820282, "y1": 0.3253145959391383, "peso": 2.0, "logradouro": "Rua Bismarck de Freitas"}, {"source": "Aflitos", "target": "Espinheiro", "x0": -0.8435618090501016, "y0": -0.37078126679648993, "x1": -0.7089972051165916, "y1": -0.11327382682655933, "peso": 5.0, "logradouro": "Avenida Conselheiro Rosa e Silva"}, {"source": "Aflitos", "target": "Gra\u00e7as", "x0": -0.8435618090501016, "y0": -0.37078126679648993, "x1": -0.17221252050507876, "y1": -0.16097713330659646, "peso": 5.0, "logradouro": "Avenida Conselheiro Rosa e Silva"}, {"source": "Alto Do Mandu", "target": "Casa Amarela", "x0": -0.24882632963513657, "y0": -0.8279125421849025, "x1": 0.03274733570089647, "y1": -0.352368236615356, "peso": 5.0, "logradouro": "Avenida Doutor Eurico Chaves"}, {"source": "Alto Do Mandu", "target": "Monteiro", "x0": -0.24882632963513657, "y0": -0.8279125421849025, "x1": 0.0956691107806677, "y1": -0.9097933952573992, "peso": 5.0, "logradouro": "Avenida Doutor Eurico Chaves"}, {"source": "Alto Do Mandu", "target": "Apipucos", "x0": -0.24882632963513657, "y0": -0.8279125421849025, "x1": 0.5618846045497942, "y1": -0.4874728256040316, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Alto Do Mandu", "target": "Macaxeira", "x0": -0.24882632963513657, "y0": -0.8279125421849025, "x1": -0.33992807253324536, "y1": -0.8865691035094019, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Alto Do Mandu", "target": "Nova Descoberta", "x0": -0.24882632963513657, "y0": -0.8279125421849025, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Apipucos", "target": "Caxang\u00e1", "x0": 0.5618846045497942, "y0": -0.4874728256040316, "x1": 0.9852169860861546, "y1": 0.11657085899890021, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "Apipucos", "target": "Dois Irm\u00e3os", "x0": 0.5618846045497942, "y0": -0.4874728256040316, "x1": 0.7926759942056392, "y1": -0.2866143289164407, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "Apipucos", "target": "C\u00f3rrego Do Jenipapo", "x0": 0.5618846045497942, "y0": -0.4874728256040316, "x1": 0.18881293628919085, "y1": -0.22896889295913148, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Apipucos", "target": "Macaxeira", "x0": 0.5618846045497942, "y0": -0.4874728256040316, "x1": -0.33992807253324536, "y1": -0.8865691035094019, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Apipucos", "target": "Iputinga", "x0": 0.5618846045497942, "y0": -0.4874728256040316, "x1": 0.44531689659146245, "y1": 0.22741830580069428, "peso": 2.0, "logradouro": "Ponte de Apipucos"}, {"source": "Apipucos", "target": "Monteiro", "x0": 0.5618846045497942, "y0": -0.4874728256040316, "x1": 0.0956691107806677, "y1": -0.9097933952573992, "peso": 2.0, "logradouro": "Rua Mandacaru"}, {"source": "Casa Amarela", "target": "Monteiro", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": 0.0956691107806677, "y1": -0.9097933952573992, "peso": 5.0, "logradouro": "Avenida Doutor Eurico Chaves"}, {"source": "Casa Amarela", "target": "Alto Jos\u00e9 Do Pinho", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": 0.29807694884515107, "y1": 0.20403453090359663, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Casa Amarela", "target": "Mangabeira", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": 0.6655296324479036, "y1": 0.23672727311332958, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Casa Amarela", "target": "Morro Da Concei\u00e7\u00e3o", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": -0.1800498019585134, "y1": -0.4153927672854751, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Casa Amarela", "target": "Nova Descoberta", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Casa Amarela", "target": "Tamarineira", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Casa Amarela", "target": "Vasco Da Gama", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": -0.869145702311483, "y1": -0.4714307965347577, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Casa Amarela", "target": "Casa Forte", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": -0.17062424613675403, "y1": 0.21702488976071077, "peso": 1.0, "logradouro": "Estrada das Ubaias"}, {"source": "Casa Amarela", "target": "Parnamirim", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": 0.7633655221372662, "y1": 0.22440981237730456, "peso": 1.0, "logradouro": "Estrada do Encanamento"}, {"source": "Casa Amarela", "target": "Po\u00e7o", "x0": 0.03274733570089647, "y0": -0.352368236615356, "x1": -0.1299937361577553, "y1": -0.9411592923408896, "peso": 1.0, "logradouro": "Estrada do Encanamento"}, {"source": "Casa Forte", "target": "Parnamirim", "x0": -0.17062424613675403, "y0": 0.21702488976071077, "x1": 0.7633655221372662, "y1": 0.22440981237730456, "peso": 5.0, "logradouro": "Avenida Dezessete de Agosto"}, {"source": "Casa Forte", "target": "Po\u00e7o", "x0": -0.17062424613675403, "y0": 0.21702488976071077, "x1": -0.1299937361577553, "y1": -0.9411592923408896, "peso": 5.0, "logradouro": "Avenida Dezessete de Agosto"}, {"source": "Casa Forte", "target": "Santana", "x0": -0.17062424613675403, "y0": 0.21702488976071077, "x1": 0.14670877335646623, "y1": -0.22712461306288872, "peso": 5.0, "logradouro": "Avenida Dezessete de Agosto"}, {"source": "Derby", "target": "Gra\u00e7as", "x0": -0.5079869624833216, "y0": 0.6585251313362626, "x1": -0.17221252050507876, "y1": -0.16097713330659646, "peso": 5.0, "logradouro": "Avenida Beira Rio"}, {"source": "Derby", "target": "Madalena", "x0": -0.5079869624833216, "y0": 0.6585251313362626, "x1": -0.36682698639645245, "y1": -0.193999220937621, "peso": 2.0, "logradouro": "Ponte Est\u00e1cio Coimbra"}, {"source": "Derby", "target": "Ilha Do Retiro", "x0": -0.5079869624833216, "y0": 0.6585251313362626, "x1": 0.31091550749326413, "y1": -0.19056621308995475, "peso": 2.0, "logradouro": "Ponte Prefeito Lima de Castro"}, {"source": "Dois Irm\u00e3os", "target": "Caxang\u00e1", "x0": 0.7926759942056392, "y0": -0.2866143289164407, "x1": 0.9852169860861546, "y1": 0.11657085899890021, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "Dois Irm\u00e3os", "target": "C\u00f3rrego Do Jenipapo", "x0": 0.7926759942056392, "y0": -0.2866143289164407, "x1": 0.18881293628919085, "y1": -0.22896889295913148, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "Dois Irm\u00e3os", "target": "Guabiraba", "x0": 0.7926759942056392, "y0": -0.2866143289164407, "x1": 0.3997157332785996, "y1": 0.42476292914273606, "peso": 5.0, "logradouro": "Avenida Embaixador Assis Chateaubriand"}, {"source": "Dois Irm\u00e3os", "target": "S\u00edtio Dos Pintos - S\u00e3o Br\u00e1s", "x0": 0.7926759942056392, "y0": -0.2866143289164407, "x1": 0.9782329796566862, "y1": 0.2739131006140055, "peso": 5.0, "logradouro": "Avenida Luiz Ant\u00f4nio de Ara\u00fajo"}, {"source": "Espinheiro", "target": "Gra\u00e7as", "x0": -0.7089972051165916, "y0": -0.11327382682655933, "x1": -0.17221252050507876, "y1": -0.16097713330659646, "peso": 5.0, "logradouro": "Avenida Conselheiro Rosa e Silva"}, {"source": "Gra\u00e7as", "target": "Torre", "x0": -0.17221252050507876, "y0": -0.16097713330659646, "x1": 0.19631655625500977, "y1": 0.04697381062482986, "peso": 5.0, "logradouro": "Avenida Beira Rio"}, {"source": "Gra\u00e7as", "target": "Jaqueira", "x0": -0.17221252050507876, "y0": -0.16097713330659646, "x1": 0.7631715837531591, "y1": -0.47976274582958545, "peso": 5.0, "logradouro": "Avenida Conselheiro Rosa e Silva"}, {"source": "Gra\u00e7as", "target": "Tamarineira", "x0": -0.17221252050507876, "y0": -0.16097713330659646, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 5.0, "logradouro": "Avenida Conselheiro Rosa e Silva"}, {"source": "Gra\u00e7as", "target": "Madalena", "x0": -0.17221252050507876, "y0": -0.16097713330659646, "x1": -0.36682698639645245, "y1": -0.193999220937621, "peso": 2.0, "logradouro": "Ponte Professor Moraes Rego"}, {"source": "Jaqueira", "target": "Tamarineira", "x0": 0.7631715837531591, "y0": -0.47976274582958545, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 5.0, "logradouro": "Avenida Conselheiro Rosa e Silva"}, {"source": "Jaqueira", "target": "Parnamirim", "x0": 0.7631715837531591, "y0": -0.47976274582958545, "x1": 0.7633655221372662, "y1": 0.22440981237730456, "peso": 5.0, "logradouro": "Avenida Parnamirim"}, {"source": "Jaqueira", "target": "Santana", "x0": 0.7631715837531591, "y0": -0.47976274582958545, "x1": 0.14670877335646623, "y1": -0.22712461306288872, "peso": 2.0, "logradouro": "Ponte do Vint\u00e9m"}, {"source": "Jaqueira", "target": "Torre", "x0": 0.7631715837531591, "y0": -0.47976274582958545, "x1": 0.19631655625500977, "y1": 0.04697381062482986, "peso": 4.0, "logradouro": "Viaduto Governador Cordeiro de Farias"}, {"source": "Monteiro", "target": "Po\u00e7o", "x0": 0.0956691107806677, "y0": -0.9097933952573992, "x1": -0.1299937361577553, "y1": -0.9411592923408896, "peso": 5.0, "logradouro": "Avenida Dezessete de Agosto"}, {"source": "Monteiro", "target": "Iputinga", "x0": 0.0956691107806677, "y0": -0.9097933952573992, "x1": 0.44531689659146245, "y1": 0.22741830580069428, "peso": 2.0, "logradouro": "Ponte Barqueiro Sinval Peixoto da Silva"}, {"source": "Parnamirim", "target": "Santana", "x0": 0.7633655221372662, "y0": 0.22440981237730456, "x1": 0.14670877335646623, "y1": -0.22712461306288872, "peso": 5.0, "logradouro": "Avenida Dezessete de Agosto"}, {"source": "Parnamirim", "target": "Tamarineira", "x0": 0.7633655221372662, "y0": 0.22440981237730456, "x1": 0.5828215497190447, "y1": -0.18520079176838797, "peso": 2.0, "logradouro": "Rua Afonso Celso"}, {"source": "Po\u00e7o", "target": "Santana", "x0": -0.1299937361577553, "y0": -0.9411592923408896, "x1": 0.14670877335646623, "y1": -0.22712461306288872, "peso": 5.0, "logradouro": "Avenida Dezessete de Agosto"}, {"source": "Santana", "target": "Cordeiro", "x0": 0.14670877335646623, "y0": -0.22712461306288872, "x1": -0.10439264366433788, "y1": -0.2612105131149959, "peso": 5.0, "logradouro": "Avenida Beira Rio"}, {"source": "Santana", "target": "Torre", "x0": 0.14670877335646623, "y0": -0.22712461306288872, "x1": 0.19631655625500977, "y1": 0.04697381062482986, "peso": 5.0, "logradouro": "Avenida Beira Rio"}, {"source": "Tamarineira", "target": "Alto Jos\u00e9 Do Pinho", "x0": 0.5828215497190447, "y0": -0.18520079176838797, "x1": 0.29807694884515107, "y1": 0.20403453090359663, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Tamarineira", "target": "Mangabeira", "x0": 0.5828215497190447, "y0": -0.18520079176838797, "x1": 0.6655296324479036, "y1": 0.23672727311332958, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Alto Jos\u00e9 Bonif\u00e1cio", "target": "Brejo De Beberibe", "x0": -0.882936462362064, "y0": 0.12862795091641943, "x1": -0.6740467699820282, "y1": 0.3253145959391383, "peso": 5.0, "logradouro": "Avenida Vereador Otac\u00edlio Azevedo"}, {"source": "Alto Jos\u00e9 Bonif\u00e1cio", "target": "Vasco Da Gama", "x0": -0.882936462362064, "y0": 0.12862795091641943, "x1": -0.869145702311483, "y1": -0.4714307965347577, "peso": 5.0, "logradouro": "Avenida Vereador Otac\u00edlio Azevedo"}, {"source": "Alto Jos\u00e9 Bonif\u00e1cio", "target": "Alto Santa Terezinha", "x0": -0.882936462362064, "y0": 0.12862795091641943, "x1": -0.3054180672818656, "y1": 0.07543674584073083, "peso": 2.0, "logradouro": "Rua Adustina"}, {"source": "Alto Jos\u00e9 Bonif\u00e1cio", "target": "Morro Da Concei\u00e7\u00e3o", "x0": -0.882936462362064, "y0": 0.12862795091641943, "x1": -0.1800498019585134, "y1": -0.4153927672854751, "peso": 2.0, "logradouro": "Rua Alex\u00e2nia"}, {"source": "Alto Jos\u00e9 Bonif\u00e1cio", "target": "Alto Jos\u00e9 Do Pinho", "x0": -0.882936462362064, "y0": 0.12862795091641943, "x1": 0.29807694884515107, "y1": 0.20403453090359663, "peso": 2.0, "logradouro": "Rua C\u00f3rrego Jos\u00e9 Grande"}, {"source": "Alto Jos\u00e9 Do Pinho", "target": "Mangabeira", "x0": 0.29807694884515107, "y0": 0.20403453090359663, "x1": 0.6655296324479036, "y1": 0.23672727311332958, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Alto Jos\u00e9 Do Pinho", "target": "Morro Da Concei\u00e7\u00e3o", "x0": 0.29807694884515107, "y0": 0.20403453090359663, "x1": -0.1800498019585134, "y1": -0.4153927672854751, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Alto Jos\u00e9 Do Pinho", "target": "Alto Santa Terezinha", "x0": 0.29807694884515107, "y0": 0.20403453090359663, "x1": -0.3054180672818656, "y1": 0.07543674584073083, "peso": 2.0, "logradouro": "Rua Arlindo Cisneiros"}, {"source": "Morro Da Concei\u00e7\u00e3o", "target": "Vasco Da Gama", "x0": -0.1800498019585134, "y0": -0.4153927672854751, "x1": -0.869145702311483, "y1": -0.4714307965347577, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Morro Da Concei\u00e7\u00e3o", "target": "Alto Santa Terezinha", "x0": -0.1800498019585134, "y0": -0.4153927672854751, "x1": -0.3054180672818656, "y1": 0.07543674584073083, "peso": 2.0, "logradouro": "Rua Padre Oliveira"}, {"source": "Vasco Da Gama", "target": "Nova Descoberta", "x0": -0.869145702311483, "y0": -0.4714307965347577, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Vasco Da Gama", "target": "Brejo De Beberibe", "x0": -0.869145702311483, "y0": -0.4714307965347577, "x1": -0.6740467699820282, "y1": 0.3253145959391383, "peso": 5.0, "logradouro": "Avenida Vereador Otac\u00edlio Azevedo"}, {"source": "Brejo Da Guabiraba", "target": "Brejo De Beberibe", "x0": -0.2991199968844884, "y0": 0.38550832011582903, "x1": -0.6740467699820282, "y1": 0.3253145959391383, "peso": 5.0, "logradouro": "Avenida Cana\u00e3"}, {"source": "Brejo Da Guabiraba", "target": "Passarinho", "x0": -0.2991199968844884, "y0": 0.38550832011582903, "x1": 0.2856318980035758, "y1": 0.7758156189026738, "peso": 5.0, "logradouro": "Avenida Cana\u00e3"}, {"source": "Brejo Da Guabiraba", "target": "C\u00f3rrego Do Jenipapo", "x0": -0.2991199968844884, "y0": 0.38550832011582903, "x1": 0.18881293628919085, "y1": -0.22896889295913148, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "Brejo Da Guabiraba", "target": "Guabiraba", "x0": -0.2991199968844884, "y0": 0.38550832011582903, "x1": 0.3997157332785996, "y1": 0.42476292914273606, "peso": 5.0, "logradouro": "Avenida Embaixador Assis Chateaubriand"}, {"source": "Brejo Da Guabiraba", "target": "Nova Descoberta", "x0": -0.2991199968844884, "y0": 0.38550832011582903, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 2.0, "logradouro": "Rua Alpestre"}, {"source": "Brejo De Beberibe", "target": "Passarinho", "x0": -0.6740467699820282, "y0": 0.3253145959391383, "x1": 0.2856318980035758, "y1": 0.7758156189026738, "peso": 5.0, "logradouro": "Avenida Cana\u00e3"}, {"source": "Brejo De Beberibe", "target": "Nova Descoberta", "x0": -0.6740467699820282, "y0": 0.3253145959391383, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 2.0, "logradouro": "Rua Agrol\u00e2ndia"}, {"source": "C\u00f3rrego Do Jenipapo", "target": "Guabiraba", "x0": 0.18881293628919085, "y0": -0.22896889295913148, "x1": 0.3997157332785996, "y1": 0.42476292914273606, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "C\u00f3rrego Do Jenipapo", "target": "Macaxeira", "x0": 0.18881293628919085, "y0": -0.22896889295913148, "x1": -0.33992807253324536, "y1": -0.8865691035094019, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "C\u00f3rrego Do Jenipapo", "target": "Nova Descoberta", "x0": 0.18881293628919085, "y0": -0.22896889295913148, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 5.0, "logradouro": "Avenida Norte Miguel Arraes de Alencar"}, {"source": "Guabiraba", "target": "Passarinho", "x0": 0.3997157332785996, "y0": 0.42476292914273606, "x1": 0.2856318980035758, "y1": 0.7758156189026738, "peso": 5.0, "logradouro": "Avenida da Recupera\u00e7\u00e3o"}, {"source": "Guabiraba", "target": "Pau Ferro", "x0": 0.3997157332785996, "y0": 0.42476292914273606, "x1": -0.7434912924774467, "y1": -0.4412708204227981, "peso": 1.0, "logradouro": "Estrada do Orfanato"}, {"source": "Macaxeira", "target": "Nova Descoberta", "x0": -0.33992807253324536, "y0": -0.8865691035094019, "x1": -0.6504299636776447, "y1": -0.5960832872094337, "peso": 5.0, "logradouro": "Avenida Jos\u00e9lia"}, {"source": "Cordeiro", "target": "Torre", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": 0.19631655625500977, "y1": 0.04697381062482986, "peso": 5.0, "logradouro": "Avenida Beira Rio"}, {"source": "Cordeiro", "target": "Iputinga", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": 0.44531689659146245, "y1": 0.22741830580069428, "peso": 5.0, "logradouro": "Avenida Camar\u00e3o"}, {"source": "Cordeiro", "target": "Zumbi", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": -0.9173046179965234, "y1": -0.21080128333284218, "peso": 5.0, "logradouro": "Avenida Caxang\u00e1"}, {"source": "Cordeiro", "target": "Prado", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": -0.30750544764654936, "y1": -0.5453737354130556, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Cordeiro", "target": "San Martin", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": -0.10425614618536092, "y1": -0.36021734265804517, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Cordeiro", "target": "Torr\u00f5es", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": -0.801880265753415, "y1": -0.41839604807171477, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Cordeiro", "target": "Engenho Do Meio", "x0": -0.10439264366433788, "y0": -0.2612105131149959, "x1": -0.3899108889238899, "y1": -0.05082364508650597, "peso": 5.0, "logradouro": "Avenida M\u00facio Uch\u00f4a Cavalcanti"}, {"source": "Ilha Do Retiro", "target": "Madalena", "x0": 0.31091550749326413, "y0": -0.19056621308995475, "x1": -0.36682698639645245, "y1": -0.193999220937621, "peso": 5.0, "logradouro": "Avenida Beira Rio Deputado Osvaldo Coelho"}, {"source": "Ilha Do Retiro", "target": "Prado", "x0": 0.31091550749326413, "y0": -0.19056621308995475, "x1": -0.30750544764654936, "y1": -0.5453737354130556, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Ilha Do Retiro", "target": "Afogados", "x0": 0.31091550749326413, "y0": -0.19056621308995475, "x1": 0.2619968156823715, "y1": -0.43808872762741013, "peso": 1.0, "logradouro": "Estrada dos Rem\u00e9dios"}, {"source": "Iputinga", "target": "Caxang\u00e1", "x0": 0.44531689659146245, "y0": 0.22741830580069428, "x1": 0.9852169860861546, "y1": 0.11657085899890021, "peso": 5.0, "logradouro": "Avenida Caxang\u00e1"}, {"source": "Iputinga", "target": "V\u00e1rzea", "x0": 0.44531689659146245, "y0": 0.22741830580069428, "x1": 0.1609596694407398, "y1": 0.8159657348548787, "peso": 5.0, "logradouro": "Avenida Caxang\u00e1"}, {"source": "Iputinga", "target": "Cidade Universit\u00e1ria", "x0": 0.44531689659146245, "y0": 0.22741830580069428, "x1": 0.03553094731125661, "y1": 0.7020465542865697, "peso": 5.0, "logradouro": "Avenida M\u00facio Uch\u00f4a Cavalcanti"}, {"source": "Iputinga", "target": "Engenho Do Meio", "x0": 0.44531689659146245, "y0": 0.22741830580069428, "x1": -0.3899108889238899, "y1": -0.05082364508650597, "peso": 5.0, "logradouro": "Avenida M\u00facio Uch\u00f4a Cavalcanti"}, {"source": "Madalena", "target": "Torre", "x0": -0.36682698639645245, "y0": -0.193999220937621, "x1": 0.19631655625500977, "y1": 0.04697381062482986, "peso": 5.0, "logradouro": "Avenida Beira Rio Governador Eduardo Campos"}, {"source": "Madalena", "target": "Zumbi", "x0": -0.36682698639645245, "y0": -0.193999220937621, "x1": -0.9173046179965234, "y1": -0.21080128333284218, "peso": 5.0, "logradouro": "Avenida Caxang\u00e1"}, {"source": "Madalena", "target": "Prado", "x0": -0.36682698639645245, "y0": -0.193999220937621, "x1": -0.30750544764654936, "y1": -0.5453737354130556, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Prado", "target": "Bongi", "x0": -0.30750544764654936, "y0": -0.5453737354130556, "x1": 0.25728763370193886, "y1": -0.773525753348754, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Prado", "target": "San Martin", "x0": -0.30750544764654936, "y0": -0.5453737354130556, "x1": -0.10425614618536092, "y1": -0.36021734265804517, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Prado", "target": "Afogados", "x0": -0.30750544764654936, "y0": -0.5453737354130556, "x1": 0.2619968156823715, "y1": -0.43808872762741013, "peso": 1.0, "logradouro": "Estrada do Bongi Armando da Fonte"}, {"source": "Prado", "target": "Zumbi", "x0": -0.30750544764654936, "y0": -0.5453737354130556, "x1": -0.9173046179965234, "y1": -0.21080128333284218, "peso": 2.0, "logradouro": "Rua Abdias de Oliveira"}, {"source": "Torre", "target": "Zumbi", "x0": 0.19631655625500977, "y0": 0.04697381062482986, "x1": -0.9173046179965234, "y1": -0.21080128333284218, "peso": 2.0, "logradouro": "Rua Ant\u00f4nio Machado Gomes da Silva"}, {"source": "Engenho Do Meio", "target": "Torr\u00f5es", "x0": -0.3899108889238899, "y0": -0.05082364508650597, "x1": -0.801880265753415, "y1": -0.41839604807171477, "peso": 5.0, "logradouro": "Avenida Bicenten\u00e1rio da Revolu\u00e7\u00e3o Francesa"}, {"source": "Engenho Do Meio", "target": "Cidade Universit\u00e1ria", "x0": -0.3899108889238899, "y0": -0.05082364508650597, "x1": 0.03553094731125661, "y1": 0.7020465542865697, "peso": 5.0, "logradouro": "Avenida M\u00facio Uch\u00f4a Cavalcanti"}, {"source": "Engenho Do Meio", "target": "Curado", "x0": -0.3899108889238899, "y0": -0.05082364508650597, "x1": -0.3944442413877619, "y1": 0.005189572089954205, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Torr\u00f5es", "target": "San Martin", "x0": -0.801880265753415, "y0": -0.41839604807171477, "x1": -0.10425614618536092, "y1": -0.36021734265804517, "peso": 5.0, "logradouro": "Avenida Engenheiro Abdias de Carvalho"}, {"source": "Torr\u00f5es", "target": "Curado", "x0": -0.801880265753415, "y0": -0.41839604807171477, "x1": -0.3944442413877619, "y1": 0.005189572089954205, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Caxang\u00e1", "target": "V\u00e1rzea", "x0": 0.9852169860861546, "y0": 0.11657085899890021, "x1": 0.1609596694407398, "y1": 0.8159657348548787, "peso": 5.0, "logradouro": "Avenida Afonso Olindense"}, {"source": "Caxang\u00e1", "target": "S\u00edtio Dos Pintos - S\u00e3o Br\u00e1s", "x0": 0.9852169860861546, "y0": 0.11657085899890021, "x1": 0.9782329796566862, "y1": 0.2739131006140055, "peso": 2.0, "logradouro": "Ponte do Bredo"}, {"source": "Cidade Universit\u00e1ria", "target": "V\u00e1rzea", "x0": 0.03553094731125661, "y0": 0.7020465542865697, "x1": 0.1609596694407398, "y1": 0.8159657348548787, "peso": 5.0, "logradouro": "Avenida In\u00e1cio de Barros Barreto"}, {"source": "Cidade Universit\u00e1ria", "target": "Curado", "x0": 0.03553094731125661, "y0": 0.7020465542865697, "x1": -0.3944442413877619, "y1": 0.005189572089954205, "peso": 5.0, "logradouro": "Avenida Professor Luiz Freire"}, {"source": "V\u00e1rzea", "target": "Curado", "x0": 0.1609596694407398, "y0": 0.8159657348548787, "x1": -0.3944442413877619, "y1": 0.005189572089954205, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Afogados", "target": "Imbiribeira", "x0": 0.2619968156823715, "y0": -0.43808872762741013, "x1": 0.8721698707070056, "y1": -0.21579255806922054, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Afogados", "target": "Jiqui\u00e1", "x0": 0.2619968156823715, "y0": -0.43808872762741013, "x1": 0.4412742097007183, "y1": -0.13447043994779642, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Afogados", "target": "Mangueira", "x0": 0.2619968156823715, "y0": -0.43808872762741013, "x1": -0.1757282521420747, "y1": -0.9453293476879768, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Afogados", "target": "Mustardinha", "x0": 0.2619968156823715, "y0": -0.43808872762741013, "x1": 0.33965839714518264, "y1": -0.5341979569567211, "peso": 5.0, "logradouro": "Avenida Mustardinha"}, {"source": "Afogados", "target": "Bongi", "x0": 0.2619968156823715, "y0": -0.43808872762741013, "x1": 0.25728763370193886, "y1": -0.773525753348754, "peso": 1.0, "logradouro": "Estrada do Bongi Armando da Fonte"}, {"source": "Bongi", "target": "Mustardinha", "x0": 0.25728763370193886, "y0": -0.773525753348754, "x1": 0.33965839714518264, "y1": -0.5341979569567211, "peso": 5.0, "logradouro": "Avenida C\u00f4nsul Vilares Fragoso"}, {"source": "Bongi", "target": "San Martin", "x0": 0.25728763370193886, "y0": -0.773525753348754, "x1": -0.10425614618536092, "y1": -0.36021734265804517, "peso": 5.0, "logradouro": "Avenida C\u00f4nsul Vilares Fragoso"}, {"source": "Mangueira", "target": "Jiqui\u00e1", "x0": -0.1757282521420747, "y0": -0.9453293476879768, "x1": 0.4412742097007183, "y1": -0.13447043994779642, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Mangueira", "target": "Mustardinha", "x0": -0.1757282521420747, "y0": -0.9453293476879768, "x1": 0.33965839714518264, "y1": -0.5341979569567211, "peso": 5.0, "logradouro": "Avenida Manoel Goncalves da Luz"}, {"source": "Mangueira", "target": "San Martin", "x0": -0.1757282521420747, "y0": -0.9453293476879768, "x1": -0.10425614618536092, "y1": -0.36021734265804517, "peso": 2.0, "logradouro": "Rua Bom Jardim"}, {"source": "Mustardinha", "target": "San Martin", "x0": 0.33965839714518264, "y0": -0.5341979569567211, "x1": -0.10425614618536092, "y1": -0.36021734265804517, "peso": 5.0, "logradouro": "Avenida C\u00f4nsul Vilares Fragoso"}, {"source": "San Martin", "target": "Jiqui\u00e1", "x0": -0.10425614618536092, "y0": -0.36021734265804517, "x1": 0.4412742097007183, "y1": -0.13447043994779642, "peso": 5.0, "logradouro": "Avenida General San Martin"}, {"source": "San Martin", "target": "Est\u00e2ncia", "x0": -0.10425614618536092, "y0": -0.36021734265804517, "x1": 0.9488946995021103, "y1": -0.41122970346554893, "peso": 5.0, "logradouro": "Avenida Jo\u00e3o Cabral de Melo Neto"}, {"source": "San Martin", "target": "Jardim S\u00e3o Paulo", "x0": -0.10425614618536092, "y0": -0.36021734265804517, "x1": -0.622597068499773, "y1": 0.42761759048650194, "peso": 5.0, "logradouro": "Avenida Jo\u00e3o Cabral de Melo Neto"}, {"source": "San Martin", "target": "Curado", "x0": -0.10425614618536092, "y0": -0.36021734265804517, "x1": -0.3944442413877619, "y1": 0.005189572089954205, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Areias", "target": "Ca\u00e7ote", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": 0.07264081868950249, "y1": -0.02580736073471277, "peso": 5.0, "logradouro": "Avenida Capit\u00e3o Greg\u00f3rio de Caldas"}, {"source": "Areias", "target": "Barro", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": -0.2743314422325901, "y1": 0.8117688624380637, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Areias", "target": "Est\u00e2ncia", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": 0.9488946995021103, "y1": -0.41122970346554893, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Areias", "target": "Jardim S\u00e3o Paulo", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": -0.622597068499773, "y1": 0.42761759048650194, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Areias", "target": "Jiqui\u00e1", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": 0.4412742097007183, "y1": -0.13447043994779642, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Areias", "target": "Ibura", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": 0.23593571063415483, "y1": 0.34420542119273834, "peso": 5.0, "logradouro": "Avenida Desembargador Nestor Di\u00f3gens de Mello"}, {"source": "Areias", "target": "Ipsep", "x0": 0.3253796849296681, "y0": 0.14219468752638625, "x1": 0.8424283902960443, "y1": -0.35609521013719725, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Ca\u00e7ote", "target": "Ibura", "x0": 0.07264081868950249, "y0": -0.02580736073471277, "x1": 0.23593571063415483, "y1": 0.34420542119273834, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Ca\u00e7ote", "target": "Ipsep", "x0": 0.07264081868950249, "y0": -0.02580736073471277, "x1": 0.8424283902960443, "y1": -0.35609521013719725, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Est\u00e2ncia", "target": "Jiqui\u00e1", "x0": 0.9488946995021103, "y0": -0.41122970346554893, "x1": 0.4412742097007183, "y1": -0.13447043994779642, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Barro", "target": "Jardim S\u00e3o Paulo", "x0": -0.2743314422325901, "y0": 0.8117688624380637, "x1": -0.622597068499773, "y1": 0.42761759048650194, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Barro", "target": "Tejipi\u00f3", "x0": -0.2743314422325901, "y0": 0.8117688624380637, "x1": -0.9478390434430893, "y1": 0.18026123592146945, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Barro", "target": "Cohab - Ibura De Cima", "x0": -0.2743314422325901, "y0": 0.8117688624380637, "x1": -0.29409774527025606, "y1": 0.9756047055117292, "peso": 5.0, "logradouro": "Avenida Cora\u00e7\u00e3o de Jesus"}, {"source": "Barro", "target": "Ibura", "x0": -0.2743314422325901, "y0": 0.8117688624380637, "x1": 0.23593571063415483, "y1": 0.34420542119273834, "peso": 5.0, "logradouro": "Avenida Desembargador Nestor Di\u00f3gens de Mello"}, {"source": "Coqueiral", "target": "Tejipi\u00f3", "x0": -0.5455477028479752, "y0": 0.4232943355287318, "x1": -0.9478390434430893, "y1": 0.18026123592146945, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Coqueiral", "target": "Tot\u00f3", "x0": -0.5455477028479752, "y0": 0.4232943355287318, "x1": 0.11245162668400269, "y1": -0.9261147653669485, "peso": 2.0, "logradouro": "Rua Alto do Para\u00edso"}, {"source": "Coqueiral", "target": "Sancho", "x0": -0.5455477028479752, "y0": 0.4232943355287318, "x1": -0.6355572423228685, "y1": -0.6426295707341283, "peso": 2.0, "logradouro": "Rua Apr\u00edgio Guimar\u00e3es"}, {"source": "Curado", "target": "Jardim S\u00e3o Paulo", "x0": -0.3944442413877619, "y0": 0.005189572089954205, "x1": -0.622597068499773, "y1": 0.42761759048650194, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Curado", "target": "Sancho", "x0": -0.3944442413877619, "y0": 0.005189572089954205, "x1": -0.6355572423228685, "y1": -0.6426295707341283, "peso": 5.0, "logradouro": "Avenida Liberdade"}, {"source": "Curado", "target": "Tot\u00f3", "x0": -0.3944442413877619, "y0": 0.005189572089954205, "x1": 0.11245162668400269, "y1": -0.9261147653669485, "peso": 5.0, "logradouro": "Avenida Liberdade"}, {"source": "Jardim S\u00e3o Paulo", "target": "Tejipi\u00f3", "x0": -0.622597068499773, "y0": 0.42761759048650194, "x1": -0.9478390434430893, "y1": 0.18026123592146945, "peso": 5.0, "logradouro": "Avenida Central"}, {"source": "Sancho", "target": "Tejipi\u00f3", "x0": -0.6355572423228685, "y0": -0.6426295707341283, "x1": -0.9478390434430893, "y1": 0.18026123592146945, "peso": 5.0, "logradouro": "Avenida Liberdade"}, {"source": "Sancho", "target": "Tot\u00f3", "x0": -0.6355572423228685, "y0": -0.6426295707341283, "x1": 0.11245162668400269, "y1": -0.9261147653669485, "peso": 5.0, "logradouro": "Avenida Liberdade"}, {"source": "Boa Viagem", "target": "Imbiribeira", "x0": 0.1260176198952217, "y0": -0.3484930079166728, "x1": 0.8721698707070056, "y1": -0.21579255806922054, "peso": 5.0, "logradouro": "Avenida Ant\u00f4nio Torres Galv\u00e3o"}, {"source": "Boa Viagem", "target": "Pina", "x0": 0.1260176198952217, "y0": -0.3484930079166728, "x1": -0.049886505504623355, "y1": -0.9397885147128189, "peso": 5.0, "logradouro": "Avenida Boa Viagem"}, {"source": "Boa Viagem", "target": "Ibura", "x0": 0.1260176198952217, "y0": -0.3484930079166728, "x1": 0.23593571063415483, "y1": 0.34420542119273834, "peso": 5.0, "logradouro": "Avenida Marechal Mascarenhas de Moraes"}, {"source": "Boa Viagem", "target": "Jord\u00e3o", "x0": 0.1260176198952217, "y0": -0.3484930079166728, "x1": -0.7138929399013657, "y1": 0.41243192260408407, "peso": 5.0, "logradouro": "Avenida Marechal Mascarenhas de Moraes"}, {"source": "Bras\u00edlia Teimosa", "target": "Pina", "x0": 0.5582923485696912, "y0": -0.7700556567093466, "x1": -0.049886505504623355, "y1": -0.9397885147128189, "peso": 5.0, "logradouro": "Avenida Boa Viagem"}, {"source": "Imbiribeira", "target": "Ibura", "x0": 0.8721698707070056, "y0": -0.21579255806922054, "x1": 0.23593571063415483, "y1": 0.34420542119273834, "peso": 5.0, "logradouro": "Avenida Marechal Mascarenhas de Moraes"}, {"source": "Imbiribeira", "target": "Ipsep", "x0": 0.8721698707070056, "y0": -0.21579255806922054, "x1": 0.8424283902960443, "y1": -0.35609521013719725, "peso": 5.0, "logradouro": "Avenida Recife"}, {"source": "Ipsep", "target": "Ibura", "x0": 0.8424283902960443, "y0": -0.35609521013719725, "x1": 0.23593571063415483, "y1": 0.34420542119273834, "peso": 5.0, "logradouro": "Avenida Dom Helder C\u00e2mara"}, {"source": "Ibura", "target": "Jord\u00e3o", "x0": 0.23593571063415483, "y0": 0.34420542119273834, "x1": -0.7138929399013657, "y1": 0.41243192260408407, "peso": 5.0, "logradouro": "Avenida Centen\u00e1rio Alberto Santos Dumont"}, {"source": "Ibura", "target": "Cohab - Ibura De Cima", "x0": 0.23593571063415483, "y0": 0.34420542119273834, "x1": -0.29409774527025606, "y1": 0.9756047055117292, "peso": 5.0, "logradouro": "Avenida Dois Rios"}, {"source": "Jord\u00e3o", "target": "Cohab - Ibura De Cima", "x0": -0.7138929399013657, "y0": 0.41243192260408407, "x1": -0.29409774527025606, "y1": 0.9756047055117292, "peso": 5.0, "logradouro": "Avenida Ministro Apol\u00f4nio Sales"}];
+        const PALETA = {"bg": "#1a1d29", "paper": "#242837", "primario": "#2563eb", "secundario": "#3b82f6", "terciario": "#60a5fa", "destaque": "#06b6d4", "sucesso": "#10b981", "alerta": "#f59e0b", "erro": "#dc2626", "texto": "#e2e8f0", "texto_sec": "#94a3b8", "grid": "#334155"};
+        
+        let filteredNodes = [...nodesData];
+        let highlightedNodes = new Set();
+        let highlightedEdges = new Set();
+        
+        function construirGrafoAdjacencia() {
+            const grafo = {};
+            nodesData.forEach(n => grafo[n.id] = []);
+            edgesData.forEach(e => {
+                if (!grafo[e.source]) grafo[e.source] = [];
+                if (!grafo[e.target]) grafo[e.target] = [];
+                grafo[e.source].push({no: e.target, peso: e.peso});
+                grafo[e.target].push({no: e.source, peso: e.peso});
+            });
+            return grafo;
+        }
+        
+        function dijkstra(grafo, origem, destino) {
+            const distancias = {};
+            const predecessores = {};
+            const visitados = new Set();
+            const fila = [];
+            
+            Object.keys(grafo).forEach(no => {
+                distancias[no] = Infinity;
+                predecessores[no] = null;
+            });
+            distancias[origem] = 0;
+            fila.push({no: origem, dist: 0});
+            
+            while (fila.length > 0) {
+                fila.sort((a, b) => a.dist - b.dist);
+                const {no: atual, dist: distAtual} = fila.shift();
+                
+                if (visitados.has(atual)) continue;
+                visitados.add(atual);
+                
+                if (atual === destino) break;
+                
+                grafo[atual].forEach(vizinho => {
+                    if (visitados.has(vizinho.no)) return;
+                    
+                    const novaDist = distAtual + vizinho.peso;
+                    if (novaDist < distancias[vizinho.no]) {
+                        distancias[vizinho.no] = novaDist;
+                        predecessores[vizinho.no] = atual;
+                        fila.push({no: vizinho.no, dist: novaDist});
+                    }
+                });
+            }
+            
+            if (distancias[destino] === Infinity) {
+                return {caminho: null, custo: null};
+            }
+            
+            const caminho = [];
+            let atual = destino;
+            while (atual !== null) {
+                caminho.unshift(atual);
+                atual = predecessores[atual];
+            }
+            
+            return {caminho, custo: distancias[destino]};
+        }
+        
+        const grafoAdjacencia = construirGrafoAdjacencia();
+        
+        function criarGrafico() {
+            const edgeTraces = edgesData.map(edge => {
+                const isHighlighted = highlightedEdges.has(`${edge.source}-${edge.target}`);
+                return {
+                    type: 'scatter',
+                    x: [edge.x0, edge.x1, null],
+                    y: [edge.y0, edge.y1, null],
+                    mode: 'lines',
+                    line: {
+                        width: isHighlighted ? 4 : 0.8,
+                        color: isHighlighted ? PALETA.alerta : PALETA.texto_sec
+                    },
+                    opacity: isHighlighted ? 0.9 : 0.3,
+                    hoverinfo: 'text',
+                    hovertext: `${edge.source} ↔ ${edge.target}<br>${edge.logradouro}<br>Peso: ${edge.peso}`,
+                    showlegend: false
+                };
+            });
+            
+            const nodeX = filteredNodes.map(n => n.x);
+            const nodeY = filteredNodes.map(n => n.y);
+            const nodeText = filteredNodes.map(n => n.id);
+            const nodeColors = filteredNodes.map(n => {
+                if (highlightedNodes.has(n.id)) return PALETA.alerta;
+                if (n.grau <= 3) return PALETA.texto_sec;
+                if (n.grau <= 6) return PALETA.terciario;
+                if (n.grau <= 9) return PALETA.secundario;
+                return PALETA.primario;
+            });
+            const nodeSizes = filteredNodes.map(n => 
+                highlightedNodes.has(n.id) ? n.grau * 6 + 20 : n.grau * 4 + 12
+            );
+            const nodeHover = filteredNodes.map(n => 
+                `<b>${n.id}</b><br>Grau: ${n.grau}<br>Microrregião: RPA ${n.microregiao}<br>Densidade: ${n.densidade.toFixed(3)}`
+            );
+            
+            const nodeTrace = {
+                type: 'scatter',
+                x: nodeX,
+                y: nodeY,
+                mode: 'markers+text',
+                text: nodeText,
+                textposition: 'top center',
+                textfont: {
+                    size: 9,
+                    color: PALETA.texto,
+                    family: 'Arial Black'
+                },
+                marker: {
+                    size: nodeSizes,
+                    color: nodeColors,
+                    line: {
+                        width: 2,
+                        color: PALETA.bg
+                    }
+                },
+                hoverinfo: 'text',
+                hovertext: nodeHover,
+                showlegend: false
+            };
+            
+            const layout = {
+                title: {
+                    text: 'REDE DE CONECTIVIDADE URBANA<br><sub style="font-size: 11px; color: #94a3b8;">Clique nos nós para detalhes | Arraste para navegar | Scroll para zoom</sub>',
+                    x: 0.5,
+                    xanchor: 'center',
+                    font: {
+                        size: 18,
+                        color: PALETA.texto,
+                        family: 'Segoe UI, sans-serif',
+                        weight: 600
+                    }
+                },
+                showlegend: false,
+                hovermode: 'closest',
+                margin: {b: 20, l: 5, r: 5, t: 80},
+                xaxis: {
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false
+                },
+                yaxis: {
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false
+                },
+                plot_bgcolor: PALETA.bg,
+                paper_bgcolor: PALETA.paper,
+                dragmode: 'pan'
+            };
+            
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+                displaylogo: false
+            };
+            
+            Plotly.newPlot('graph', [...edgeTraces, nodeTrace], layout, config);
+            
+            const graphDiv = document.getElementById('graph');
+            graphDiv.on('plotly_click', function(data) {
+                const point = data.points[0];
+                if (point && point.text) {
+                    document.getElementById('searchInput').value = point.text;
+                    buscarBairro();
+                }
+            });
+            
+            document.getElementById('visibleNodes').textContent = filteredNodes.length;
+        }
+        
+        function buscarAoDigitar() {
+            const texto = document.getElementById('searchInput').value.trim().toLowerCase();
+            const sugestoesDiv = document.getElementById('sugestoes');
+            
+            if (texto.length < 2) {
+                sugestoesDiv.innerHTML = '';
+                return;
+            }
+            
+            const matches = nodesData
+                .filter(n => n.id.toLowerCase().includes(texto))
+                .slice(0, 5)
+                .map(n => n.id);
+            
+            if (matches.length > 0) {
+                sugestoesDiv.innerHTML = `Sugestões: ${matches.join(', ')}`;
+            } else {
+                sugestoesDiv.innerHTML = 'Nenhum resultado encontrado';
+            }
+        }
+        
+        function buscarBairro() {
+            const bairro = document.getElementById('searchInput').value.trim();
+            const node = nodesData.find(n => n.id.toLowerCase() === bairro.toLowerCase());
+            
+            if (!node) {
+                const parcial = nodesData.find(n => n.id.toLowerCase().includes(bairro.toLowerCase()));
+                if (parcial) {
+                    document.getElementById('searchInput').value = parcial.id;
+                    buscarBairro();
+                    return;
+                }
+                alert('Bairro não encontrado! Use as sugestões.');
+                return;
+            }
+            
+            highlightedNodes = new Set([node.id]);
+            highlightedEdges.clear();
+            
+            const vizinhos = edgesData
+                .filter(e => e.source === node.id || e.target === node.id)
+                .map(e => e.source === node.id ? e.target : e.source)
+                .sort();
+            
+            vizinhos.forEach(v => {
+                highlightedNodes.add(v);
+                highlightedEdges.add(`${node.id}-${v}`);
+                highlightedEdges.add(`${v}-${node.id}`);
+            });
+            
+            const distancias = dijkstra(grafoAdjacencia, node.id, nodesData[0].id);
+            
+            document.getElementById('searchResult').innerHTML = `
+                <div class="result-box">
+                    <div class="result-title">BAIRRO: ${node.id.toUpperCase()}</div>
+                    <div style="margin: 8px 0;">
+                        <span class="info-badge">Grau: ${node.grau}</span>
+                        <span class="info-badge">RPA ${node.microregiao}</span>
+                    </div>
+                    <div><strong>Densidade Ego:</strong> ${node.densidade.toFixed(3)}</div>
+                    <div style="margin-top: 8px;"><strong>Conexões Diretas (${vizinhos.length}):</strong></div>
+                    <div style="font-size: 11px; line-height: 1.6; max-height: 100px; overflow-y: auto;">
+                        ${vizinhos.join(' • ')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('sugestoes').innerHTML = '';
+            criarGrafico();
+        }
+        
+        function limparBusca() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResult').innerHTML = '';
+            highlightedNodes.clear();
+            criarGrafico();
+        }
+        
+        function calcularRota() {
+            const origem = document.getElementById('origemSelect').value;
+            const destino = document.getElementById('destinoSelect').value;
+            
+            if (!origem || !destino) {
+                alert('Selecione origem e destino!');
+                return;
+            }
+            
+            if (origem === destino) {
+                alert('Origem e destino são iguais!');
+                return;
+            }
+            
+            const resultado = dijkstra(grafoAdjacencia, origem, destino);
+            
+            if (resultado.caminho) {
+                highlightedNodes = new Set(resultado.caminho);
+                highlightedEdges = new Set();
+                
+                for (let i = 0; i < resultado.caminho.length - 1; i++) {
+                    const a = resultado.caminho[i];
+                    const b = resultado.caminho[i + 1];
+                    highlightedEdges.add(`${a}-${b}`);
+                    highlightedEdges.add(`${b}-${a}`);
+                }
+                
+                const logradouros = [];
+                for (let i = 0; i < resultado.caminho.length - 1; i++) {
+                    const edge = edgesData.find(e => 
+                        (e.source === resultado.caminho[i] && e.target === resultado.caminho[i+1]) ||
+                        (e.target === resultado.caminho[i] && e.source === resultado.caminho[i+1])
+                    );
+                    if (edge && edge.logradouro !== 'Sem informação') {
+                        logradouros.push(`${i+1}. ${edge.logradouro}`);
+                    }
+                }
+                
+                let logradourosHtml = '';
+                if (logradouros.length > 0) {
+                    logradourosHtml = `<div style="margin-top: 8px; font-size: 11px;"><strong>Vias:</strong><br>${logradouros.slice(0, 5).join('<br>')}</div>`;
+                }
+                
+                document.getElementById('routeResult').innerHTML = `
+                    <div class="result-box">
+                        <div class="result-title">ROTA CALCULADA</div>
+                        <div><strong>Custo Total:</strong> ${resultado.custo.toFixed(1)}</div>
+                        <div><strong>Número de Saltos:</strong> ${resultado.caminho.length - 1}</div>
+                        <div><strong>Percurso:</strong></div>
+                        <div class="path-step" style="font-size: 11px; line-height: 1.8;">${resultado.caminho.join(' → ')}</div>
+                        ${logradourosHtml}
+                    </div>
+                `;
+                
+                criarGrafico();
+            } else {
+                document.getElementById('routeResult').innerHTML = `
+                    <div class="result-box">
+                        <div class="result-title" style="color: ${PALETA.erro};">ROTA NÃO ENCONTRADA</div>
+                        <div>Não existe caminho entre esses bairros no grafo.</div>
+                    </div>
+                `;
+            }
+        }
+        
+        function limparRota() {
+            document.getElementById('origemSelect').value = '';
+            document.getElementById('destinoSelect').value = '';
+            document.getElementById('routeResult').innerHTML = '';
+            highlightedNodes.clear();
+            highlightedEdges.clear();
+            criarGrafico();
+        }
+        
+        function aplicarFiltros() {
+            const microregiao = document.getElementById('microFilter').value;
+            const grauMin = parseInt(document.getElementById('grauMin').value) || 0;
+            const densidadeMin = parseFloat(document.getElementById('densidadeMin').value) || 0;
+            
+            filteredNodes = nodesData.filter(n => {
+                if (microregiao && n.microregiao !== microregiao) return false;
+                if (n.grau < grauMin) return false;
+                if (n.densidade < densidadeMin) return false;
+                return true;
+            });
+            
+            let info = '<div style="margin-top: 10px;">';
+            if (microregiao) info += `<span class="filter-badge">RPA ${microregiao}</span>`;
+            if (grauMin > 0) info += `<span class="filter-badge">Grau ≥ ${grauMin}</span>`;
+            if (densidadeMin > 0) info += `<span class="filter-badge">Densidade ≥ ${densidadeMin}</span>`;
+            info += '</div>';
+            
+            document.getElementById('filterInfo').innerHTML = info;
+            criarGrafico();
+        }
+        
+        function resetarFiltros() {
+            document.getElementById('microFilter').value = '';
+            document.getElementById('grauMin').value = '0';
+            document.getElementById('densidadeMin').value = '0';
+            document.getElementById('filterInfo').innerHTML = '';
+            filteredNodes = [...nodesData];
+            criarGrafico();
+        }
+        
+        function mostrarTop10() {
+            const top = [...nodesData]
+                .sort((a, b) => b.grau - a.grau)
+                .slice(0, 10);
+            
+            highlightedNodes = new Set(top.map(n => n.id));
+            
+            let html = '<div class="result-box"><div class="result-title">TOP 10 MAIS CONECTADOS</div>';
+            top.forEach((n, i) => {
+                html += `<div>${i+1}. <strong>${n.id}</strong> - ${n.grau} conexões</div>`;
+            });
+            html += '</div>';
+            
+            document.getElementById('analysisResult').innerHTML = html;
+            criarGrafico();
+        }
+        
+        function mostrarEstatisticas() {
+            const graus = nodesData.map(n => n.grau);
+            const densidades = nodesData.map(n => n.densidade);
+            
+            const media = graus.reduce((a, b) => a + b) / graus.length;
+            const mediana = graus.sort((a, b) => a - b)[Math.floor(graus.length / 2)];
+            const maxGrau = Math.max(...graus);
+            const mediaDens = densidades.reduce((a, b) => a + b) / densidades.length;
+            
+            document.getElementById('analysisResult').innerHTML = `
+                <div class="result-box">
+                    <div class="result-title">MÉTRICAS GERAIS</div>
+                    <div><span class="info-badge">Média de Grau:</span> ${media.toFixed(2)}</div>
+                    <div><span class="info-badge">Mediana:</span> ${mediana}</div>
+                    <div><span class="info-badge">Grau Máximo:</span> ${maxGrau}</div>
+                    <div><span class="info-badge">Densidade Média:</span> ${mediaDens.toFixed(3)}</div>
+                </div>
+            `;
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                limparBusca();
+                limparRota();
+            }
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+        
+        document.getElementById('origemSelect').addEventListener('change', function() {
+            if (this.value && document.getElementById('destinoSelect').value) {
+                calcularRota();
+            }
+        });
+        
+        document.getElementById('destinoSelect').addEventListener('change', function() {
+            if (this.value && document.getElementById('origemSelect').value) {
+                calcularRota();
+            }
+        });
+        
+        console.log('%cSISTEMA DE ANÁLISE DE REDE URBANA', 'font-size: 16px; color: #2563eb; font-weight: bold;');
+        console.log('%cAtalhos: Ctrl+F (buscar) | ESC (limpar) | Clique nos nós (detalhes)', 'color: #06b6d4');
+        console.log(`Dados carregados: ${nodesData.length} bairros, ${edgesData.length} conexões`);
+        
+        criarGrafico();
+    </script>
+</body>
+</html>

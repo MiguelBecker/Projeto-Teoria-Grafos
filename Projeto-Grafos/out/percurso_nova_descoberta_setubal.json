@@ -1,0 +1,19 @@
+{
+  "origem": "Nova Descoberta",
+  "destino": "Boa Viagem",
+  "custo": 30.0,
+  "caminho": [
+    "Nova Descoberta",
+    "Casa Amarela",
+    "Parnamirim",
+    "Tamarineira",
+    "Graças",
+    "Madalena",
+    "Derby",
+    "Ilha Do Retiro",
+    "Afogados",
+    "Imbiribeira",
+    "Boa Viagem"
+  ],
+  "num_saltos": 10
+}
