@@ -1,0 +1,6 @@
+endereco_X,endereco_Y,bairro_X,bairro_Y,custo,caminho
+"Rua do Futuro, 1000","Av. Boa Viagem, 500",Aflitos,Boa Viagem,9.0,Aflitos → Graças → Derby → Ilha Do Retiro → Ilha Joana Bezerra → Afogados → Imbiribeira → Boa Viagem
+"Av. Caxangá, 3000","Rua da Aurora, 100",Iputinga,Santo Antônio,7.3,Iputinga → Cordeiro → Torre → Graças → Boa Vista → Santo Antônio
+"Estrada do Arraial, 2000","Av. Recife, 1500",Casa Amarela,Recife,6.6,Casa Amarela → Tamarineira → Graças → Espinheiro → Santo Amaro → Recife
+"Rua da Hora, 500","Av. Agamenon Magalhães, 2000",Espinheiro,Campo Grande,3.3,Espinheiro → Santo Amaro → Campo Grande
+"Av. Norte, 1000",Av. Boa Viagem (Setúbal),Nova Descoberta,Boa Viagem,10.3,Nova Descoberta → Córrego Do Jenipapo → Dois Irmãos → Caxangá → Várzea → Curado → Jardim São Paulo → Areias → Ibura → Boa Viagem

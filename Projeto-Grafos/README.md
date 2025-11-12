@@ -125,17 +125,104 @@ python src/solve.py
 Gerar ranking de graus e densidades
 python src/ranking.py
 
-Próximos Passos
+Parte 5 — Pesos das Arestas (calcular_pesos.py)
 
-Parte 5 — Distâncias entre Endereços (Dijkstra)
+O script src/calcular_pesos.py implementa um sistema completo de cálculo de pesos para as arestas, baseado em múltiplos fatores.
 
-Criar data/enderecos.csv com colunas:
-endereco_X, endereco_Y, bairro_X, bairro_Y
+Fórmula:
+peso_final = (peso_base_via × fator_pavimentacao) + penalidades
 
-Implementar Dijkstra para calcular:
+Componentes:
+1. Peso base por tipo de via:
+   - Avenida: 1.0 (via principal)
+   - Ponte: 1.5 (travessia especial)
+   - Rua: 2.0 (via local)
+   - Viaduto: 2.5 (elevado)
+   - Estrada: 3.0 (menor categoria)
 
-custo e caminho entre bairros (distancias_enderecos.csv)
+2. Fator de pavimentação (multiplicador):
+   - Asfalto/Concreto: 1.0
+   - Paralelepípedo: 1.3
+   - Escadaria: 1.5
+   - Sem pavimentação: 2.0
 
-percurso “Nova Descoberta → Boa Viagem (Setúbal)”
+3. Penalidades:
+   - Ponte: +0.5
+   - Viaduto: +0.5
+   - Semáforos (grandes avenidas): +0.3
 
-visualização da árvore do percurso (out/arvore_percurso.html)
+Execução:
+python src/calcular_pesos.py
+
+Resultado:
+- Atualiza data/adjacencias_bairros.csv com pesos calculados
+- Formato: bairro_origem, bairro_destino, logradouro, observacao, peso
+
+Parte 6 — Distâncias entre Endereços (calcular_distancias.py)
+
+O script src/calcular_distancias.py utiliza o algoritmo de Dijkstra para calcular distâncias entre pares de endereços, usando os pesos calculados na Parte 5.
+
+Execução:
+python src/calcular_distancias.py
+
+Entrada:
+data/enderecos.csv com colunas:
+- endereco_X, endereco_Y, bairro_X, bairro_Y
+
+Saídas:
+- out/distancias_enderecos.csv → custo e caminho para cada par
+- out/percurso_nova_descoberta_setubal.json → percurso detalhado "Nova Descoberta → Boa Viagem (Setúbal)"
+
+Exemplo de resultado:
+Nova Descoberta → Boa Viagem (Setúbal)
+Custo: 10.3
+Caminho: 10 bairros percorridos
+
+Parte 7 — Árvore do Percurso (visualizar_arvore_percurso.py)
+
+O script src/visualizar_arvore_percurso.py cria uma visualização interativa do percurso Nova Descoberta → Boa Viagem (Setúbal), destacando o caminho encontrado pelo Dijkstra.
+
+Execução:
+python src/visualizar_arvore_percurso.py
+
+Saída:
+- out/arvore_percurso.html → visualização interativa com:
+  • Nós coloridos: verde (origem), azul (percurso), vermelho (destino)
+  • Arestas em gradiente de cor mostrando a sequência
+  • Tooltip com informações de cada trecho (via, peso)
+  • Detalhamento completo de todos os 9 trechos do percurso
+
+Características:
+- Layout otimizado com NetworkX spring layout
+- Visualização clara da sequência do percurso
+- Informações detalhadas de cada logradouro
+- Custo total e número de bairros percorridos
+
+Testes (Obrigatórios)
+
+Os testes cobrem todos os algoritmos implementados:
+
+test/test_bfs.py — Testes de BFS (Busca em Largura)
+- 6 casos de teste: grafo simples, desconectado, árvore, nó inexistente, ciclo, grafo completo
+- Execução: python test/test_bfs.py
+- Status: ✓ TODOS OS TESTES PASSARAM
+
+test/test_dfs.py — Testes de DFS (Busca em Profundidade)
+- 6 casos de teste: grafo simples, desconectado, nó inexistente, ciclo, ordem de visitação, grafo estrela
+- Execução: python test/test_dfs.py
+- Status: ✓ TODOS OS TESTES PASSARAM
+
+test/test_dijkstra.py — Testes de Dijkstra
+- 7 casos de teste: simples, caminho mais curto, nó isolado, pesos diferentes, grafo completo, reconstruir caminho, nó inexistente
+- Execução: python test/test_dijkstra.py
+- Status: ✓ TODOS OS TESTES PASSARAM
+
+test/test_bellman_ford.py — Testes de Bellman-Ford
+- 7 casos de teste: simples, pesos positivos, nó isolado, ciclo positivo, grafo completo, nó inexistente, caminho linear
+- Execução: python test/test_bellman_ford.py
+- Status: ✓ TODOS OS TESTES PASSARAM
+
+Executar todos os testes:
+python test/test_bfs.py; python test/test_dfs.py; python test/test_dijkstra.py; python test/test_bellman_ford.py
+
+Total: 26 casos de teste, todos passando ✓

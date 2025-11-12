@@ -1,6 +1,6 @@
-bairro_origem,bairro_destino
-Aflitos,Arruda
-Ilha do Retiro,Jordao
-Recife, Santo Amaro
-Linha do Tiro, Vasco da Gama
-Nova Descoberta,Boa Viagem
+endereco_X,endereco_Y,bairro_X,bairro_Y
+"Rua do Futuro, 1000","Av. Boa Viagem, 500",Aflitos,Boa Viagem
+"Av. Caxangá, 3000","Rua da Aurora, 100",Iputinga,Santo Antônio
+"Estrada do Arraial, 2000","Av. Recife, 1500",Casa Amarela,Recife
+"Rua da Hora, 500","Av. Agamenon Magalhães, 2000",Espinheiro,Campo Grande
+"Av. Norte, 1000",Av. Boa Viagem (Setúbal),Nova Descoberta,Boa Viagem

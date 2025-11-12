@@ -1,19 +1,83 @@
 {
   "origem": "Nova Descoberta",
-  "destino": "Boa Viagem",
-  "custo": 30.0,
+  "destino": "Boa Viagem (Setúbal)",
+  "custo_total": 10.3,
+  "numero_bairros": 10,
   "caminho": [
     "Nova Descoberta",
-    "Casa Amarela",
-    "Parnamirim",
-    "Tamarineira",
-    "Graças",
-    "Madalena",
-    "Derby",
-    "Ilha Do Retiro",
-    "Afogados",
-    "Imbiribeira",
+    "Córrego Do Jenipapo",
+    "Dois Irmãos",
+    "Caxangá",
+    "Várzea",
+    "Curado",
+    "Jardim São Paulo",
+    "Areias",
+    "Ibura",
     "Boa Viagem"
   ],
-  "num_saltos": 10
+  "detalhes_percurso": [
+    {
+      "trecho": 1,
+      "de": "Nova Descoberta",
+      "para": "Córrego Do Jenipapo",
+      "logradouro": "Avenida Norte Miguel Arraes de Alencar",
+      "custo": 1.3
+    },
+    {
+      "trecho": 2,
+      "de": "Córrego Do Jenipapo",
+      "para": "Dois Irmãos",
+      "logradouro": "Avenida da Recuperação",
+      "custo": 1.0
+    },
+    {
+      "trecho": 3,
+      "de": "Dois Irmãos",
+      "para": "Caxangá",
+      "logradouro": "Avenida da Recuperação",
+      "custo": 1.0
+    },
+    {
+      "trecho": 4,
+      "de": "Caxangá",
+      "para": "Várzea",
+      "logradouro": "Avenida Afonso Olindense",
+      "custo": 1.0
+    },
+    {
+      "trecho": 5,
+      "de": "Várzea",
+      "para": "Curado",
+      "logradouro": "Avenida Central",
+      "custo": 1.0
+    },
+    {
+      "trecho": 6,
+      "de": "Curado",
+      "para": "Jardim São Paulo",
+      "logradouro": "Avenida Central",
+      "custo": 1.0
+    },
+    {
+      "trecho": 7,
+      "de": "Jardim São Paulo",
+      "para": "Areias",
+      "logradouro": "Avenida Central",
+      "custo": 1.0
+    },
+    {
+      "trecho": 8,
+      "de": "Areias",
+      "para": "Ibura",
+      "logradouro": "Avenida Desembargador Nestor Diógens de Mello",
+      "custo": 2.0
+    },
+    {
+      "trecho": 9,
+      "de": "Ibura",
+      "para": "Boa Viagem",
+      "logradouro": "Avenida Marechal Mascarenhas de Moraes",
+      "custo": 1.0
+    }
+  ]
 }

@@ -1,245 +1,245 @@
-bairro_origem,bairro_destino,logradouro,pavimentacao,peso
-Caxangá,Várzea,Avenida Afonso Olindense,1,5
-Alto Santa Terezinha,Linha do Tiro,Avenida Aníbal Benévolo,3,5
-Alto Santa Terezinha,Água Fria,Avenida Aníbal Benévolo,3,5
-Beberibe,Linha do Tiro,Avenida Aníbal Benévolo,3,5
-Beberibe,Porto da Madeira,Avenida Aníbal Benévolo,3,5
-Beberibe,Água Fria,Avenida Aníbal Benévolo,3,5
-Fundão,Porto da Madeira,Avenida Aníbal Benévolo,3,5
-Fundão,Água Fria,Avenida Aníbal Benévolo,3,5
-Linha do Tiro,Água Fria,Avenida Aníbal Benévolo,3,5
-Porto da Madeira,Água Fria,Avenida Aníbal Benévolo,3,5
-Boa Viagem,Imbiribeira,Avenida Antônio Torres Galvão,0,5
-Arruda,Ponto de Parada,Avenida Beberibe,1,5
-Arruda,Água Fria,Avenida Beberibe,1,5
-Cajueiro,Fundão,Avenida Beberibe,1,5
-Cajueiro,Porto da Madeira,Avenida Beberibe,1,5
-Encruzilhada,Ponto de Parada,Avenida Beberibe,1,5
-Cordeiro,Santana,Avenida Beira Rio,1,5
-Cordeiro,Torre,Avenida Beira Rio,1,5
-Derby,Graças,Avenida Beira Rio,1,5
-Graças,Torre,Avenida Beira Rio,1,5
-Santana,Torre,Avenida Beira Rio,1,5
-Ilha do Retiro,Madalena,Avenida Beira Rio Deputado Osvaldo Coelho,1,5
-Madalena,Torre,Avenida Beira Rio Governador Eduardo Campos,1,5
-Engenho do Meio,Torrões,Avenida Bicentenário da Revolução Francesa,1,5
-Boa Viagem,Pina,Avenida Boa Viagem,2,5
-Brasília Teimosa,Pina,Avenida Boa Viagem,2,5
-Cordeiro,Iputinga,Avenida Camarão,0,5
-Brejo da Guabiraba,Brejo de Beberibe,Avenida Canaã,0,5
-Brejo da Guabiraba,Passarinho,Avenida Canaã,0,5
-Brejo de Beberibe,Passarinho,Avenida Canaã,0,5
-Areias,Caçote,Avenida Capitão Gregório de Caldas,1,5
-Caxangá,Iputinga,Avenida Caxangá,1,5
-Cordeiro,Zumbi,Avenida Caxangá,1,5
-Iputinga,Várzea,Avenida Caxangá,1,5
-Madalena,Zumbi,Avenida Caxangá,1,5
-Ibura,Jordão,Avenida Centenário Alberto Santos Dumont,1,5
-Afogados,Ilha Joana Bezerra,Avenida Central,1,5
-Afogados,Imbiribeira,Avenida Central,1,5
-Afogados,Jiquiá,Avenida Central,1,5
-Afogados,Mangueira,Avenida Central,1,5
-Afogados,São José,Avenida Central,1,5
-Areias,Barro,Avenida Central,1,5
-Areias,Estância,Avenida Central,1,5
-Areias,Jardim São Paulo,Avenida Central,1,5
-Areias,Jiquiá,Avenida Central,1,5
-Barro,Jardim São Paulo,Avenida Central,1,5
-Barro,Tejipió,Avenida Central,1,5
-Coqueiral,Tejipió,Avenida Central,1,5
-Curado,Jardim São Paulo,Avenida Central,1,5
-Curado,Várzea,Avenida Central,1,5
-Estância,Jiquiá,Avenida Central,1,5
-Ilha Joana Bezerra,São José,Avenida Central,1,5
-Jardim São Paulo,Tejipió,Avenida Central,1,5
-Jiquiá,Mangueira,Avenida Central,1,5
-Dois Unidos,Passarinho,Avenida Chagas Ferreira,0,5
-Boa Vista,Soledade,Avenida Conde da Boa Vista,2,5
-Aflitos,Espinheiro,Avenida Conselheiro Rosa e Silva,1,5
-Aflitos,Graças,Avenida Conselheiro Rosa e Silva,1,5
-Espinheiro,Graças,Avenida Conselheiro Rosa e Silva,1,5
-Graças,Jaqueira,Avenida Conselheiro Rosa e Silva,1,5
-Graças,Tamarineira,Avenida Conselheiro Rosa e Silva,1,5
-Jaqueira,Tamarineira,Avenida Conselheiro Rosa e Silva,1,5
-Bongi,Mustardinha,Avenida Cônsul Vilares Fragoso,0,5
-Bongi,San Martin,Avenida Cônsul Vilares Fragoso,0,5
-Mustardinha,San Martin,Avenida Cônsul Vilares Fragoso,0,5
-Barro,Cohab - Ibura de Cima,Avenida Coração de Jesus,3,5
-Campo Grande,Peixinhos,Avenida Correia de Brito,0,5
-Apipucos,Caxangá,Avenida da Recuperação,2,5
-Apipucos,Dois Irmãos,Avenida da Recuperação,2,5
-Brejo da Guabiraba,Córrego do Jenipapo,Avenida da Recuperação,2,5
-Caxangá,Dois Irmãos,Avenida da Recuperação,2,5
-Córrego do Jenipapo,Dois Irmãos,Avenida da Recuperação,2,5
-Córrego do Jenipapo,Guabiraba,Avenida da Recuperação,2,5
-Guabiraba,Passarinho,Avenida da Recuperação,2,5
-Santo Antônio,São José,Avenida Dantas Barreto,1,5
-Areias,Ibura,Avenida Desembargador Nestor Diógens de Mello,0,5
-Barro,Ibura,Avenida Desembargador Nestor Diógens de Mello,0,5
-Casa Forte,Parnamirim,Avenida Dezessete de Agosto,1,5
-Casa Forte,Poço,Avenida Dezessete de Agosto,1,5
-Casa Forte,Santana,Avenida Dezessete de Agosto,1,5
-Monteiro,Poço,Avenida Dezessete de Agosto,1,5
-Parnamirim,Santana,Avenida Dezessete de Agosto,1,5
-Poço,Santana,Avenida Dezessete de Agosto,1,5
-Cohab - Ibura de Cima,Ibura,Avenida Dois Rios,0,5
-Ibura,Ipsep,Avenida Dom Helder Câmara,0,5
-Alto do Mandu,Casa Amarela,Avenida Doutor Eurico Chaves,3,5
-Alto do Mandu,Monteiro,Avenida Doutor Eurico Chaves,3,5
-Casa Amarela,Monteiro,Avenida Doutor Eurico Chaves,3,5
-Campo Grande,Santo Amaro,Avenida Dr Jayme da Fonte,0,5
-Campo Grande,Torreão,Avenida Dr Jayme da Fonte,0,5
-Santo Amaro,Torreão,Avenida Dr Jayme da Fonte,0,5
-Brejo da Guabiraba,Guabiraba,Avenida Embaixador Assis Chateaubriand,0,5
-Dois Irmãos,Guabiraba,Avenida Embaixador Assis Chateaubriand,0,5
-Bongi,Prado,Avenida Engenheiro Abdias de Carvalho,1,5
-Cordeiro,Prado,Avenida Engenheiro Abdias de Carvalho,1,5
-Cordeiro,San Martin,Avenida Engenheiro Abdias de Carvalho,1,5
-Cordeiro,Torrões,Avenida Engenheiro Abdias de Carvalho,1,5
-Ilha do Retiro,Prado,Avenida Engenheiro Abdias de Carvalho,1,5
-Madalena,Prado,Avenida Engenheiro Abdias de Carvalho,1,5
-Prado,San Martin,Avenida Engenheiro Abdias de Carvalho,1,5
-San Martin,Torrões,Avenida Engenheiro Abdias de Carvalho,1,5
-Arruda,Tamarineira,Avenida Engenheiro Agamenon de Magalhães Melo,2,5
-Rosarinho,Tamarineira,Avenida Engenheiro Agamenon de Magalhães Melo,2,5
-Cabanga,São José,Avenida Engenheiro José Estelita,1,5
-Jiquiá,San Martin,Avenida General San Martin,1,5
-Boa Vista,Derby,Avenida Governador Agamenon Magalhães,1,5
-Boa Vista,Espinheiro,Avenida Governador Agamenon Magalhães,1,5
-Boa Vista,Graças,Avenida Governador Agamenon Magalhães,1,5
-Boa Vista,Ilha do Leite,Avenida Governador Agamenon Magalhães,1,5
-Boa Vista,Paissandu,Avenida Governador Agamenon Magalhães,1,5
-Boa Vista,Santo Amaro,Avenida Governador Agamenon Magalhães,1,5
-Derby,Paissandu,Avenida Governador Agamenon Magalhães,1,5
-Espinheiro,Santo Amaro,Avenida Governador Agamenon Magalhães,1,5
-Espinheiro,Torreão,Avenida Governador Agamenon Magalhães,1,5
-Ilha do Leite,Paissandu,Avenida Governador Agamenon Magalhães,1,5
-Beberibe,Dois Unidos,Avenida Hildebrando de Vasconcelos,0,5
-Dois Unidos,Linha do Tiro,Avenida Hildebrando de Vasconcelos,0,5
-Cidade Universitária,Várzea,Avenida Inácio de Barros Barreto,0,5
-Estância,San Martin,Avenida João Cabral de Melo Neto,0,5
-Jardim São Paulo,San Martin,Avenida João Cabral de Melo Neto,0,5
-Aflitos,Encruzilhada,Avenida João de Barros,1,5
-Encruzilhada,Espinheiro,Avenida João de Barros,1,5
-Santo Amaro,Soledade,Avenida João de Barros,1,5
-Macaxeira,Nova Descoberta,Avenida Josélia,0,5
-Curado,Sancho,Avenida Liberdade,0,5
-Curado,Totó,Avenida Liberdade,0,5
-Sancho,Tejipió,Avenida Liberdade,0,5
-Sancho,Totó,Avenida Liberdade,0,5
-Dois Irmãos,Sítio dos Pintos - São Brás,Avenida Luiz Antônio de Araújo,0,5
-Mangueira,Mustardinha,Avenida Manoel Goncalves da Luz,1,5
-Boa Viagem,Ibura,Avenida Marechal Mascarenhas de Moraes,2,5
-Boa Viagem,Jordão,Avenida Marechal Mascarenhas de Moraes,2,5
-Ibura,Imbiribeira,Avenida Marechal Mascarenhas de Moraes,2,5
-Cohab - Ibura de Cima,Jordão,Avenida Ministro Apolônio Sales,0,5
-Cidade Universitária,Engenho do Meio,Avenida Múcio Uchôa Cavalcanti,1,5
-Cidade Universitária,Iputinga,Avenida Múcio Uchôa Cavalcanti,1,5
-Cordeiro,Engenho do Meio,Avenida Múcio Uchôa Cavalcanti,1,5
-Engenho do Meio,Iputinga,Avenida Múcio Uchôa Cavalcanti,1,5
-Afogados,Mustardinha,Avenida Mustardinha,0,5
-Alto José do Pinho,Casa Amarela,Avenida Norte Miguel Arraes de Alencar,2,5
-Alto José do Pinho,Mangabeira,Avenida Norte Miguel Arraes de Alencar,2,5
-Alto José do Pinho,Morro da Conceição,Avenida Norte Miguel Arraes de Alencar,2,5
-Alto José do Pinho,Tamarineira,Avenida Norte Miguel Arraes de Alencar,2,5
-Alto do Mandu,Apipucos,Avenida Norte Miguel Arraes de Alencar,2,5
-Alto do Mandu,Macaxeira,Avenida Norte Miguel Arraes de Alencar,2,5
-Alto do Mandu,Nova Descoberta,Avenida Norte Miguel Arraes de Alencar,2,5
-Apipucos,Córrego do Jenipapo,Avenida Norte Miguel Arraes de Alencar,2,5
-Apipucos,Macaxeira,Avenida Norte Miguel Arraes de Alencar,2,5
-Casa Amarela,Mangabeira,Avenida Norte Miguel Arraes de Alencar,2,5
-Casa Amarela,Morro da Conceição,Avenida Norte Miguel Arraes de Alencar,2,5
-Casa Amarela,Nova Descoberta,Avenida Norte Miguel Arraes de Alencar,2,5
-Casa Amarela,Tamarineira,Avenida Norte Miguel Arraes de Alencar,2,5
-Casa Amarela,Vasco da Gama,Avenida Norte Miguel Arraes de Alencar,2,5
-Córrego do Jenipapo,Macaxeira,Avenida Norte Miguel Arraes de Alencar,2,5
-Córrego do Jenipapo,Nova Descoberta,Avenida Norte Miguel Arraes de Alencar,2,5
-Encruzilhada,Rosarinho,Avenida Norte Miguel Arraes de Alencar,2,5
-Encruzilhada,Torreão,Avenida Norte Miguel Arraes de Alencar,2,5
-Mangabeira,Tamarineira,Avenida Norte Miguel Arraes de Alencar,2,5
-Morro da Conceição,Vasco da Gama,Avenida Norte Miguel Arraes de Alencar,2,5
-Nova Descoberta,Vasco da Gama,Avenida Norte Miguel Arraes de Alencar,2,5
-Cajueiro,Campina do Barreto,Avenida Nova do Fundão,3,5
-Campina do Barreto,Fundão,Avenida Nova do Fundão,3,5
-Jaqueira,Parnamirim,Avenida Parnamirim,1,5
-Campina do Barreto,Peixinhos,Avenida Poeta Vinícius de Morais,0,5
-Ilha Joana Bezerra,Ilha do Retiro,Avenida Prefeito Lima Castro,1,5
-Arruda,Campo Grande,Avenida Professor José dos Anjos,0,5
-Arruda,Mangabeira,Avenida Professor José dos Anjos,0,5
-Arruda,Peixinhos,Avenida Professor José dos Anjos,0,5
-Campo Grande,Ponto de Parada,Avenida Professor José dos Anjos,0,5
-Ponto de Parada,Rosarinho,Avenida Professor José dos Anjos,0,5
-Ponto de Parada,Tamarineira,Avenida Professor José dos Anjos,0,5
-Cidade Universitária,Curado,Avenida Professor Luiz Freire,1,5
-Areias,Ipsep,Avenida Recife,1,5
-Caçote,Ibura,Avenida Recife,1,5
-Caçote,Ipsep,Avenida Recife,1,5
-Curado,Engenho do Meio,Avenida Recife,1,5
-Curado,San Martin,Avenida Recife,1,5
-Curado,Torrões,Avenida Recife,1,5
-Imbiribeira,Ipsep,Avenida Recife,1,5
-Aflitos,Rosarinho,Avenida Santos Dumont,3,5
-Encruzilhada,Graças,Avenida Santos Dumont,3,5
-Graças,Rosarinho,Avenida Santos Dumont,3,5
-Afogados,Cabanga,Avenida Sul Gov. Cid Sampaio,0,5
-Alto José Bonifácio,Brejo de Beberibe,Avenida Vereador Otacílio Azevedo,0,5
-Alto José Bonifácio,Vasco da Gama,Avenida Vereador Otacílio Azevedo,0,5
-Brejo de Beberibe,Vasco da Gama,Avenida Vereador Otacílio Azevedo,0,5
-Casa Amarela,Casa Forte,Estrada das Ubaias,3,1
-Campo Grande,Encruzilhada,Estrada de Belém,1,1
-Campo Grande,Hipódromo,Estrada de Belém,1,1
-Encruzilhada,Hipódromo,Estrada de Belém,1,1
-Afogados,Bongi,Estrada do Bongi Armando da Fonte,0,1
-Afogados,Prado,Estrada do Bongi Armando da Fonte,0,1
-Casa Amarela,Parnamirim,Estrada do Encanamento,1,1
-Casa Amarela,Poço,Estrada do Encanamento,1,1
-Guabiraba,Pau Ferro,Estrada do Orfanato,0,1
-Afogados,Ilha do Retiro,Estrada dos Remédios,2,1
-Arruda,Bomba do Hemetério,Estrada Velha de Água Fria,1,1
-Bomba do Hemetério,Água Fria,Estrada Velha de Água Fria,1,1
-Cabanga,Pina,Ponte Agamenon Magalhães,1,2
-Iputinga,Monteiro,Ponte Barqueiro Sinval Peixoto da Silva,1,2
-Recife,Santo Antônio,Ponte Buarque de Macedo,1,2
-Apipucos,Iputinga,Ponte de Apipucos,1,2
-Caxangá,Sítio dos Pintos - São Brás,Ponte do Bredo,1,2
-Recife,Santo Amaro,Ponte do Limoeiro,1,2
-Jaqueira,Santana,Ponte do Vintém,1,2
-Boa Vista,Santo Antônio,Ponte Duarte Coelho,1,2
-Derby,Madalena,Ponte Estácio Coimbra,1,2
-Recife,São José,Ponte Giratória,1,2
-Coelhos,Ilha Joana Bezerra,Ponte Joaquim Cardoso,1,2
-Ilha Joana Bezerra,Ilha do Leite,Ponte José Barros Lima,1,2
-Ilha Joana Bezerra,Paissandu,Ponte José de Barros lima,1,2
-Derby,Ilha do Retiro,Ponte Prefeito Lima de Castro,1,2
-Ilha do Retiro,Paissandu,Ponte Prefeito Lima de Castro,1,2
-Madalena,Paissandu,Ponte Prefeito Lima de Castro,1,2
-Santo Amaro,Santo Antônio,Ponte Princesa Izabel,1,2
-Graças,Madalena,Ponte Professor Moraes Rego,1,2
-Coelhos,Santo Antônio,Ponte Seis de Março,1,2
-Coelhos,São José,Ponte Seis de Março,1,2
-Prado,Zumbi,Rua Abdias de Oliveira,0,2
-Alto José Bonifácio,Alto Santa Terezinha,Rua Adustina,4,2
-Parnamirim,Tamarineira,Rua Afonso Celso,3,2
-Brejo de Beberibe,Nova Descoberta,Rua Agrolândia,0,2
-Alto Santa Terezinha,Bomba do Hemetério,Rua Airí,0,2
-Alto José Bonifácio,Morro da Conceição,Rua Alexânia,4,2
-Brejo da Guabiraba,Nova Descoberta,Rua Alpestre,4,2
-Coqueiral,Totó,Rua Alto do Paraíso,0,2
-Alto José Bonifácio,Linha do Tiro,Rua Alto Itaúna,0,2
-Torre,Zumbi,Rua Antônio Machado Gomes da Silva,0,2
-Coqueiral,Sancho,Rua Aprígio Guimarães,1,2
-Alto José do Pinho,Alto Santa Terezinha,Rua Arlindo Cisneiros,3,2
-Alto José do Pinho,Bomba do Hemetério,Rua Arlindo Cisneiros,3,2
-Brejo de Beberibe,Linha do Tiro,Rua Bismarck de Freitas,1,2
-Mangueira,San Martin,Rua Bom Jardim,0,2
-Coelhos,Ilha do Leite,Rua Capitão José da Luz,1,2
-Arruda,Campina do Barreto,Rua Celcina Maia Pereira,0,2
-Campina do Barreto,Água Fria,Rua Constança,1,2
-Alto José Bonifácio,Alto José do Pinho,Rua Córrego José Grande,0,2
-Hipódromo,Ponto de Parada,Rua Costa Pinto,0,2
-Boa Vista,Coelhos,Rua de São Gonçalo,1,2
-Bomba do Hemetério,Mangabeira,Rua Desembargador Heráclito Cavalcanti,0,2
-Apipucos,Monteiro,Rua Mandacaru,1,2
-Alto Santa Terezinha,Morro da Conceição,Rua Padre Oliveira,3,2
-Brejo de Beberibe,Dois Unidos,Rua Sitio Dos Nobres,0,2
-Jaqueira,Torre,Viaduto Governador Cordeiro de Farias,1,4
+bairro_origem,bairro_destino,logradouro,observacao,peso
+Caxangá,Várzea,Avenida Afonso Olindense,,1.0
+Alto Santa Terezinha,Linha do Tiro,Avenida Aníbal Benévolo,,1.3
+Alto Santa Terezinha,Água Fria,Avenida Aníbal Benévolo,,1.3
+Beberibe,Linha do Tiro,Avenida Aníbal Benévolo,,1.3
+Beberibe,Porto da Madeira,Avenida Aníbal Benévolo,,1.3
+Beberibe,Água Fria,Avenida Aníbal Benévolo,,1.3
+Fundão,Porto da Madeira,Avenida Aníbal Benévolo,,1.3
+Fundão,Água Fria,Avenida Aníbal Benévolo,,1.3
+Linha do Tiro,Água Fria,Avenida Aníbal Benévolo,,1.3
+Porto da Madeira,Água Fria,Avenida Aníbal Benévolo,,1.3
+Boa Viagem,Imbiribeira,Avenida Antônio Torres Galvão,,2.0
+Arruda,Ponto de Parada,Avenida Beberibe,,1.0
+Arruda,Água Fria,Avenida Beberibe,,1.0
+Cajueiro,Fundão,Avenida Beberibe,,1.0
+Cajueiro,Porto da Madeira,Avenida Beberibe,,1.0
+Encruzilhada,Ponto de Parada,Avenida Beberibe,,1.0
+Cordeiro,Santana,Avenida Beira Rio,,1.0
+Cordeiro,Torre,Avenida Beira Rio,,1.0
+Derby,Graças,Avenida Beira Rio,,1.0
+Graças,Torre,Avenida Beira Rio,,1.0
+Santana,Torre,Avenida Beira Rio,,1.0
+Ilha do Retiro,Madalena,Avenida Beira Rio Deputado Osvaldo Coelho,,1.0
+Madalena,Torre,Avenida Beira Rio Governador Eduardo Campos,,1.0
+Engenho do Meio,Torrões,Avenida Bicentenário da Revolução Francesa,,1.0
+Boa Viagem,Pina,Avenida Boa Viagem,,1.3
+Brasília Teimosa,Pina,Avenida Boa Viagem,,1.3
+Cordeiro,Iputinga,Avenida Camarão,,2.0
+Brejo da Guabiraba,Brejo de Beberibe,Avenida Canaã,,2.0
+Brejo da Guabiraba,Passarinho,Avenida Canaã,,2.0
+Brejo de Beberibe,Passarinho,Avenida Canaã,,2.0
+Areias,Caçote,Avenida Capitão Gregório de Caldas,,1.0
+Caxangá,Iputinga,Avenida Caxangá,,1.3
+Cordeiro,Zumbi,Avenida Caxangá,,1.3
+Iputinga,Várzea,Avenida Caxangá,,1.3
+Madalena,Zumbi,Avenida Caxangá,,1.3
+Ibura,Jordão,Avenida Centenário Alberto Santos Dumont,,1.0
+Afogados,Ilha Joana Bezerra,Avenida Central,,1.0
+Afogados,Imbiribeira,Avenida Central,,1.0
+Afogados,Jiquiá,Avenida Central,,1.0
+Afogados,Mangueira,Avenida Central,,1.0
+Afogados,São José,Avenida Central,,1.0
+Areias,Barro,Avenida Central,,1.0
+Areias,Estância,Avenida Central,,1.0
+Areias,Jardim São Paulo,Avenida Central,,1.0
+Areias,Jiquiá,Avenida Central,,1.0
+Barro,Jardim São Paulo,Avenida Central,,1.0
+Barro,Tejipió,Avenida Central,,1.0
+Coqueiral,Tejipió,Avenida Central,,1.0
+Curado,Jardim São Paulo,Avenida Central,,1.0
+Curado,Várzea,Avenida Central,,1.0
+Estância,Jiquiá,Avenida Central,,1.0
+Ilha Joana Bezerra,São José,Avenida Central,,1.0
+Jardim São Paulo,Tejipió,Avenida Central,,1.0
+Jiquiá,Mangueira,Avenida Central,,1.0
+Dois Unidos,Passarinho,Avenida Chagas Ferreira,,2.0
+Boa Vista,Soledade,Avenida Conde da Boa Vista,,1.0
+Aflitos,Espinheiro,Avenida Conselheiro Rosa e Silva,,1.0
+Aflitos,Graças,Avenida Conselheiro Rosa e Silva,,1.0
+Espinheiro,Graças,Avenida Conselheiro Rosa e Silva,,1.0
+Graças,Jaqueira,Avenida Conselheiro Rosa e Silva,,1.0
+Graças,Tamarineira,Avenida Conselheiro Rosa e Silva,,1.0
+Jaqueira,Tamarineira,Avenida Conselheiro Rosa e Silva,,1.0
+Bongi,Mustardinha,Avenida Cônsul Vilares Fragoso,,2.3
+Bongi,San Martin,Avenida Cônsul Vilares Fragoso,,2.3
+Mustardinha,San Martin,Avenida Cônsul Vilares Fragoso,,2.3
+Barro,Cohab - Ibura de Cima,Avenida Coração de Jesus,,1.3
+Campo Grande,Peixinhos,Avenida Correia de Brito,,2.0
+Apipucos,Caxangá,Avenida da Recuperação,,1.0
+Apipucos,Dois Irmãos,Avenida da Recuperação,,1.0
+Brejo da Guabiraba,Córrego do Jenipapo,Avenida da Recuperação,,1.0
+Caxangá,Dois Irmãos,Avenida da Recuperação,,1.0
+Córrego do Jenipapo,Dois Irmãos,Avenida da Recuperação,,1.0
+Córrego do Jenipapo,Guabiraba,Avenida da Recuperação,,1.0
+Guabiraba,Passarinho,Avenida da Recuperação,,1.0
+Santo Antônio,São José,Avenida Dantas Barreto,,1.3
+Areias,Ibura,Avenida Desembargador Nestor Diógens de Mello,,2.0
+Barro,Ibura,Avenida Desembargador Nestor Diógens de Mello,,2.0
+Casa Forte,Parnamirim,Avenida Dezessete de Agosto,,1.0
+Casa Forte,Poço,Avenida Dezessete de Agosto,,1.0
+Casa Forte,Santana,Avenida Dezessete de Agosto,,1.0
+Monteiro,Poço,Avenida Dezessete de Agosto,,1.0
+Parnamirim,Santana,Avenida Dezessete de Agosto,,1.0
+Poço,Santana,Avenida Dezessete de Agosto,,1.0
+Cohab - Ibura de Cima,Ibura,Avenida Dois Rios,,2.0
+Ibura,Ipsep,Avenida Dom Helder Câmara,,2.0
+Alto do Mandu,Casa Amarela,Avenida Doutor Eurico Chaves,,1.3
+Alto do Mandu,Monteiro,Avenida Doutor Eurico Chaves,,1.3
+Casa Amarela,Monteiro,Avenida Doutor Eurico Chaves,,1.3
+Campo Grande,Santo Amaro,Avenida Dr Jayme da Fonte,,2.0
+Campo Grande,Torreão,Avenida Dr Jayme da Fonte,,2.0
+Santo Amaro,Torreão,Avenida Dr Jayme da Fonte,,2.0
+Brejo da Guabiraba,Guabiraba,Avenida Embaixador Assis Chateaubriand,,2.0
+Dois Irmãos,Guabiraba,Avenida Embaixador Assis Chateaubriand,,2.0
+Bongi,Prado,Avenida Engenheiro Abdias de Carvalho,,1.0
+Cordeiro,Prado,Avenida Engenheiro Abdias de Carvalho,,1.0
+Cordeiro,San Martin,Avenida Engenheiro Abdias de Carvalho,,1.0
+Cordeiro,Torrões,Avenida Engenheiro Abdias de Carvalho,,1.0
+Ilha do Retiro,Prado,Avenida Engenheiro Abdias de Carvalho,,1.0
+Madalena,Prado,Avenida Engenheiro Abdias de Carvalho,,1.0
+Prado,San Martin,Avenida Engenheiro Abdias de Carvalho,,1.0
+San Martin,Torrões,Avenida Engenheiro Abdias de Carvalho,,1.0
+Arruda,Tamarineira,Avenida Engenheiro Agamenon de Magalhães Melo,,1.0
+Rosarinho,Tamarineira,Avenida Engenheiro Agamenon de Magalhães Melo,,1.0
+Cabanga,São José,Avenida Engenheiro José Estelita,,1.0
+Jiquiá,San Martin,Avenida General San Martin,,1.0
+Boa Vista,Derby,Avenida Governador Agamenon Magalhães,,1.3
+Boa Vista,Espinheiro,Avenida Governador Agamenon Magalhães,,1.3
+Boa Vista,Graças,Avenida Governador Agamenon Magalhães,,1.3
+Boa Vista,Ilha do Leite,Avenida Governador Agamenon Magalhães,,1.3
+Boa Vista,Paissandu,Avenida Governador Agamenon Magalhães,,1.3
+Boa Vista,Santo Amaro,Avenida Governador Agamenon Magalhães,,1.3
+Derby,Paissandu,Avenida Governador Agamenon Magalhães,,1.3
+Espinheiro,Santo Amaro,Avenida Governador Agamenon Magalhães,,1.3
+Espinheiro,Torreão,Avenida Governador Agamenon Magalhães,,1.3
+Ilha do Leite,Paissandu,Avenida Governador Agamenon Magalhães,,1.3
+Beberibe,Dois Unidos,Avenida Hildebrando de Vasconcelos,,2.0
+Dois Unidos,Linha do Tiro,Avenida Hildebrando de Vasconcelos,,2.0
+Cidade Universitária,Várzea,Avenida Inácio de Barros Barreto,,2.0
+Estância,San Martin,Avenida João Cabral de Melo Neto,,2.0
+Jardim São Paulo,San Martin,Avenida João Cabral de Melo Neto,,2.0
+Aflitos,Encruzilhada,Avenida João de Barros,,1.0
+Encruzilhada,Espinheiro,Avenida João de Barros,,1.0
+Santo Amaro,Soledade,Avenida João de Barros,,1.0
+Macaxeira,Nova Descoberta,Avenida Josélia,,2.0
+Curado,Sancho,Avenida Liberdade,,2.0
+Curado,Totó,Avenida Liberdade,,2.0
+Sancho,Tejipió,Avenida Liberdade,,2.0
+Sancho,Totó,Avenida Liberdade,,2.0
+Dois Irmãos,Sítio dos Pintos - São Brás,Avenida Luiz Antônio de Araújo,,2.0
+Mangueira,Mustardinha,Avenida Manoel Goncalves da Luz,,1.0
+Boa Viagem,Ibura,Avenida Marechal Mascarenhas de Moraes,,1.0
+Boa Viagem,Jordão,Avenida Marechal Mascarenhas de Moraes,,1.0
+Ibura,Imbiribeira,Avenida Marechal Mascarenhas de Moraes,,1.0
+Cohab - Ibura de Cima,Jordão,Avenida Ministro Apolônio Sales,,2.0
+Cidade Universitária,Engenho do Meio,Avenida Múcio Uchôa Cavalcanti,,1.0
+Cidade Universitária,Iputinga,Avenida Múcio Uchôa Cavalcanti,,1.0
+Cordeiro,Engenho do Meio,Avenida Múcio Uchôa Cavalcanti,,1.0
+Engenho do Meio,Iputinga,Avenida Múcio Uchôa Cavalcanti,,1.0
+Afogados,Mustardinha,Avenida Mustardinha,,2.0
+Alto José do Pinho,Casa Amarela,Avenida Norte Miguel Arraes de Alencar,,1.3
+Alto José do Pinho,Mangabeira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Alto José do Pinho,Morro da Conceição,Avenida Norte Miguel Arraes de Alencar,,1.3
+Alto José do Pinho,Tamarineira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Alto do Mandu,Apipucos,Avenida Norte Miguel Arraes de Alencar,,1.3
+Alto do Mandu,Macaxeira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Alto do Mandu,Nova Descoberta,Avenida Norte Miguel Arraes de Alencar,,1.3
+Apipucos,Córrego do Jenipapo,Avenida Norte Miguel Arraes de Alencar,,1.3
+Apipucos,Macaxeira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Casa Amarela,Mangabeira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Casa Amarela,Morro da Conceição,Avenida Norte Miguel Arraes de Alencar,,1.3
+Casa Amarela,Nova Descoberta,Avenida Norte Miguel Arraes de Alencar,,1.3
+Casa Amarela,Tamarineira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Casa Amarela,Vasco da Gama,Avenida Norte Miguel Arraes de Alencar,,1.3
+Córrego do Jenipapo,Macaxeira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Córrego do Jenipapo,Nova Descoberta,Avenida Norte Miguel Arraes de Alencar,,1.3
+Encruzilhada,Rosarinho,Avenida Norte Miguel Arraes de Alencar,,1.3
+Encruzilhada,Torreão,Avenida Norte Miguel Arraes de Alencar,,1.3
+Mangabeira,Tamarineira,Avenida Norte Miguel Arraes de Alencar,,1.3
+Morro da Conceição,Vasco da Gama,Avenida Norte Miguel Arraes de Alencar,,1.3
+Nova Descoberta,Vasco da Gama,Avenida Norte Miguel Arraes de Alencar,,1.3
+Cajueiro,Campina do Barreto,Avenida Nova do Fundão,,1.3
+Campina do Barreto,Fundão,Avenida Nova do Fundão,,1.3
+Jaqueira,Parnamirim,Avenida Parnamirim,,1.0
+Campina do Barreto,Peixinhos,Avenida Poeta Vinícius de Morais,,2.0
+Ilha Joana Bezerra,Ilha do Retiro,Avenida Prefeito Lima Castro,,1.0
+Arruda,Campo Grande,Avenida Professor José dos Anjos,,2.0
+Arruda,Mangabeira,Avenida Professor José dos Anjos,,2.0
+Arruda,Peixinhos,Avenida Professor José dos Anjos,,2.0
+Campo Grande,Ponto de Parada,Avenida Professor José dos Anjos,,2.0
+Ponto de Parada,Rosarinho,Avenida Professor José dos Anjos,,2.0
+Ponto de Parada,Tamarineira,Avenida Professor José dos Anjos,,2.0
+Cidade Universitária,Curado,Avenida Professor Luiz Freire,,1.0
+Areias,Ipsep,Avenida Recife,,1.3
+Caçote,Ibura,Avenida Recife,,1.3
+Caçote,Ipsep,Avenida Recife,,1.3
+Curado,Engenho do Meio,Avenida Recife,,1.3
+Curado,San Martin,Avenida Recife,,1.3
+Curado,Torrões,Avenida Recife,,1.3
+Imbiribeira,Ipsep,Avenida Recife,,1.3
+Aflitos,Rosarinho,Avenida Santos Dumont,,1.3
+Encruzilhada,Graças,Avenida Santos Dumont,,1.3
+Graças,Rosarinho,Avenida Santos Dumont,,1.3
+Afogados,Cabanga,Avenida Sul Gov. Cid Sampaio,,2.3
+Alto José Bonifácio,Brejo de Beberibe,Avenida Vereador Otacílio Azevedo,,2.0
+Alto José Bonifácio,Vasco da Gama,Avenida Vereador Otacílio Azevedo,,2.0
+Brejo de Beberibe,Vasco da Gama,Avenida Vereador Otacílio Azevedo,,2.0
+Casa Amarela,Casa Forte,Estrada das Ubaias,,3.9
+Campo Grande,Encruzilhada,Estrada de Belém,,3.0
+Campo Grande,Hipódromo,Estrada de Belém,,3.0
+Encruzilhada,Hipódromo,Estrada de Belém,,3.0
+Afogados,Bongi,Estrada do Bongi Armando da Fonte,,6.0
+Afogados,Prado,Estrada do Bongi Armando da Fonte,,6.0
+Casa Amarela,Parnamirim,Estrada do Encanamento,,3.0
+Casa Amarela,Poço,Estrada do Encanamento,,3.0
+Guabiraba,Pau Ferro,Estrada do Orfanato,,6.0
+Afogados,Ilha do Retiro,Estrada dos Remédios,,3.0
+Arruda,Bomba do Hemetério,Estrada Velha de Água Fria,,3.0
+Bomba do Hemetério,Água Fria,Estrada Velha de Água Fria,,3.0
+Cabanga,Pina,Ponte Agamenon Magalhães,,2.0
+Iputinga,Monteiro,Ponte Barqueiro Sinval Peixoto da Silva,,2.0
+Recife,Santo Antônio,Ponte Buarque de Macedo,,2.0
+Apipucos,Iputinga,Ponte de Apipucos,,2.0
+Caxangá,Sítio dos Pintos - São Brás,Ponte do Bredo,,2.0
+Recife,Santo Amaro,Ponte do Limoeiro,,2.0
+Jaqueira,Santana,Ponte do Vintém,,2.0
+Boa Vista,Santo Antônio,Ponte Duarte Coelho,,2.0
+Derby,Madalena,Ponte Estácio Coimbra,,2.0
+Recife,São José,Ponte Giratória,,2.0
+Coelhos,Ilha Joana Bezerra,Ponte Joaquim Cardoso,,2.0
+Ilha Joana Bezerra,Ilha do Leite,Ponte José Barros Lima,,2.0
+Ilha Joana Bezerra,Paissandu,Ponte José de Barros lima,,2.0
+Derby,Ilha do Retiro,Ponte Prefeito Lima de Castro,,2.0
+Ilha do Retiro,Paissandu,Ponte Prefeito Lima de Castro,,2.0
+Madalena,Paissandu,Ponte Prefeito Lima de Castro,,2.0
+Santo Amaro,Santo Antônio,Ponte Princesa Izabel,,2.0
+Graças,Madalena,Ponte Professor Moraes Rego,,2.0
+Coelhos,Santo Antônio,Ponte Seis de Março,,2.0
+Coelhos,São José,Ponte Seis de Março,,2.0
+Prado,Zumbi,Rua Abdias de Oliveira,,4.0
+Alto José Bonifácio,Alto Santa Terezinha,Rua Adustina,,3.0
+Parnamirim,Tamarineira,Rua Afonso Celso,,2.6
+Brejo de Beberibe,Nova Descoberta,Rua Agrolândia,,4.0
+Alto Santa Terezinha,Bomba do Hemetério,Rua Airí,,4.0
+Alto José Bonifácio,Morro da Conceição,Rua Alexânia,,3.0
+Brejo da Guabiraba,Nova Descoberta,Rua Alpestre,,3.0
+Coqueiral,Totó,Rua Alto do Paraíso,,4.0
+Alto José Bonifácio,Linha do Tiro,Rua Alto Itaúna,,4.0
+Torre,Zumbi,Rua Antônio Machado Gomes da Silva,,4.0
+Coqueiral,Sancho,Rua Aprígio Guimarães,,2.0
+Alto José do Pinho,Alto Santa Terezinha,Rua Arlindo Cisneiros,,2.6
+Alto José do Pinho,Bomba do Hemetério,Rua Arlindo Cisneiros,,2.6
+Brejo de Beberibe,Linha do Tiro,Rua Bismarck de Freitas,,2.0
+Mangueira,San Martin,Rua Bom Jardim,,4.0
+Coelhos,Ilha do Leite,Rua Capitão José da Luz,,2.0
+Arruda,Campina do Barreto,Rua Celcina Maia Pereira,,4.0
+Campina do Barreto,Água Fria,Rua Constança,,2.0
+Alto José Bonifácio,Alto José do Pinho,Rua Córrego José Grande,,4.0
+Hipódromo,Ponto de Parada,Rua Costa Pinto,,4.0
+Boa Vista,Coelhos,Rua de São Gonçalo,,2.0
+Bomba do Hemetério,Mangabeira,Rua Desembargador Heráclito Cavalcanti,,4.0
+Apipucos,Monteiro,Rua Mandacaru,,2.0
+Alto Santa Terezinha,Morro da Conceição,Rua Padre Oliveira,,2.6
+Brejo de Beberibe,Dois Unidos,Rua Sitio Dos Nobres,,4.0
+Jaqueira,Torre,Viaduto Governador Cordeiro de Farias,,3.0
