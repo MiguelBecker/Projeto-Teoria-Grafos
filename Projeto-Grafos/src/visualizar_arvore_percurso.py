@@ -1,14 +1,3 @@
-"""
-PARTE 7: VISUALIZAÇÃO DA ÁRVORE DE PERCURSO
-
-Este script cria uma visualização interativa da árvore de percurso
-entre Nova Descoberta e Boa Viagem (Setúbal), destacando o caminho
-encontrado pelo algoritmo de Dijkstra.
-
-SAÍDA:
-- out/arvore_percurso.html: Visualização interativa com o caminho destacado
-"""
-
 import os
 import sys
 import json
@@ -22,18 +11,12 @@ os.chdir(ROOT_DIR)
 
 
 def criar_subgrafo_percurso(grafo, caminho):
-    """
-    Cria um subgrafo contendo apenas os nós e arestas do caminho.
-    """
-    # Cria grafo NetworkX para facilitar layout
     G = nx.Graph()
     
-    # Adiciona todas as arestas do caminho
     for i in range(len(caminho) - 1):
         u = caminho[i]
         v = caminho[i + 1]
         
-        # Busca peso da aresta
         peso = 1.0
         logradouro = ""
         for vizinho, w, meta in grafo.neighbors(u):
@@ -48,14 +31,10 @@ def criar_subgrafo_percurso(grafo, caminho):
 
 
 def criar_visualizacao_interativa(caminho_json_path):
-    """
-    Cria visualização interativa HTML do percurso usando Plotly.
-    """
     print("=" * 70)
     print("PARTE 7: GERANDO VISUALIZAÇÃO DA ÁRVORE DE PERCURSO")
     print("=" * 70)
     
-    # Carrega dados do percurso
     with open(caminho_json_path, 'r', encoding='utf-8') as f:
         percurso = json.load(f)
     
@@ -63,23 +42,18 @@ def criar_visualizacao_interativa(caminho_json_path):
     print(f"  Custo total: {percurso['custo_total']}")
     print(f"  Bairros: {percurso['numero_bairros']}")
     
-    # Carrega grafo
     grafo = carregar_adjacencias(
         "data/bairros_unique.csv",
         "data/adjacencias_bairros.csv"
     )
     
-    # Cria subgrafo do caminho
     caminho = percurso['caminho']
     G = criar_subgrafo_percurso(grafo, caminho)
     
-    # Calcula layout usando spring layout
     pos = nx.spring_layout(G, k=2, iterations=50, seed=42)
     
-    # Prepara dados para Plotly
     edge_trace = []
     
-    # Adiciona arestas
     for i, (u, v) in enumerate(G.edges()):
         x0, y0 = pos[u]
         x1, y1 = pos[v]
@@ -87,7 +61,6 @@ def criar_visualizacao_interativa(caminho_json_path):
         peso = G[u][v]['weight']
         logradouro = G[u][v].get('logradouro', 'N/A')
         
-        # Cor baseada na posição no caminho (gradiente)
         cor_idx = i / (len(G.edges()) - 1) if len(G.edges()) > 1 else 0
         cor = f'rgba({int(255 * (1 - cor_idx))}, {int(100 + 155 * cor_idx)}, {int(50 + 205 * cor_idx)}, 0.8)'
         
@@ -103,7 +76,6 @@ def criar_visualizacao_interativa(caminho_json_path):
             )
         )
         
-        # Adiciona seta no meio da aresta
         mid_x = (x0 + x1) / 2
         mid_y = (y0 + y1) / 2
         
@@ -123,7 +95,6 @@ def criar_visualizacao_interativa(caminho_json_path):
             )
         )
     
-    # Prepara nós
     node_x = []
     node_y = []
     node_text = []
@@ -135,18 +106,17 @@ def criar_visualizacao_interativa(caminho_json_path):
         node_x.append(x)
         node_y.append(y)
         
-        # Informações do nó
         if i == 0:
             tipo = "ORIGEM"
-            cor = '#00FF00'  # Verde
+            cor = '#00FF00'  
             tamanho = 30
         elif i == len(caminho) - 1:
             tipo = "DESTINO"
-            cor = '#FF0000'  # Vermelho
+            cor = '#FF0000'  
             tamanho = 30
         else:
             tipo = f"Passo {i}"
-            cor = '#4169E1'  # Azul
+            cor = '#4169E1'  
             tamanho = 20
         
         node_text.append(f'<b>{node}</b><br>{tipo}<br>Posição: {i + 1}/{len(caminho)}')
@@ -170,10 +140,8 @@ def criar_visualizacao_interativa(caminho_json_path):
         showlegend=False
     )
     
-    # Cria figura
     fig = go.Figure(data=edge_trace + [node_trace])
     
-    # Layout
     fig.update_layout(
         title=dict(
             text=f'<b>Árvore de Percurso: {percurso["origem"]} → {percurso["destino"]}</b><br>' +
@@ -201,7 +169,6 @@ def criar_visualizacao_interativa(caminho_json_path):
         ]
     )
     
-    # Salva HTML
     output_path = os.path.join(ROOT_DIR, "out", "arvore_percurso.html")
     fig.write_html(output_path)
     
@@ -221,9 +188,6 @@ def criar_visualizacao_interativa(caminho_json_path):
 
 
 def main():
-    """
-    Função principal.
-    """
     try:
         percurso_json = os.path.join(ROOT_DIR, "out", "percurso_nova_descoberta_setubal.json")
         

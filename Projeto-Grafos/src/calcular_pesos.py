@@ -1,36 +1,3 @@
-"""
-PARTE 5: SISTEMA DE CÁLCULO DE PESOS DAS ARESTAS
-
-Este script implementa um sistema de pesos para as arestas do grafo de bairros,
-conforme especificado no projeto.
-
-FÓRMULA IMPLEMENTADA:
-peso_final = peso_base_via × fator_pavimentacao + penalidades
-
-COMPONENTES:
-1. Peso base por tipo de via (menor = melhor acesso):
-   - Avenida: 1.0 (vias principais, maior fluxo)
-   - Ponte: 1.5 (travessia especial)
-   - Rua: 2.0 (via local)
-   - Viaduto: 2.5 (elevado, menos acessível a pedestres)
-   - Estrada: 3.0 (via de menor categoria urbana)
-
-2. Fator de pavimentação (multiplicador):
-   - Asfalto/Concreto: 1.0 (melhor condição)
-   - Paralelepípedo: 1.3 (condição intermediária)
-   - Escadaria: 1.5 (acesso difícil)
-   - Sem pavimentação: 2.0 (pior condição)
-
-3. Penalidades adicionais:
-   - Travessia de ponte: +0.5
-   - Travessia de viaduto: +0.5
-   - Semáforos complexos: +0.3 (inferido em grandes avenidas)
-
-SAÍDA:
-- Atualiza data/adjacencias_bairros.csv com pesos calculados
-- Gera out/documentacao_pesos.txt com explicação detalhada
-- Gera out/analise_pesos.json com estatísticas
-"""
 
 import os
 import sys
@@ -42,9 +9,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
 os.chdir(ROOT_DIR)
 
-# ===== TABELAS DE PESOS =====
 
-# Peso base por tipo de via (extraído do logradouro)
 PESO_TIPO_VIA = {
     'avenida': 1.0,
     'ponte': 1.5,
@@ -53,18 +18,16 @@ PESO_TIPO_VIA = {
     'estrada': 3.0,
 }
 
-# Fator multiplicador por pavimentação
 FATOR_PAVIMENTACAO = {
     'asfalto': 1.0,
     'concreto': 1.0,
-    'paralelo': 1.3,      # paralelepípedo
+    'paralelo': 1.3,      
     'paralelepípedo': 1.3,
     'escadaria': 1.5,
     'sem_pavimentacao': 2.0,
     'terra': 2.0,
 }
 
-# Penalidades adicionais
 PENALIDADE_PONTE = 0.5
 PENALIDADE_VIADUTO = 0.5
 PENALIDADE_SEMAFORO = 0.3
@@ -76,7 +39,7 @@ def extrair_tipo_via(logradouro):
     Ex: "Avenida Boa Viagem" -> "avenida"
     """
     if pd.isna(logradouro):
-        return 'rua'  # default
+        return 'rua'  
     
     logradouro_lower = str(logradouro).lower()
     
@@ -84,17 +47,16 @@ def extrair_tipo_via(logradouro):
         if tipo in logradouro_lower:
             return tipo
     
-    return 'rua'  # default
+    return 'rua'  
 
 
 def extrair_fator_pavimentacao(pavimentacao):
     
     if pd.isna(pavimentacao):
-        return 1.0  # default (asfalto)
+        return 1.0  
     
     pav_str = str(pavimentacao).lower().strip()
     
-    # Mapeamento de códigos para nomes
     codigo_para_nome = {
         '0': 'sem_pavimentacao',
         '1': 'asfalto',
@@ -103,26 +65,20 @@ def extrair_fator_pavimentacao(pavimentacao):
         '4': 'escadaria',
     }
     
-    # Se for código numérico
     if pav_str in codigo_para_nome:
         pav_str = codigo_para_nome[pav_str]
     
-    # Busca exata
     if pav_str in FATOR_PAVIMENTACAO:
         return FATOR_PAVIMENTACAO[pav_str]
     
-    # Busca parcial
     for key, fator in FATOR_PAVIMENTACAO.items():
         if key in pav_str:
             return fator
     
-    return 1.0  # default
+    return 1.0 
 
 
 def calcular_penalidades(logradouro, tipo_via):
-    """
-    Calcula penalidades adicionais baseadas em características da via.
-    """
     penalidade = 0.0
     
     if pd.isna(logradouro):
@@ -130,15 +86,12 @@ def calcular_penalidades(logradouro, tipo_via):
     
     logradouro_lower = str(logradouro).lower()
     
-    # Penalidade por travessia especial
     if tipo_via == 'ponte' or 'ponte' in logradouro_lower:
         penalidade += PENALIDADE_PONTE
     
     if tipo_via == 'viaduto' or 'viaduto' in logradouro_lower:
         penalidade += PENALIDADE_VIADUTO
     
-    # Penalidade por semáforos em grandes avenidas
-    # Heurística: avenidas principais têm mais semáforos
     grandes_avenidas = [
         'boa viagem', 'caxangá', 'recife', 'dantas barreto',
         'agamenon magalhães', 'norte', 'sul', 'visconde de suassuna'
@@ -154,18 +107,13 @@ def calcular_penalidades(logradouro, tipo_via):
 
 
 def calcular_peso(logradouro, pavimentacao):
-    """
-    Calcula o peso final da aresta baseado na fórmula:
-    peso_final = peso_base_via × fator_pavimentacao + penalidades
-    """
     tipo_via = extrair_tipo_via(logradouro)
     peso_base = PESO_TIPO_VIA[tipo_via]
     fator_pav = extrair_fator_pavimentacao(pavimentacao)
     penalidades = calcular_penalidades(logradouro, tipo_via)
     
     peso_final = (peso_base * fator_pav) + penalidades
-    
-    # Arredonda para 2 casas decimais
+
     return round(peso_final, 2), tipo_via
 
 
@@ -178,7 +126,6 @@ def processar_adjacencias():
     print("PARTE 5: CALCULANDO PESOS DAS ARESTAS")
     print("=" * 70)
     
-    # Lê o CSV
     df = pd.read_csv(csv_path)
     print(f"\n✓ Lido CSV com {len(df)} arestas")
     print(f"  Colunas: {df.columns.tolist()}")
@@ -186,7 +133,6 @@ def processar_adjacencias():
     if 'observacao' not in df.columns:
         df['observacao'] = ''
     
-    # Calcula novos pesos
     novos_pesos = []
     tipos_via = []
     detalhes_calculo = []
@@ -196,7 +142,6 @@ def processar_adjacencias():
         novos_pesos.append(peso)
         tipos_via.append(tipo)
         
-        # Guarda detalhes para a primeira linha como exemplo
         if idx < 5:
             detalhes_calculo.append({
                 'origem': row['bairro_origem'],
@@ -208,30 +153,25 @@ def processar_adjacencias():
             })
     
     df['peso'] = novos_pesos
-    df['tipo_via'] = tipos_via  # Adiciona coluna auxiliar
+    df['tipo_via'] = tipos_via  
     
-    # Reorganiza colunas na ordem especificada
     colunas_ordenadas = ['bairro_origem', 'bairro_destino', 'logradouro', 
                          'pavimentacao', 'tipo_via', 'observacao', 'peso']
     
-    # Mantém apenas colunas que existem
+
     colunas_finais = [col for col in colunas_ordenadas if col in df.columns]
     df = df[colunas_finais]
     
-    # Salva CSV atualizado no diretório out/ (usando método manual por compatibilidade)
     try:
         import csv as csv_module
         with open(csv_output, 'w', newline='', encoding='utf-8') as f:
             writer = csv_module.writer(f)
-            # Escreve cabeçalho
             writer.writerow(df.columns.tolist())
-            # Escreve dados
             for _, row in df.iterrows():
                 writer.writerow(row.tolist())
         print(f"\n✓ CSV com pesos calculados salvo em: {csv_output}")
     except Exception as e:
         print(f"\n✗ Erro ao salvar CSV: {e}")
-        # Tenta método alternativo
         print("Tentando método alternativo...")
         df.to_csv(csv_output, index=False)
         print(f"✓ CSV salvo com método alternativo")
@@ -265,7 +205,6 @@ def gerar_estatisticas(df):
         "exemplos": []
     }
     
-    # Adiciona exemplos de cada tipo de via
     for tipo in df['tipo_via'].unique():
         exemplo = df[df['tipo_via'] == tipo].iloc[0]
         stats['exemplos'].append({
@@ -275,8 +214,6 @@ def gerar_estatisticas(df):
             "logradouro": exemplo['logradouro'],
             "peso": float(exemplo['peso'])
         })
-    
-    # Salva estatísticas
     stats_path = os.path.join(ROOT_DIR, "out", "analise_pesos.json")
     with open(stats_path, 'w', encoding='utf-8') as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)

@@ -16,7 +16,6 @@ def normalizar_bairro(nome):
     if pd.isna(nome):
         return None
     nome = str(nome).strip().title()
-    # Trata caso especial de Setúbal
     if nome.lower() in ['setúbal', 'setubal', 'boa viagem (setúbal)']:
         return 'Boa Viagem'
     return nome
@@ -76,7 +75,6 @@ def calcular_distancias():
     print("PARTE 6: CALCULANDO DISTÂNCIAS ENTRE ENDEREÇOS")
     print("=" * 70)
     
-    # Carrega o grafo com pesos calculados
     grafo = carregar_adjacencias(
         "data/bairros_unique.csv",
         "data/adjacencias_bairros.csv"
@@ -84,7 +82,6 @@ def calcular_distancias():
     
     print(f"\n✓ Grafo carregado: {grafo.order()} bairros, {grafo.size()} conexões")
     
-    # Cria/carrega endereços
     enderecos_path = os.path.join(ROOT_DIR, "data", "enderecos.csv")
     
     if not os.path.exists(enderecos_path):
@@ -94,7 +91,6 @@ def calcular_distancias():
         df_enderecos = pd.read_csv(enderecos_path)
         print(f"\n✓ Arquivo enderecos.csv carregado: {len(df_enderecos)} pares")
         
-        # Verifica se tem as colunas corretas
         colunas_esperadas = ['endereco_X', 'endereco_Y', 'bairro_X', 'bairro_Y']
         if not all(col in df_enderecos.columns for col in colunas_esperadas):
             print("! Formato incorreto, recriando arquivo...")
@@ -161,9 +157,8 @@ def calcular_percurso_especial(grafo):
     print("=" * 70)
     
     origem = "Nova Descoberta"
-    destino = "Boa Viagem"  # Setúbal é tratado como Boa Viagem
+    destino = "Boa Viagem"  
     
-    # Verifica se os bairros existem
     if origem not in grafo.nodes():
         print(f"✗ Bairro '{origem}' não encontrado no grafo")
         return None
@@ -172,18 +167,16 @@ def calcular_percurso_especial(grafo):
         print(f"✗ Bairro '{destino}' não encontrado no grafo")
         return None
     
-    # Executa Dijkstra
     distancias, predecessores = dijkstra(grafo, origem)
     
     if destino not in distancias or distancias[destino] == float('inf'):
         print(f"✗ Não há caminho entre {origem} e {destino}")
         return None
     
-    # Reconstrói o caminho
+
     caminho = reconstruir_caminho(predecessores, destino)
     custo = distancias[destino]
     
-    # Cria estrutura de saída
     percurso = {
         "origem": origem,
         "destino": f"{destino} (Setúbal)",
@@ -193,12 +186,9 @@ def calcular_percurso_especial(grafo):
         "detalhes_percurso": []
     }
     
-    # Adiciona detalhes de cada trecho
     for i in range(len(caminho) - 1):
         atual = caminho[i]
         proximo = caminho[i + 1]
-        
-        # Busca peso da aresta
         peso_aresta = None
         for viz, peso, meta in grafo.neighbors(atual):
             if viz == proximo:
@@ -214,7 +204,6 @@ def calcular_percurso_especial(grafo):
             "custo": round(peso_aresta, 2) if peso_aresta else None
         })
     
-    # Salva JSON
     output_json = os.path.join(ROOT_DIR, "out", "percurso_nova_descoberta_setubal.json")
     with open(output_json, 'w', encoding='utf-8') as f:
         json.dump(percurso, f, ensure_ascii=False, indent=2)
@@ -231,17 +220,10 @@ def calcular_percurso_especial(grafo):
 
 
 def main():
-    """
-    Função principal.
-    """
     try:
-        # Calcula todas as distâncias
         resultados, grafo = calcular_distancias()
-        
-        # Calcula percurso especial
         percurso = calcular_percurso_especial(grafo)
         
-        # Resumo final
         print(f"\n{'=' * 70}")
         print("RESUMO DA OPERAÇÃO")
         print("=" * 70)

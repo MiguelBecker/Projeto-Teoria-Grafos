@@ -40,6 +40,7 @@ def test_dijkstra_caminho_mais_curto():
     #     1     1
     #     |     |
     #     C -1- D
+
     g = Graph()
     g.add_edge("A", "B", 5.0)
     g.add_edge("A", "C", 1.0)
@@ -51,7 +52,6 @@ def test_dijkstra_caminho_mais_curto():
     assert distancias["B"] == 3.0, "Caminho mais curto A→C→D→B deve ter peso 3"
     assert distancias["B"] < 5.0, "Deve escolher caminho de peso 3, não 5"
     
-    # Reconstrói caminho
     caminho = reconstruir_caminho(predecessores, "B")
     assert caminho == ["A", "C", "D", "B"], "Caminho deve ser A→C→D→B"
     
