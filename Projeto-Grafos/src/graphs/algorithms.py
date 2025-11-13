@@ -53,22 +53,31 @@ def dfs(grafo: Graph, origem: str) -> Dict[str, int]:
     """
     Busca em profundidade (DFS) a partir de um nó origem.
     Retorna um dicionário com a ordem de visitação.
+    
+    Versão iterativa para suportar grafos grandes sem estourar recursão.
     """
     if origem not in grafo.nodes():
         return {}
     
     visitados = {}
-    ordem = [0]
+    pilha = [origem]
+    ordem = 0
     
-    def dfs_recursivo(no: str):
-        visitados[no] = ordem[0]
-        ordem[0] += 1
+    while pilha:
+        no = pilha.pop()
         
-        for vizinho, _, _ in grafo.neighbors(no):
+        if no in visitados:
+            continue
+        
+        visitados[no] = ordem
+        ordem += 1
+        
+        # Adiciona vizinhos à pilha (ordem reversa para manter ordem similar à recursiva)
+        vizinhos = [v for v, _, _ in grafo.neighbors(no)]
+        for vizinho in reversed(vizinhos):
             if vizinho not in visitados:
-                dfs_recursivo(vizinho)
+                pilha.append(vizinho)
     
-    dfs_recursivo(origem)
     return visitados
 
 

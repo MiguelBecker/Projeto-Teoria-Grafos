@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dataset grande (> 100 MB)
+data/dataset_parte2.edges
+
+# Outputs grandes
+out/arvore_percurso.html
+out/grafo_interativo.html
+out/dashboard_interativo.html

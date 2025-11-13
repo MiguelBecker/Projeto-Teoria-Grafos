@@ -1,0 +1,178 @@
+{
+  "dataset_path": "D:\\Desktop\\Projeto-Teoria-Grafos\\Projeto-Grafos\\data\\dataset_parte2.edges",
+  "descricao_dataset": {
+    "tipo": "não-direcionado (tratado)",
+    "ponderado": true,
+    "num_nos": 220970,
+    "num_arestas": 17359346,
+    "grau_min": 1,
+    "grau_max": 33389,
+    "grau_medio": 157.12,
+    "distribuicao_graus_top20": {
+      "1": 19707,
+      "2": 6903,
+      "3": 4064,
+      "21": 3627,
+      "22": 3506,
+      "20": 3476,
+      "23": 3356,
+      "4": 2994,
+      "24": 2939,
+      "25": 2643,
+      "5": 2459,
+      "26": 2365,
+      "27": 2113,
+      "6": 2083,
+      "28": 1930,
+      "7": 1830,
+      "29": 1701,
+      "8": 1688,
+      "9": 1578,
+      "30": 1574
+    }
+  },
+  "fontes_selecionadas": [
+    "156148",
+    "114556",
+    "164437"
+  ],
+  "pares_selecionados": [
+    {
+      "origem": "156148",
+      "destino": "83773"
+    },
+    {
+      "origem": "31116",
+      "destino": "33639"
+    },
+    {
+      "origem": "90280",
+      "destino": "71636"
+    },
+    {
+      "origem": "164437",
+      "destino": "156148"
+    },
+    {
+      "origem": "114556",
+      "destino": "182742"
+    }
+  ],
+  "experimentos": [
+    {
+      "algoritmo": "bfs",
+      "origem": "156148",
+      "nos_alcancados": 220970,
+      "num_camadas": 5,
+      "tempo_seg": 14.007879299999331
+    },
+    {
+      "algoritmo": "dfs",
+      "origem": "156148",
+      "nos_visitados": 220970,
+      "tempo_seg": 22.140844199999265
+    },
+    {
+      "algoritmo": "bfs",
+      "origem": "114556",
+      "nos_alcancados": 220970,
+      "num_camadas": 5,
+      "tempo_seg": 13.40589480000017
+    },
+    {
+      "algoritmo": "dfs",
+      "origem": "114556",
+      "nos_visitados": 220970,
+      "tempo_seg": 21.18905249999989
+    },
+    {
+      "algoritmo": "bfs",
+      "origem": "164437",
+      "nos_alcancados": 220970,
+      "num_camadas": 6,
+      "tempo_seg": 14.070880600000237
+    },
+    {
+      "algoritmo": "dfs",
+      "origem": "164437",
+      "nos_visitados": 220970,
+      "tempo_seg": 22.61457690000134
+    },
+    {
+      "algoritmo": "dijkstra",
+      "origem": "156148",
+      "destino": "83773",
+      "custo": 9.0,
+      "tam_caminho": 5,
+      "tempo_seg": 21.292645800000173
+    },
+    {
+      "algoritmo": "dijkstra",
+      "origem": "31116",
+      "destino": "33639",
+      "custo": 2.0,
+      "tam_caminho": 3,
+      "tempo_seg": 20.69012769999972
+    },
+    {
+      "algoritmo": "dijkstra",
+      "origem": "90280",
+      "destino": "71636",
+      "custo": 4.0,
+      "tam_caminho": 4,
+      "tempo_seg": 20.039635799999814
+    },
+    {
+      "algoritmo": "dijkstra",
+      "origem": "164437",
+      "destino": "156148",
+      "custo": 19.0,
+      "tam_caminho": 6,
+      "tempo_seg": 19.61049379999895
+    },
+    {
+      "algoritmo": "dijkstra",
+      "origem": "114556",
+      "destino": "182742",
+      "custo": 15.0,
+      "tam_caminho": 7,
+      "tempo_seg": 20.39109070000086
+    },
+    {
+      "algoritmo": "bellman-ford",
+      "dataset": "G1_negativo_sem_ciclo",
+      "origem": "A",
+      "tem_ciclo_negativo": true,
+      "distancias": {
+        "A": 0.0,
+        "B": -8.0,
+        "C": -6.0,
+        "D": -5.0
+      },
+      "tempo_seg": 4.129999979340937e-05
+    },
+    {
+      "algoritmo": "bellman-ford",
+      "dataset": "G2_ciclo_negativo",
+      "origem": "X",
+      "tem_ciclo_negativo": true,
+      "distancias": null,
+      "tempo_seg": 1.9400000383029692e-05
+    }
+  ],
+  "observacoes": {
+    "algoritmos_implementados": [
+      "bfs",
+      "dfs",
+      "dijkstra",
+      "bellman-ford"
+    ],
+    "sem_libs_externas": true,
+    "dataset_tratado_como": "não-direcionado para comparação",
+    "metricas_coletadas": [
+      "tempo_execucao",
+      "nos_alcancados",
+      "custo_caminho"
+    ]
+  }
+}

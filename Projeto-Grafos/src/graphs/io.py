@@ -75,6 +75,49 @@ def carregar_adjacencias(bairros_unique_csv: str, adj_csv: str) -> Graph:
 
 
 
+def carregar_dataset_parte2(edges_path: str) -> Graph:
+    """
+    Carrega dataset maior (Parte 2) do formato .edges:
+    % asym weighted
+    u\tv\tpeso
+    
+    Args:
+        edges_path: caminho para arquivo .edges
+    
+    Returns:
+        Graph com nós e arestas carregadas (tratado como não-direcionado para comparação)
+    """
+    G = Graph()
+    
+    print(f"Carregando dataset Parte 2: {edges_path}")
+    
+    with open(edges_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("%"):
+                continue
+            
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            
+            u = parts[0]
+            v = parts[1]
+            w = 1.0
+            
+            if len(parts) >= 3:
+                try:
+                    w = float(parts[2])
+                except ValueError:
+                    w = 1.0
+            
+            # Adiciona aresta (não-direcionado para experimentos)
+            G.add_edge(u, v, w)
+    
+    print(f"✓ Dataset carregado: {G.order()} nós, {G.size()} arestas")
+    return G
+
+
 if __name__ == "__main__":
     input_path = os.path.join(ROOT_DIR, "data", "bairros_recife.csv")
     output_path = os.path.join(ROOT_DIR, "data", "bairros_unique.csv")

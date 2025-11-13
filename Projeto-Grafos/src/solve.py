@@ -25,7 +25,7 @@ def calcular_metricas():
     recife_global = {
         "ordem": int(G.order()),
         "tamanho": int(G.size()),
-        "densidade": float(round(densidade(G), 4)),
+        "densidade": float(round(densidade(G), 5)),
     }
     with open("out/recife_global.json", "w", encoding="utf-8") as f:
         json.dump(recife_global, f, ensure_ascii=False, indent=2)
@@ -49,10 +49,12 @@ def calcular_metricas():
         vizinhos = [v for v, _, _ in G.neighbors(bairro)]
         ego_nodes = [bairro] + vizinhos
         ego = subgrafo_por_bairros(G, ego_nodes)
+        # Se nó isolado (grau 0), ego tem apenas 1 nó
+        ordem_ego = max(1, ego.order()) if G.degree(bairro) == 0 else ego.order()
         ego_data.append({
             "bairro": bairro,
             "grau": int(G.degree(bairro)),
-            "ordem_ego": int(ego.order()),
+            "ordem_ego": int(ordem_ego),
             "tamanho_ego": int(ego.size()),
             "densidade_ego": float(round(densidade(ego), 4)),
         })
