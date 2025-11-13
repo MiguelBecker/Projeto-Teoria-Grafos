@@ -133,12 +133,32 @@ def processar_adjacencias():
     if 'observacao' not in df.columns:
         df['observacao'] = ''
     
+    # Verificar se já tem pesos calculados
+    if 'peso' in df.columns and df['peso'].notna().all():
+        print("\n⚠️  Os pesos já foram calculados anteriormente!")
+        print("   Extraindo apenas tipo de via para estatísticas...")
+        
+        tipos_via = [extrair_tipo_via(log) for log in df['logradouro']]
+        df['tipo_via'] = tipos_via
+        
+        colunas_finais = ['bairro_origem', 'bairro_destino', 'logradouro', 
+                         'observacao', 'tipo_via', 'peso']
+        colunas_finais = [col for col in colunas_finais if col in df.columns]
+        df = df[colunas_finais]
+        
+        return df
+    
+    # Calcular pesos apenas se não existirem ou se houver coluna pavimentacao
     novos_pesos = []
     tipos_via = []
     detalhes_calculo = []
     
+    # Usar pavimentação padrão (asfalto) se não houver coluna
+    pavimentacao_default = '1'  # asfalto
+    
     for idx, row in df.iterrows():
-        peso, tipo = calcular_peso(row['logradouro'], row['pavimentacao'])
+        pav = row.get('pavimentacao', pavimentacao_default)
+        peso, tipo = calcular_peso(row['logradouro'], pav)
         novos_pesos.append(peso)
         tipos_via.append(tipo)
         
@@ -148,17 +168,21 @@ def processar_adjacencias():
                 'destino': row['bairro_destino'],
                 'logradouro': row['logradouro'],
                 'tipo_via': tipo,
-                'pavimentacao': row['pavimentacao'],
+                'pavimentacao': row.get('pavimentacao', 'asfalto'),
                 'peso_calculado': peso
             })
     
     df['peso'] = novos_pesos
     df['tipo_via'] = tipos_via  
     
-    colunas_ordenadas = ['bairro_origem', 'bairro_destino', 'logradouro', 
-                         'pavimentacao', 'tipo_via', 'observacao', 'peso']
+    # Ordenar colunas (sem pavimentacao se não existir)
+    if 'pavimentacao' in df.columns:
+        colunas_ordenadas = ['bairro_origem', 'bairro_destino', 'logradouro', 
+                             'pavimentacao', 'tipo_via', 'observacao', 'peso']
+    else:
+        colunas_ordenadas = ['bairro_origem', 'bairro_destino', 'logradouro', 
+                             'tipo_via', 'observacao', 'peso']
     
-
     colunas_finais = [col for col in colunas_ordenadas if col in df.columns]
     df = df[colunas_finais]
     

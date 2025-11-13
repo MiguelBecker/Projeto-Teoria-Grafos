@@ -5,9 +5,9 @@
 Para gerar o dashboard completo com TODAS as visualizações:
 ```bash
 cd Projeto-Grafos
-python3 src/gerar_dashboard_completo.py
+python src/dashboard_interativo.py
 ```
-Abre o arquivo `out/dashboard_completo.html` no navegador!
+Abre o arquivo `out/dashboard_interativo.html` no navegador!
 
 ---
 
@@ -36,13 +36,11 @@ Projeto-Grafos/
 │   │   ├── io.py                    # Carregamento de dados
 │   │   ├── algorithms.py            # BFS, DFS, Dijkstra, Bellman-Ford
 │   │   └── layout.py                # Algoritmos de layout visual
-│   ├── gerar_dashboard_completo.py  # ⭐ SCRIPT PRINCIPAL
-│   ├── dashboard_interativo.py      # Dashboard alternativo
+│   ├── dashboard_interativo.py      # ⭐ SCRIPT PRINCIPAL - Dashboard único
 │   ├── calcular_pesos.py            # Cálculo de pesos das arestas
 │   ├── calcular_distancias.py       # Distâncias entre endereços
 │   ├── solve.py                     # Métricas globais
-│   ├── ranking.py                   # Ranking de densidade
-│   └── cli.py                       # Interface de linha de comando
+│   └── ranking.py                   # Ranking de densidade
 └── tests/
     ├── test_bfs.py                  # Testes de BFS
     ├── test_dfs.py                  # Testes de DFS
