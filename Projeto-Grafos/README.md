@@ -1,27 +1,56 @@
 # Projeto-Teoria-Grafos
 
-Estrutura de Pastas
+## 🎯 Início Rápido
 
+Para gerar o dashboard completo com TODAS as visualizações:
+```bash
+cd Projeto-Grafos
+python3 src/gerar_dashboard_completo.py
+```
+Abre o arquivo `out/dashboard_completo.html` no navegador!
+
+---
+
+## 📁 Estrutura de Pastas
+
+```
 Projeto-Grafos/
 ├── README.md
+├── requirements.txt
 ├── data/
-│ ├── bairros_recife.csv
-│ ├── bairros_unique.csv
-│ ├── adjacencias_bairros.csv
-│ └── enderecos.csv (Parte 5)
+│   ├── bairros_recife.csv           # Bairros originais com microrregiões
+│   ├── bairros_unique.csv           # Bairros normalizados
+│   ├── adjacencias_bairros.csv      # Arestas do grafo com pesos
+│   └── enderecos.csv                # Endereços para cálculo de distâncias
 ├── out/
-│ ├── recife_global.json
-│ ├── microrregioes.json
-│ ├── ego_bairro.csv
-│ ├── graus.csv
-│ └── ranking.txt
+│   ├── dashboard_completo.html      # ⭐ DASHBOARD ÚNICO COM TODAS VISUALIZAÇÕES
+│   ├── recife_global.json           # Métricas globais do grafo
+│   ├── microrregioes.json           # Métricas por microrregião
+│   ├── ego_bairro.csv               # Ego-networks de cada bairro
+│   ├── graus.csv                    # Graus de conectividade
+│   └── ranking.txt                  # Ranking de densidade
 ├── src/
-│ ├── graphs/
-│ │ ├── io.py
-│ │ └── graph.py
-│ ├── solve.py
-│ └── ranking.py
+│   ├── graphs/
+│   │   ├── __init__.py
+│   │   ├── graph.py                 # Estrutura de dados do grafo
+│   │   ├── io.py                    # Carregamento de dados
+│   │   ├── algorithms.py            # BFS, DFS, Dijkstra, Bellman-Ford
+│   │   └── layout.py                # Algoritmos de layout visual
+│   ├── gerar_dashboard_completo.py  # ⭐ SCRIPT PRINCIPAL
+│   ├── dashboard_interativo.py      # Dashboard alternativo
+│   ├── calcular_pesos.py            # Cálculo de pesos das arestas
+│   ├── calcular_distancias.py       # Distâncias entre endereços
+│   ├── solve.py                     # Métricas globais
+│   ├── ranking.py                   # Ranking de densidade
+│   └── cli.py                       # Interface de linha de comando
 └── tests/
+    ├── test_bfs.py                  # Testes de BFS
+    ├── test_dfs.py                  # Testes de DFS
+    ├── test_dijkstra.py             # Testes de Dijkstra
+    └── test_bellman_ford.py         # Testes de Bellman-Ford
+```
+
+---
 
 Etapas Concluídas
 Parte 1 — Processamento de Bairros (io.py)
@@ -198,31 +227,102 @@ Características:
 - Informações detalhadas de cada logradouro
 - Custo total e número de bairros percorridos
 
+Visualizações Unificadas (dashboard_interativo.py)
+
+📊 TODAS as visualizações do projeto foram unificadas em um único dashboard interativo!
+
+Execução:
+python src/dashboard_interativo.py
+
+Saída:
+out/dashboard_interativo.html — Dashboard único com TODAS as funcionalidades:
+
+✓ Grafo interativo completo (98 bairros, 244 conexões)
+✓ Busca e filtros por bairro, microrregião, grau, densidade
+✓ Calculadora de rotas (Dijkstra em tempo real)
+✓ Visualização de vizinhos e conexões
+✓ Estatísticas globais e por microrregião
+✓ Análise de ego-networks
+✓ Top 10 bairros mais conectados
+✓ Todas as métricas analíticas
+
+Funcionalidades do Dashboard:
+🔍 Busca de bairros e detalhamento de vizinhos
+🛣️ Cálculo de rotas entre quaisquer dois bairros
+🎯 Filtros avançados (microrregião, grau mín/máx, densidade)
+📊 Estatísticas em tempo real
+🖱️ Zoom, pan, hover com informações detalhadas
+🎨 Visualização com código de cores por grau
+⚡ Interface responsiva e interativa
+
+Nota: Anteriormente o projeto gerava múltiplos arquivos HTML (viz1-5, arvore_percurso, etc.).
+Agora TUDO está unificado em um único dashboard para facilitar navegação e análise!
+
+---
+
+## 🎯 Dashboard Completo com TODAS as Visualizações (gerar_dashboard_completo.py)
+
+📊 **NOVO**: Script unificado que gera UM ÚNICO HTML com TODAS as 7 visualizações em abas!
+
+### Execução:
+```bash
+python src/gerar_dashboard_completo.py
+```
+
+### Saída:
+`out/dashboard_completo.html` — Dashboard único profissional com sistema de abas incluindo:
+
+1. **📊 Grafo Principal Interativo** — Visualização completa da rede de 98 bairros com código de cores por conectividade
+2. **🔥 Mapa de Calor por Grau** — Destaque dos bairros mais conectados com gradiente de intensidade
+3. **🏆 Top 10 Bairros Mais Conectados** — Subgrafo circular dos hubs principais da rede
+4. **📈 Distribuição de Graus** — Histograma da distribuição de conectividade
+5. **🌳 Árvore BFS (Boa Vista)** — Visualização hierárquica da busca em largura
+6. **🛣️ Percurso Nova Descoberta → Boa Viagem** — Caminho mínimo calculado com Dijkstra destacado
+7. **📊 Ranking de Densidade Ego-Network** — Top 20 bairros com maior densidade local
+
+### Características:
+✅ **UM ÚNICO ARQUIVO HTML** — Todas visualizações em um só lugar  
+✅ **Sistema de abas** — Navegação fácil entre análises  
+✅ **Renderização sob demanda** — Gráficos carregam apenas quando visualizados  
+✅ **Design profissional** — Paleta de cores escura moderna  
+✅ **Totalmente interativo** — Zoom, pan, hover em todos os gráficos  
+✅ **Sem dependências externas** — Usa CDN do Plotly  
+
+### Implementação:
+- ✅ **SEM NetworkX** — Layout implementado manualmente (Fruchterman-Reingold)
+- ✅ **Algoritmos próprios** — BFS, DFS, Dijkstra, Bellman-Ford implementados do zero
+- ✅ **Pesos geográficos** — Baseados em tipo de via e pavimentação, não distância euclidiana
+- ✅ **JSON serializado** — Todas figuras convertidas para JSON com `plotly.to_json()`
+
+**Este é o script RECOMENDADO para gerar visualizações do projeto!**
+
+---
+
 Testes (Obrigatórios)
 
 Os testes cobrem todos os algoritmos implementados:
 
-test/test_bfs.py — Testes de BFS (Busca em Largura)
+tests/test_bfs.py — Testes de BFS (Busca em Largura)
 - 6 casos de teste: grafo simples, desconectado, árvore, nó inexistente, ciclo, grafo completo
-- Execução: python test/test_bfs.py
+- Execução: python tests/test_bfs.py
 - Status: ✓ TODOS OS TESTES PASSARAM
 
-test/test_dfs.py — Testes de DFS (Busca em Profundidade)
+tests/test_dfs.py — Testes de DFS (Busca em Profundidade)
 - 6 casos de teste: grafo simples, desconectado, nó inexistente, ciclo, ordem de visitação, grafo estrela
-- Execução: python test/test_dfs.py
+- Execução: python tests/test_dfs.py
 - Status: ✓ TODOS OS TESTES PASSARAM
 
-test/test_dijkstra.py — Testes de Dijkstra
+tests/test_dijkstra.py — Testes de Dijkstra
 - 7 casos de teste: simples, caminho mais curto, nó isolado, pesos diferentes, grafo completo, reconstruir caminho, nó inexistente
-- Execução: python test/test_dijkstra.py
+- Execução: python tests/test_dijkstra.py
 - Status: ✓ TODOS OS TESTES PASSARAM
 
-test/test_bellman_ford.py — Testes de Bellman-Ford
+tests/test_bellman_ford.py — Testes de Bellman-Ford
 - 7 casos de teste: simples, pesos positivos, nó isolado, ciclo positivo, grafo completo, nó inexistente, caminho linear
-- Execução: python test/test_bellman_ford.py
+- Execução: python tests/test_bellman_ford.py
 - Status: ✓ TODOS OS TESTES PASSARAM
 
 Executar todos os testes:
-python test/test_bfs.py; python test/test_dfs.py; python test/test_dijkstra.py; python test/test_bellman_ford.py
+python tests/test_bfs.py; python tests/test_dfs.py; python tests/test_dijkstra.py; python tests/test_bellman_ford.py
 
 Total: 26 casos de teste, todos passando ✓
