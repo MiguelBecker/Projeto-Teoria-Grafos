@@ -1032,10 +1032,10 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
                     y: [edge.y0, edge.y1, null],
                     mode: 'lines',
                     line: {{
-                        width: isSelected ? 6 : (isPath ? 5 : 0.8),
+                        width: isSelected ? 6 : (isPath ? 5 : 1.5),
                         color: isSelected ? PALETA.destaque : (isPath ? PALETA.alerta : PALETA.texto_sec)
                     }},
-                    opacity: isHighlighted ? 1.0 : 0.25,
+                    opacity: isHighlighted ? 1.0 : 0.85,
                     hoverinfo: 'text',
                     hovertext: hoverDetails,
                     customdata: [payload, payload, payload],
@@ -1050,12 +1050,12 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
             const nodeColors = nodesData.map(n => {{
                 if (selectedNodes.has(n.id)) return PALETA.destaque;
                 if (highlightedNodes.has(n.id)) return PALETA.alerta;
-                return n.grau > 9 ? PALETA.primario : PALETA.texto_sec;
+                return n.grau > 7 ? PALETA.primario : (n.grau > 3 ? PALETA.secundario : PALETA.terciario);
             }});
             const nodeSizes = nodesData.map(n => {{
                 if (selectedNodes.has(n.id)) return n.grau * 6 + 24;
                 if (highlightedNodes.has(n.id)) return n.grau * 6 + 20;
-                return n.grau * 4 + 12;
+                return n.grau * 3 + 12;
             }});
             const nodeHover = nodesData.map(n => `<b>${{n.id}}</b><br>Grau: ${{n.grau}}<br>Densidade: ${{n.densidade.toFixed(3)}}`);
             
@@ -1067,7 +1067,7 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
                 text: nodeText,
                 textposition: 'top center',
                 textfont: {{
-                    size: 9,
+                    size: 8,
                     color: PALETA.texto,
                     family: 'Arial Black'
                 }},
@@ -1307,7 +1307,7 @@ def criar_grafo_principal(grafo, pos, graus, densidades, micro_dict):
             x=[x0, x1],
             y=[y0, y1],
             mode='lines',
-            line=dict(width=1.2, color=PALETA['texto_sec']),
+            line=dict(width=1.5, color=PALETA['texto_sec']),
             hoverinfo='text',
             hovertext=hover_text,
             hoverlabel=dict(
@@ -1316,7 +1316,7 @@ def criar_grafo_principal(grafo, pos, graus, densidades, micro_dict):
                 bordercolor=PALETA['primario']
             ),
             showlegend=False,
-            opacity=0.6
+            opacity=0.85
         )
         edge_trace.update(customdata=[edge_payload, edge_payload])
         edge_traces.append(edge_trace)
@@ -1334,13 +1334,13 @@ def criar_grafo_principal(grafo, pos, graus, densidades, micro_dict):
     node_trace = go.Scatter(
         x=node_x, y=node_y,
         mode='markers+text',
-        text=[no if graus[no] > 6 else '' for no in grafo.nodes()],  # Mostrar nomes dos mais conectados
+        text=[no for no in grafo.nodes()],  # Mostrar TODOS os nomes dos bairros
         textposition='top center',
-        textfont=dict(size=8, color=PALETA['texto'], family='Arial'),
+        textfont=dict(size=8, color=PALETA['texto'], family='Arial Black'),
         hoverinfo='text',
         hovertext=node_text,
         marker=dict(
-            size=[max(8, graus[no] * 2) for no in grafo.nodes()],  # Tamanho proporcional ao grau
+            size=[max(12, graus[no] * 3) for no in grafo.nodes()],  # Nós maiores e mais visíveis
             color=node_color,
             colorscale='Viridis',
             showscale=True,
@@ -1351,7 +1351,7 @@ def criar_grafo_principal(grafo, pos, graus, densidades, micro_dict):
                 bgcolor=PALETA['paper'],
                 tickfont=dict(color=PALETA['texto'])
             ),
-            line=dict(width=1.5, color=PALETA['bg'])
+            line=dict(width=2, color=PALETA['bg'])
         ),
         hoverlabel=dict(
             bgcolor=PALETA['paper'],
