@@ -1,7 +1,6 @@
 import sys
 import os
 
-# Adiciona o diretório src ao path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
 SRC_DIR = os.path.join(ROOT_DIR, "src")
@@ -15,7 +14,6 @@ from graphs.algorithms import bellman_ford, reconstruir_caminho
 def test_bellman_ford_simples():
     print("\n=== Teste 1: Bellman-Ford Simples ===")
     
-    # Cria grafo: A -1- B -2- C
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 2.0)
@@ -35,12 +33,6 @@ def test_bellman_ford_simples():
 def test_bellman_ford_pesos_positivos():
     print("\n=== Teste 2: Bellman-Ford Pesos Positivos ===")
     
-    # Cria grafo:
-    #     A -1- B
-    #     |     |
-    #     4     2
-    #     |     |
-    #     C -1- D
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("A", "C", 4.0)
@@ -63,7 +55,6 @@ def test_bellman_ford_pesos_positivos():
 def test_bellman_ford_no_isolado():
     print("\n=== Teste 3: Bellman-Ford Nó Isolado ===")
     
-    # Cria grafo: A - B    C (isolado)
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_node("C")
@@ -80,7 +71,6 @@ def test_bellman_ford_no_isolado():
 def test_bellman_ford_ciclo_positivo():
     print("\n=== Teste 4: Bellman-Ford Ciclo Positivo ===")
     
-    # Cria grafo com ciclo: A -1- B -1- C -1- A
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -98,15 +88,8 @@ def test_bellman_ford_ciclo_positivo():
 
 
 def test_bellman_ford_grafo_completo():
-    """Teste de Bellman-Ford em grafo completo."""
     print("\n=== Teste 5: Bellman-Ford Grafo Completo ===")
     
-    # Cria triângulo:
-    #     A -1- B
-    #      \   /
-    #       3 2
-    #        \/
-    #        C
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 2.0)
@@ -122,7 +105,6 @@ def test_bellman_ford_grafo_completo():
 
 
 def test_bellman_ford_no_inexistente():
-    """Teste de Bellman-Ford com nó inexistente."""
     print("\n=== Teste 6: Bellman-Ford Nó Inexistente ===")
     
     g = Graph()
@@ -137,10 +119,8 @@ def test_bellman_ford_no_inexistente():
 
 
 def test_bellman_ford_caminho_linear():
-    """Teste de Bellman-Ford em caminho linear."""
     print("\n=== Teste 7: Bellman-Ford Caminho Linear ===")
     
-    # Cria grafo linear: A -1- B -2- C -3- D
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 2.0)
@@ -162,7 +142,6 @@ def test_bellman_ford_caminho_linear():
 
 
 def run_all_tests():
-    """Executa todos os testes."""
     print("=" * 70)
     print("EXECUTANDO TESTES: BELLMAN-FORD")
     print("=" * 70)

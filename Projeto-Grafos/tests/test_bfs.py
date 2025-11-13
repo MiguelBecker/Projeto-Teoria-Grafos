@@ -1,7 +1,6 @@
 import sys
 import os
 
-# Adiciona o diretório src ao path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
 SRC_DIR = os.path.join(ROOT_DIR, "src")
@@ -15,9 +14,6 @@ from graphs.algorithms import bfs, bfs_arvore
 def test_bfs_simples():
     print("\n=== Teste 1: BFS Simples ===")
     
-    # Cria grafo: A - B - C
-    #             |       |
-    #             D       E
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -39,7 +35,6 @@ def test_bfs_simples():
 def test_bfs_desconectado():
     print("\n=== Teste 2: BFS Grafo Desconectado ===")
     
-    # Cria grafo: A - B    C - D
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("C", "D", 1.0)
@@ -58,9 +53,6 @@ def test_bfs_desconectado():
 def test_bfs_arvore():
     print("\n=== Teste 3: BFS Árvore de Busca ===")
     
-    # Cria grafo: A - B - C
-    #             |       |
-    #             D       E
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -95,9 +87,6 @@ def test_bfs_no_inexistente():
 def test_bfs_ciclo():
     print("\n=== Teste 5: BFS com Ciclo ===")
     
-    # Cria grafo: A - B - C
-    #             |       |
-    #             +-------+
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -116,7 +105,6 @@ def test_bfs_ciclo():
 def test_bfs_grafo_completo():
     print("\n=== Teste 6: BFS Grafo Completo ===")
     
-    # Cria grafo completo K4: todos conectados
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("A", "C", 1.0)

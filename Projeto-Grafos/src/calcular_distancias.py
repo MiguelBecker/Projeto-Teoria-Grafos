@@ -96,7 +96,6 @@ def calcular_distancias():
             print("! Formato incorreto, recriando arquivo...")
             df_enderecos = criar_enderecos_exemplo()
     
-    # Calcula distâncias para cada par
     resultados = []
     
     for idx, row in df_enderecos.iterrows():
@@ -105,7 +104,6 @@ def calcular_distancias():
         
         print(f"\n{idx + 1}. Calculando: {bairro_origem} → {bairro_destino}")
         
-        # Verifica se os bairros existem no grafo
         if bairro_origem not in grafo.nodes():
             print(f"   ✗ Bairro de origem '{bairro_origem}' não encontrado no grafo")
             custo = None
@@ -115,7 +113,6 @@ def calcular_distancias():
             custo = None
             caminho = []
         else:
-            # Executa Dijkstra
             distancias, predecessores = dijkstra(grafo, bairro_origem)
             
             if bairro_destino in distancias and distancias[bairro_destino] != float('inf'):
@@ -137,7 +134,6 @@ def calcular_distancias():
             'caminho': ' → '.join(caminho) if caminho else 'Sem caminho'
         })
     
-    # Salva resultados
     df_resultados = pd.DataFrame(resultados)
     output_csv = os.path.join(ROOT_DIR, "out", "distancias_enderecos.csv")
     df_resultados.to_csv(output_csv, index=False, encoding='utf-8')

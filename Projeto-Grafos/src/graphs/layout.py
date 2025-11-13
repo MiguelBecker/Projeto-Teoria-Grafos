@@ -35,24 +35,19 @@ def spring_layout(grafo: Graph, k: float = 1.5, iterations: int = 50, seed: int 
     if n == 1:
         return {nodes[0]: (0.5, 0.5)}
     
-    # Inicialização aleatória das posições
     pos = {}
     for node in nodes:
         pos[node] = (random.random(), random.random())
     
-    # Área do canvas e distância ideal
-    area = 1.0  # Canvas normalizado
+    area = 1.0
     k_ideal = k * math.sqrt(area / n)
     
-    # Temperatura inicial (controla magnitude dos movimentos)
     temperature = 0.1
     dt = temperature / (iterations + 1)
     
     for iteration in range(iterations):
-        # Calcular forças repulsivas (todos os pares de nós)
         displacement = {node: (0.0, 0.0) for node in nodes}
         
-        # Força repulsiva entre todos os pares
         for i, v in enumerate(nodes):
             for u in nodes[i+1:]:
                 delta_x = pos[v][0] - pos[u][0]
@@ -62,7 +57,6 @@ def spring_layout(grafo: Graph, k: float = 1.5, iterations: int = 50, seed: int 
                 if distance < 0.01:
                     distance = 0.01
                 
-                # Força repulsiva de Fruchterman-Reingold
                 force = (k_ideal ** 2) / distance
                 
                 fx = (delta_x / distance) * force
@@ -71,7 +65,6 @@ def spring_layout(grafo: Graph, k: float = 1.5, iterations: int = 50, seed: int 
                 displacement[v] = (displacement[v][0] + fx, displacement[v][1] + fy)
                 displacement[u] = (displacement[u][0] - fx, displacement[u][1] - fy)
         
-        # Força atrativa (apenas nós conectados)
         for u, v, peso, _ in grafo.edges():
             delta_x = pos[v][0] - pos[u][0]
             delta_y = pos[v][1] - pos[u][1]
@@ -80,7 +73,6 @@ def spring_layout(grafo: Graph, k: float = 1.5, iterations: int = 50, seed: int 
             if distance < 0.01:
                 distance = 0.01
             
-            # Força atrativa proporcional à distância
             force = (distance ** 2) / k_ideal
             
             fx = (delta_x / distance) * force
@@ -89,31 +81,25 @@ def spring_layout(grafo: Graph, k: float = 1.5, iterations: int = 50, seed: int 
             displacement[v] = (displacement[v][0] - fx, displacement[v][1] - fy)
             displacement[u] = (displacement[u][0] + fx, displacement[u][1] + fy)
         
-        # Aplicar deslocamentos com limite de temperatura
         for node in nodes:
             dx, dy = displacement[node]
             disp_length = math.sqrt(dx**2 + dy**2)
             
             if disp_length > 0:
-                # Limitar movimento pela temperatura
                 limited_length = min(disp_length, temperature)
                 dx = (dx / disp_length) * limited_length
                 dy = (dy / disp_length) * limited_length
                 
-                # Atualizar posição
                 new_x = pos[node][0] + dx
                 new_y = pos[node][1] + dy
                 
-                # Manter dentro dos limites [0, 1]
                 new_x = max(0.01, min(0.99, new_x))
                 new_y = max(0.01, min(0.99, new_y))
                 
                 pos[node] = (new_x, new_y)
         
-        # Reduzir temperatura
         temperature -= dt
     
-    # Centralizar e normalizar o layout
     if nodes:
         xs = [pos[node][0] for node in nodes]
         ys = [pos[node][1] for node in nodes]
@@ -121,11 +107,9 @@ def spring_layout(grafo: Graph, k: float = 1.5, iterations: int = 50, seed: int 
         min_x, max_x = min(xs), max(xs)
         min_y, max_y = min(ys), max(ys)
         
-        # Evitar divisão por zero
         range_x = max_x - min_x if max_x - min_x > 0.01 else 0.01
         range_y = max_y - min_y if max_y - min_y > 0.01 else 0.01
         
-        # Normalizar para [-1, 1] (compatível com o formato esperado)
         for node in nodes:
             x = ((pos[node][0] - min_x) / range_x) * 2 - 1
             y = ((pos[node][1] - min_y) / range_y) * 2 - 1
@@ -195,7 +179,6 @@ def grid_layout(grafo: Graph, cols: int = None) -> Dict[str, Tuple[float, float]
         row = i // cols
         col = i % cols
         
-        # Centralizar e normalizar
         x = (col - (cols - 1) / 2) / max(cols - 1, 1)
         y = (row - (rows - 1) / 2) / max(rows - 1, 1)
         

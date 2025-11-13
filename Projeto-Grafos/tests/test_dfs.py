@@ -1,7 +1,6 @@
 import sys
 import os
 
-# Adiciona o diretório src ao path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
 SRC_DIR = os.path.join(ROOT_DIR, "src")
@@ -15,9 +14,6 @@ from graphs.algorithms import dfs
 def test_dfs_simples():
     print("\n=== Teste 1: DFS Simples ===")
     
-    # Cria grafo: A - B - C
-    #             |       |
-    #             D       E
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -40,7 +36,6 @@ def test_dfs_simples():
 def test_dfs_desconectado():
     print("\n=== Teste 2: DFS Grafo Desconectado ===")
     
-    # Cria grafo: A - B    C - D
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("C", "D", 1.0)
@@ -72,9 +67,6 @@ def test_dfs_no_inexistente():
 def test_dfs_ciclo():
     print("\n=== Teste 4: DFS com Ciclo ===")
     
-    # Cria grafo: A - B - C
-    #             |       |
-    #             +-------+
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -92,10 +84,8 @@ def test_dfs_ciclo():
 
 
 def test_dfs_ordem_visitacao():
-    """Teste para verificar que DFS visita em profundidade."""
     print("\n=== Teste 5: DFS Ordem de Visitação ===")
     
-    # Cria grafo linear: A - B - C - D
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 1.0)
@@ -114,7 +104,6 @@ def test_dfs_ordem_visitacao():
 def test_dfs_grafo_estrela():
     print("\n=== Teste 6: DFS Grafo Estrela ===")
     
-    # Cria grafo estrela: B, C, D conectados ao centro A
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("A", "C", 1.0)

@@ -27,7 +27,6 @@ from graphs.io import carregar_adjacencias
 from graphs.algorithms import dijkstra, reconstruir_caminho, bfs_arvore, densidade_ego
 from graphs.layout import spring_layout, circular_layout
 
-# Paleta de cores
 PALETA = {
     'bg': '#1a1d29',
     'paper': '#242837',
@@ -74,7 +73,6 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
     print("GERANDO DASHBOARD ÚNICO COM TODAS AS VISUALIZAÇÕES")
     print("="*70 + "\n")
     
-    # 1. PREPARAR DADOS DO GRAFO PRINCIPAL
     print("Preparando dados do grafo principal...")
     pos = spring_layout(grafo, k=1.5, iterations=50, seed=42)
     
@@ -85,7 +83,6 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
     for _, row in df_bairros.iterrows():
         micro_dict[row['bairro']] = row.get('microrregiao', 'N/A')
     
-    # Preparar dados para interatividade (calculador de rotas)
     nodes_data = []
     for no in grafo.nodes():
         x, y = pos[no]
@@ -121,51 +118,41 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
     edges_json = json.dumps(edges_data)
     bairros_json = json.dumps(bairros_list)
     
-    # 2. CRIAR VISUALIZAÇÕES
-    
-    # 2.1 - Grafo Principal Interativo
     print("Criando grafo principal...")
     grafo_principal_dict = criar_grafo_principal(grafo, pos, graus, densidades, micro_dict)
     fig1 = go.Figure(data=grafo_principal_dict['data'], layout=grafo_principal_dict['layout'])
     grafo_principal_json = json.loads(fig1.to_json())
     
-    # 2.2 - Mapa de Calor por Grau
     print("Criando mapa de calor...")
     mapa_calor_dict = criar_mapa_calor_grau(grafo, pos, graus)
     fig2 = go.Figure(data=mapa_calor_dict['data'], layout=mapa_calor_dict['layout'])
     mapa_calor_json = json.loads(fig2.to_json())
     
-    # 2.3 - Top 10 Bairros
     print("Criando subgrafo Top 10...")
     top10_dict = criar_top10_subgrafo(grafo, graus)
     fig3 = go.Figure(data=top10_dict['data'], layout=top10_dict['layout'])
     top10_json = json.loads(fig3.to_json())
     
-    # 2.4 - Distribuição de Graus
     print("Criando distribuição de graus...")
     distribuicao_dict = criar_distribuicao_graus(graus)
     fig4 = go.Figure(data=distribuicao_dict['data'], layout=distribuicao_dict['layout'])
     distribuicao_json = json.loads(fig4.to_json())
     
-    # 2.5 - Árvore BFS
     print("Criando árvore BFS...")
     arvore_bfs_dict = criar_arvore_bfs(grafo, "Boa Vista")
     fig5 = go.Figure(data=arvore_bfs_dict['data'], layout=arvore_bfs_dict['layout'])
     arvore_bfs_json = json.loads(fig5.to_json())
     
-    # 2.6 - Árvore de Percurso (Nova Descoberta → Boa Viagem)
     print("Criando árvore de percurso...")
     arvore_percurso_dict = criar_arvore_percurso(grafo, "Nova Descoberta", "Boa Viagem", pos)
     fig6 = go.Figure(data=arvore_percurso_dict['data'], layout=arvore_percurso_dict['layout'])
     arvore_percurso_json = json.loads(fig6.to_json())
     
-    # 2.7 - Ranking de Densidade
     print("Criando ranking de densidade...")
     ranking_dict = criar_ranking_densidade(densidades, micro_dict)
     fig7 = go.Figure(data=ranking_dict['data'], layout=ranking_dict['layout'])
     ranking_json = json.loads(fig7.to_json())
     
-    # 3. GERAR HTML ÚNICO
     print("\nGerando HTML unificado...")
     
     html = f"""<!DOCTYPE html>

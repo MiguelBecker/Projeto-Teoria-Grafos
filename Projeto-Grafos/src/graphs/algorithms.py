@@ -127,7 +127,6 @@ def bellman_ford(grafo: Graph, origem: str) -> Tuple[Dict[str, float], Dict[str,
     nos = grafo.nodes()
     arestas = grafo.edges()
     
-    # Relaxamento de arestas (V-1 iterações)
     for _ in range(len(nos) - 1):
         for u, v, peso, _ in arestas:
             if distancias[u] + peso < distancias[v]:
@@ -137,7 +136,6 @@ def bellman_ford(grafo: Graph, origem: str) -> Tuple[Dict[str, float], Dict[str,
                 distancias[u] = distancias[v] + peso
                 predecessores[u] = v
     
-    # Verificação de ciclo negativo
     tem_ciclo_negativo = False
     for u, v, peso, _ in arestas:
         if distancias[u] + peso < distancias[v]:
@@ -178,18 +176,15 @@ def densidade_ego(grafo: Graph, no: str) -> float:
     if no not in grafo.nodes():
         return 0.0
     
-    # Coletar vizinhos
     vizinhos = set()
     for v, _, _ in grafo.neighbors(no):
         vizinhos.add(v)
     
-    # Ego-subrede inclui o nó central e seus vizinhos
     ego_nos = {no} | vizinhos
     
     if len(ego_nos) <= 1:
         return 0.0
     
-    # Contar arestas dentro da ego-subrede
     arestas_ego = 0
     arestas_vistas = set()
     
@@ -201,7 +196,6 @@ def densidade_ego(grafo: Graph, no: str) -> float:
                     arestas_vistas.add(aresta)
                     arestas_ego += 1
     
-    # Número máximo de arestas possíveis em um grafo não-direcionado
     n = len(ego_nos)
     arestas_possiveis = n * (n - 1) / 2
     

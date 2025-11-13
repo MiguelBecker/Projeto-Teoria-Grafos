@@ -133,7 +133,6 @@ def processar_adjacencias():
     if 'observacao' not in df.columns:
         df['observacao'] = ''
     
-    # Verificar se já tem pesos calculados
     if 'peso' in df.columns and df['peso'].notna().all():
         print("\n⚠️  Os pesos já foram calculados anteriormente!")
         print("   Extraindo apenas tipo de via para estatísticas...")
@@ -148,13 +147,11 @@ def processar_adjacencias():
         
         return df
     
-    # Calcular pesos apenas se não existirem ou se houver coluna pavimentacao
     novos_pesos = []
     tipos_via = []
     detalhes_calculo = []
     
-    # Usar pavimentação padrão (asfalto) se não houver coluna
-    pavimentacao_default = '1'  # asfalto
+    pavimentacao_default = '1'
     
     for idx, row in df.iterrows():
         pav = row.get('pavimentacao', pavimentacao_default)
@@ -175,7 +172,6 @@ def processar_adjacencias():
     df['peso'] = novos_pesos
     df['tipo_via'] = tipos_via  
     
-    # Ordenar colunas (sem pavimentacao se não existir)
     if 'pavimentacao' in df.columns:
         colunas_ordenadas = ['bairro_origem', 'bairro_destino', 'logradouro', 
                              'pavimentacao', 'tipo_via', 'observacao', 'peso']
@@ -372,7 +368,6 @@ def main():
         
         gerar_documentacao()
         
-        # Exibe resumo
         print("\n" + "=" * 70)
         print("RESUMO DA OPERAÇÃO")
         print("=" * 70)

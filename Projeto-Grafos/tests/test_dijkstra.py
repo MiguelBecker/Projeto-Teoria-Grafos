@@ -1,7 +1,6 @@
 import sys
 import os
 
-# Adiciona o diretório src ao path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
 SRC_DIR = os.path.join(ROOT_DIR, "src")
@@ -15,7 +14,6 @@ from graphs.algorithms import dijkstra, reconstruir_caminho
 def test_dijkstra_simples():
     print("\n=== Teste 1: Dijkstra Simples ===")
     
-    # Cria grafo: A -1- B -2- C
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 2.0)
@@ -31,16 +29,8 @@ def test_dijkstra_simples():
 
 
 def test_dijkstra_caminho_mais_curto():
-    """Teste de Dijkstra escolhendo caminho mais curto."""
     print("\n=== Teste 2: Dijkstra Caminho Mais Curto ===")
     
-    # Cria grafo com dois caminhos:
-    #     A -5- B
-    #     |     |
-    #     1     1
-    #     |     |
-    #     C -1- D
-
     g = Graph()
     g.add_edge("A", "B", 5.0)
     g.add_edge("A", "C", 1.0)
@@ -63,7 +53,6 @@ def test_dijkstra_caminho_mais_curto():
 def test_dijkstra_no_isolado():
     print("\n=== Teste 3: Dijkstra Nó Isolado ===")
     
-    # Cria grafo: A - B    C (isolado)
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_node("C")
@@ -81,12 +70,6 @@ def test_dijkstra_no_isolado():
 def test_dijkstra_pesos_diferentes():
     print("\n=== Teste 4: Dijkstra Pesos Diferentes ===")
     
-    # Cria grafo:
-    #     A -1- B
-    #     |     |
-    #     4     2
-    #     |     |
-    #     C -1- D
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("A", "C", 4.0)
@@ -108,12 +91,6 @@ def test_dijkstra_pesos_diferentes():
 def test_dijkstra_grafo_completo():
     print("\n=== Teste 5: Dijkstra Grafo Completo ===")
     
-    # Cria triângulo com pesos:
-    #     A -1- B
-    #      \   /
-    #       3 2
-    #        \/
-    #        C
     g = Graph()
     g.add_edge("A", "B", 1.0)
     g.add_edge("B", "C", 2.0)
