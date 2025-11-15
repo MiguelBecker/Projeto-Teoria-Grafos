@@ -1,0 +1,941 @@
+\documentclass[12pt,a4paper]{report}
+\UseRawInputEncoding
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{caption}
+\captionsetup{labelformat=empty}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{0.5em}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    breaklines=true,
+    tabsize=4,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    literate=
+        {á}{{\'a}}1
+        {ã}{{\~a}}1
+        {â}{{\^a}}1
+        {à}{{\`a}}1
+        {ç}{{\c c}}1
+        {é}{{\'e}}1
+        {ê}{{\^e}}1
+        {í}{{\'i}}1
+        {ó}{{\'o}}1
+        {ô}{{\^o}}1
+        {õ}{{\~o}}1
+        {ú}{{\'u}}1
+        {ü}{{\"u}}1
+        {_}{{\_}}1
+}
+
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+\vspace*{5pt}
+{\parindent \z@
+\normalfont\Large\bfseries #1\par\nobreak
+\vskip 15pt
+}}
+\makeatother
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+\frenchspacing
+
+\begin{titlepage}
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.2\textwidth]{logo.png}
+\end{figure}
+
+\vspace{1cm}
+
+\large
+\textbf{FACULDADE CESAR SCHOOL}\\
+CURSO DE GRADUAÇÃO EM CIÊNCIA DA COMPUTAÇÃO
+
+\vfill
+
+\Huge\textbf{Análise de Redes de Bairros do Recife: Aplicação de Teoria de Grafos}
+
+
+\vfill
+
+\large
+\textbf{Júlia Sales\\
+Miguel Becker\\
+Thiago Queiroz
+}
+
+\vfill
+
+\normalsize
+Recife \\
+Novembro/2025
+
+\end{center}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\renewcommand{\chaptername}{}
+\renewcommand{\thechapter}{}
+
+\chapter{1. Resumo}
+Este trabalho apresenta uma análise computacional da rede de bairros da cidade do Recife sob a perspectiva da Teoria de Grafos. A aplicação foi desenvolvida em Python e utiliza estruturas de dados eficientes (listas de adjacência) para representar a malha urbana, permitindo a aplicação de algoritmos clássicos de grafos como BFS, DFS, Dijkstra e Bellman-Ford.
+
+O sistema implementa funcionalidades completas de análise de redes, incluindo cálculo de métricas topológicas (densidade, grau médio, componentes conexos), determinação de caminhos mínimos ponderados entre localidades, e geração de visualizações interativas. Os pesos das arestas foram calculados considerando características reais das vias, como tipo de pavimentação e presença de obstáculos.
+
+A validação do sistema foi realizada através de uma suíte de 26 testes unitários, confirmando a correção dos algoritmos implementados. Os resultados demonstram a viabilidade da aplicação de grafos para modelagem e análise de redes urbanas reais.
+
+\chapter{2. Introdução}
+
+A Teoria de Grafos desempenha papel fundamental na modelagem e análise de redes em diversos domínios, incluindo redes de transporte, sistemas de comunicação e planejamento urbano. Este projeto aplica conceitos fundamentais de grafos para analisar a estrutura de conectividade entre os bairros do Recife.
+
+\section{2.1. Objetivos}
+Os principais objetivos deste trabalho incluem:
+
+\begin{itemize}
+    \item Modelar a rede de bairros do Recife como um grafo não-direcionado ponderado
+    \item Implementar algoritmos clássicos de busca e caminho mínimo
+    \item Calcular métricas topológicas da rede (densidade, grau médio, ego-networks)
+    \item Desenvolver sistema de pesos baseado em características reais das vias
+    \item Determinar rotas ótimas entre localidades específicas
+    \item Gerar visualizações interativas para análise exploratória
+    \item Validar a implementação através de testes automatizados
+\end{itemize}
+
+\section{2.2. Escopo}
+O projeto abrange 94 bairros da cidade do Recife, organizados em 6 microrregiões, com 244 conexões viárias mapeadas. Cada conexão (aresta) possui atributos como nome do logradouro, tipo de via, pavimentação e peso calculado.
+
+\chapter{3. Fundamentação Teórica}
+
+\section{3.1. Definições Básicas}
+
+Um grafo $G = (V, E)$ é definido por um conjunto de vértices $V$ e um conjunto de arestas $E \subseteq V \times V$. No contexto deste projeto:
+
+\begin{itemize}
+    \item \textbf{Vértices (V):} Representam os bairros do Recife
+    \item \textbf{Arestas (E):} Representam conexões viárias entre bairros adjacentes
+    \item \textbf{Pesos ($w: E \rightarrow \mathbb{R}^+$):} Representam o custo de travessia de cada via
+\end{itemize}
+
+\section{3.2. Algoritmos Implementados}
+
+\subsection{3.2.1. Busca em Largura (BFS)}
+A Busca em Largura explora o grafo em níveis, visitando todos os vizinhos de um nó antes de prosseguir para o próximo nível. Complexidade: $O(V + E)$.
+
+\textbf{Aplicação:} Cálculo de distâncias em número de arestas, análise de componentes conexos.
+
+\subsection{3.2.2. Busca em Profundidade (DFS)}
+A Busca em Profundidade explora o grafo seguindo cada ramo até sua extremidade antes de retroceder. Complexidade: $O(V + E)$.
+
+\textbf{Aplicação:} Detecção de ciclos, análise de conectividade.
+
+\subsection{3.2.3. Algoritmo de Dijkstra}
+O algoritmo de Dijkstra determina o caminho de menor custo em grafos com pesos não-negativos. Utiliza uma fila de prioridade para selecionar o próximo nó a processar. Complexidade: $O((V + E) \log V)$.
+
+\textbf{Aplicação:} Cálculo de rotas ótimas entre endereços considerando os pesos das vias.
+
+\subsection{3.2.4. Algoritmo de Bellman-Ford}
+O algoritmo de Bellman-Ford calcula caminhos mínimos mesmo em grafos com pesos negativos e detecta ciclos negativos. Complexidade: $O(V \cdot E)$.
+
+\textbf{Aplicação:} Validação dos resultados do Dijkstra, análise robusta de caminhos.
+
+\section{3.3. Métricas de Rede}
+
+\subsection{3.3.1. Densidade}
+A densidade de um grafo é definida como:
+$$\rho = \frac{2|E|}{|V|(|V|-1)}$$
+
+Representa a proporção de conexões existentes em relação ao total possível.
+
+\subsection{3.3.2. Grau Médio}
+O grau médio quantifica a conectividade média da rede:
+$$\langle k \rangle = \frac{1}{|V|} \sum_{v \in V} \deg(v) = \frac{2|E|}{|V|}$$
+
+\subsection{3.3.3. Ego-Network}
+A ego-network de um nó $v$ é o subgrafo induzido por $v$ e seus vizinhos imediatos, utilizada para análise local de conectividade.
+
+\chapter{4. Metodologia}
+
+\section{4.1. Estrutura de Dados}
+
+A implementação utiliza listas de adjacência para representação eficiente do grafo. Cada nó mantém uma lista de tuplas $(vizinho, peso, metadados)$.
+
+\begin{lstlisting}[caption={Estrutura do Grafo}]
+from dataclasses import dataclass
+from typing import Dict, List, Tuple
+
+@dataclass
+class EdgeMeta:
+    logradouro: str | None = None
+    observacao: str | None = None
+
+class Graph:
+    def __init__(self):
+        self._adj: Dict[str, List[Tuple[str, float, EdgeMeta]]] = {}
+    
+    def add_edge(self, u: str, v: str, w: float = 1.0, 
+                 meta: EdgeMeta | None = None):
+        self.add_node(u)
+        self.add_node(v)
+        self._adj[u].append((v, w, meta))
+        self._adj[v].append((u, w, meta))
+    
+    def neighbors(self, u: str):
+        return self._adj.get(u, [])
+\end{lstlisting}
+
+\section{4.2. Sistema de Cálculo de Pesos}
+
+Os pesos das arestas foram calculados utilizando a fórmula:
+
+$$peso_{final} = (peso_{base} \times fator_{pavimentacao}) + penalidades$$
+
+\subsection{4.2.1. Componentes do Peso}
+
+\textbf{Peso Base (tipo de via):}
+\begin{itemize}
+    \item Avenida: 1.0
+    \item Ponte: 1.5
+    \item Rua: 2.0
+    \item Viaduto: 2.5
+    \item Estrada: 3.0
+\end{itemize}
+
+\textbf{Fator de Pavimentação:}
+\begin{itemize}
+    \item Asfalto: $\times$ 1.0
+    \item Paralelepípedo: $\times$ 1.3
+    \item Escadaria: $\times$ 1.5
+    \item Sem pavimentação: $\times$ 2.0
+\end{itemize}
+
+\textbf{Penalidades:}
+\begin{itemize}
+    \item Ponte/Viaduto: +0.5
+    \item Semáforos: +0.3 cada
+\end{itemize}
+
+\section{4.3. Processamento de Dados}
+
+\subsection{4.3.1. Etapa 1: Normalização dos Bairros}
+O dataset original continha inconsistências de nomenclatura e acentuação. Foi desenvolvido um processo de normalização que:
+\begin{itemize}
+    \item Remove acentuação para chaves de busca
+    \item Mantém a grafia original para exibição
+    \item Resolve duplicatas e variações de nome
+\end{itemize}
+
+\subsection{4.3.2. Etapa 2: Construção do Grafo}
+Leitura do arquivo \texttt{adjacencias\_bairros.csv} contendo:
+\begin{itemize}
+    \item Bairro origem e destino
+    \item Nome do logradouro
+    \item Observações sobre pavimentação
+    \item Peso calculado
+\end{itemize}
+
+\subsection{4.3.3. Etapa 3: Cálculo de Métricas}
+Aplicação dos algoritmos para extrair:
+\begin{itemize}
+    \item Métricas globais (densidade, grau médio, componentes)
+    \item Métricas por microrregião
+    \item Ego-networks individuais
+    \item Rankings de conectividade
+\end{itemize}
+
+\section{4.4. Análise de Caminhos Mínimos}
+
+Foi implementado um sistema completo de análise de rotas entre endereços:
+
+\begin{enumerate}
+    \item Normalização dos nomes dos bairros de origem e destino
+    \item Aplicação do algoritmo de Dijkstra
+    \item Reconstrução do caminho ótimo
+    \item Cálculo do custo total
+    \item Detalhamento trecho a trecho
+\end{enumerate}
+
+\section{4.5. Visualizações}
+
+O sistema gera visualizações interativas utilizando Plotly:
+
+\begin{itemize}
+    \item \textbf{Grafo completo:} Visualização da rede completa de bairros
+    \item \textbf{Árvore de percurso:} Destaque do caminho entre dois pontos
+    \item \textbf{Dashboard analítico:} Métricas e estatísticas consolidadas
+\end{itemize}
+
+\chapter{5. Resultados}
+
+\section{5.1. Características da Rede}
+
+A análise revelou as seguintes características da rede de bairros do Recife:
+
+\begin{itemize}
+    \item \textbf{Número de nós (bairros):} 94
+    \item \textbf{Número de arestas (conexões):} 244
+    \item \textbf{Densidade da rede:} $\rho \approx 0.056$
+    \item \textbf{Grau médio:} $\langle k \rangle \approx 5.19$
+    \item \textbf{Componentes conexos:} 1 (rede totalmente conectada)
+\end{itemize}
+
+\section{5.2. Distribuição de Pesos}
+
+A análise dos pesos calculados das arestas mostrou:
+
+\begin{itemize}
+    \item \textbf{Peso mínimo:} 1.0 (vias ideais: avenidas asfaltadas)
+    \item \textbf{Peso máximo:} 6.0 (vias de maior custo)
+    \item \textbf{Peso médio:} 1.71
+    \item \textbf{Mediana:} 1.0
+\end{itemize}
+
+\section{5.3. Caso de Estudo: Nova Descoberta \texorpdfstring{$\rightarrow$}{→} Boa Viagem}
+
+Foi analisado o percurso entre Nova Descoberta e Boa Viagem (região de Setúbal):
+
+\begin{itemize}
+    \item \textbf{Custo total:} 10.3
+    \item \textbf{Número de bairros percorridos:} 10
+    \item \textbf{Número de trechos:} 9
+\end{itemize}
+
+\textbf{Caminho encontrado:}
+\begin{enumerate}
+    \item Nova Descoberta $\rightarrow$ Córrego do Jenipapo (custo: 1.3)
+    \item Córrego do Jenipapo $\rightarrow$ Dois Irmãos (custo: 1.0)
+    \item Dois Irmãos $\rightarrow$ Caxangá (custo: 1.0)
+    \item Caxangá $\rightarrow$ Várzea (custo: 1.0)
+    \item Várzea $\rightarrow$ Curado (custo: 1.0)
+    \item Curado $\rightarrow$ Jardim São Paulo (custo: 1.0)
+    \item Jardim São Paulo $\rightarrow$ Areias (custo: 1.0)
+    \item Areias $\rightarrow$ Ibura (custo: 2.0)
+    \item Ibura $\rightarrow$ Boa Viagem (custo: 1.0)
+\end{enumerate}
+
+O trecho com maior custo foi Areias $\rightarrow$ Ibura (2.0), provavelmente devido ao tipo de via ou pavimentação menos favorável.
+
+\section{5.4. Validação dos Algoritmos}
+
+Foi desenvolvida uma suíte completa de testes cobrindo todos os algoritmos:
+
+\subsection{5.4.1. Testes de BFS (6 casos)}
+\begin{itemize}
+    \item Grafo simples
+    \item Grafo desconectado
+    \item Estrutura em árvore
+    \item Tratamento de nós inexistentes
+    \item Grafos com ciclos
+    \item Grafo completo
+\end{itemize}
+
+\subsection{5.4.2. Testes de DFS (6 casos)}
+\begin{itemize}
+    \item Grafo simples
+    \item Grafo desconectado
+    \item Nós inexistentes
+    \item Grafos com ciclos
+    \item Ordem de visitação
+    \item Grafo estrela
+\end{itemize}
+
+\subsection{5.4.3. Testes de Dijkstra (7 casos)}
+\begin{itemize}
+    \item Caminho simples
+    \item Seleção do caminho mais curto
+    \item Nós isolados
+    \item Pesos diferentes
+    \item Grafo completo
+    \item Reconstrução de caminho
+    \item Nós inexistentes
+\end{itemize}
+
+\subsection{5.4.4. Testes de Bellman-Ford (7 casos)}
+\begin{itemize}
+    \item Caminho simples
+    \item Pesos positivos
+    \item Nós isolados
+    \item Ciclos positivos
+    \item Grafo completo
+    \item Nós inexistentes
+    \item Caminho linear
+\end{itemize}
+
+\textbf{Resultado:} 26/26 testes passaram com sucesso, validando a correção da implementação.
+
+\section{5.5. Visualizações Geradas}
+
+O sistema produziu as seguintes saídas visuais:
+
+\begin{itemize}
+    \item \texttt{out/dashboard\_interativo.html}: Dashboard consolidado com todas as visualizações
+    \item \texttt{out/arvore\_percurso.html}: Visualização interativa da árvore de percurso
+    \item Gráficos de métricas por microrregião
+    \item Ranking de densidade dos bairros
+\end{itemize}
+
+\chapter{6. Parte 2: Dataset Maior e Comparação de Algoritmos}
+
+A segunda parte do projeto envolveu experimentos com um dataset de larga escala para avaliar o desempenho e escalabilidade dos algoritmos implementados.
+
+\section{6.1. Descrição do Dataset}
+
+Foi utilizado o dataset \textbf{rec-libimseti} \cite{networkrepository, brozovsky2007recommender}, obtido do Network Data Repository\footnote{\url{https://networkrepository.com/rec-libimseti-dir.php}}, que contém dados de um serviço de encontros online (recommender system for online dating service).
+
+Características do dataset:
+
+\begin{itemize}
+    \item \textbf{Número de nós ($|V|$):} 220.970
+    \item \textbf{Número de arestas ($|E|$):} 17.359.346
+    \item \textbf{Tipo:} Não-direcionado, ponderado
+    \item \textbf{Grau mínimo:} 1
+    \item \textbf{Grau máximo:} 33.389
+    \item \textbf{Grau médio:} $\langle k \rangle \approx 157.12$
+\end{itemize}
+
+\subsection{6.1.1. Distribuição de Graus}
+
+A distribuição de graus apresentou características de rede livre de escala (scale-free):
+
+\begin{itemize}
+    \item 19.707 nós com grau 1 (nós periféricos)
+    \item 6.903 nós com grau 2
+    \item Concentração em graus intermediários (20-30): $\sim$25.000 nós
+    \item Pequeno número de hubs com grau muito alto ($>1000$)
+\end{itemize}
+
+Esta distribuição é típica de redes reais como redes sociais, onde a maioria dos nós tem poucas conexões, mas alguns hubs centrais conectam-se a muitos outros nós.
+
+\section{6.2. Experimentos BFS/DFS}
+
+Foram executados BFS e DFS a partir de 3 fontes distintas selecionadas aleatoriamente.
+
+\subsection{6.2.1. Resultados BFS}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Fonte} & \textbf{Nós Alcançados} & \textbf{Camadas} & \textbf{Tempo (s)} \\
+\hline
+156148 & 220.970 & 5 & 14.01 \\
+114556 & 220.970 & 5 & 13.41 \\
+164437 & 220.970 & 6 & 14.07 \\
+\hline
+\end{tabular}
+\caption{Resultados de BFS no dataset maior}
+\end{table}
+
+\textbf{Observações:}
+\begin{itemize}
+    \item Todas as fontes alcançaram todos os 220.970 nós (grafo conexo)
+    \item Diâmetro efetivo: 5-6 saltos (small-world property)
+    \item Tempo médio: $\sim$13.8 segundos para $|V| + |E| \approx 17.6M$ operações
+\end{itemize}
+
+\subsection{6.2.2. Resultados DFS}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Fonte} & \textbf{Nós Visitados} & \textbf{Tempo (s)} \\
+\hline
+156148 & 220.970 & 22.14 \\
+114556 & 220.970 & 21.19 \\
+164437 & 220.970 & 22.61 \\
+\hline
+\end{tabular}
+\caption{Resultados de DFS no dataset maior}
+\end{table}
+
+\textbf{Análise de Desempenho:}
+\begin{itemize}
+    \item DFS $\sim$60\% mais lento que BFS ($\sim$22s vs $\sim$14s)
+    \item Causa: Padrão de acesso à memória menos favorável ao cache
+    \item Ambos mantêm complexidade $O(V + E)$ linear
+\end{itemize}
+
+\section{6.3. Experimentos Dijkstra}
+
+Foram testados 5 pares origem-destino com pesos não-negativos:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|r|r|r|}
+\hline
+\textbf{Origem} & \textbf{Destino} & \textbf{Custo} & \textbf{Caminho} & \textbf{Tempo (s)} \\
+\hline
+156148 & 83773 & 9.0 & 5 nós & 21.29 \\
+31116 & 33639 & 2.0 & 3 nós & 20.69 \\
+90280 & 71636 & 4.0 & 4 nós & 20.04 \\
+164437 & 156148 & 19.0 & 6 nós & 19.61 \\
+114556 & 182742 & 15.0 & 7 nós & 20.39 \\
+\hline
+\multicolumn{4}{|r|}{\textbf{Tempo médio:}} & \textbf{20.40s} \\
+\hline
+\end{tabular}
+\caption{Resultados de Dijkstra no dataset maior}
+\end{table}
+
+\textbf{Análise:}
+\begin{itemize}
+    \item Caminhos mínimos variando de 2.0 a 19.0 (pesos unitários ou próximos)
+    \item Tempo consistente ($\sim$20s) independente do par
+    \item Complexidade observada: $O((V + E) \log V)$
+    \item Overhead da fila de prioridade notável em grafos densos
+\end{itemize}
+
+\section{6.4. Experimentos Bellman-Ford}
+
+Foram testados dois casos com pesos negativos:
+
+\subsection{6.4.1. Caso 1: Pesos Negativos sem Ciclo Negativo}
+
+Grafo de teste:
+\begin{itemize}
+    \item Arestas: $A \xrightarrow{4} B \xrightarrow{-2} C \xrightarrow{1} D$
+    \item Aresta adicional: $A \xrightarrow{5} C$
+\end{itemize}
+
+\textbf{Resultados:}
+\begin{itemize}
+    \item Origem: A
+    \item Distâncias: $d(A)=0$, $d(B)=4$, $d(C)=2$, $d(D)=3$
+    \item Ciclo negativo detectado: Não
+    \item Tempo: $4.1 \times 10^{-5}$s (grafo pequeno)
+\end{itemize}
+
+O algoritmo corretamente encontrou que $A \to B \to C$ (custo 2) é mais barato que $A \to C$ (custo 5).
+
+\subsection{6.4.2. Caso 2: Grafo com Ciclo Negativo}
+
+Grafo de teste:
+\begin{itemize}
+    \item Ciclo: $X \xrightarrow{1} Y \xrightarrow{-3} Z \xrightarrow{1} X$
+    \item Soma de pesos no ciclo: $1 + (-3) + 1 = -1 < 0$
+\end{itemize}
+
+\textbf{Resultados:}
+\begin{itemize}
+    \item Origem: X
+    \item Ciclo negativo detectado: \textbf{Sim}
+    \item Distâncias: null (indefinidas devido ao ciclo)
+    \item Tempo: $1.9 \times 10^{-5}$s
+\end{itemize}
+
+O algoritmo detectou corretamente a presença do ciclo negativo, retornando flag de erro.
+
+\section{6.5. Comparação de Desempenho}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|l|}
+\hline
+\textbf{Algoritmo} & \textbf{Complexidade} & \textbf{Tempo Médio} & \textbf{Caso de Uso} \\
+\hline
+BFS & $O(V + E)$ & 13.8s & Caminho mais curto (não-ponderado) \\
+DFS & $O(V + E)$ & 21.9s & Exploração, ciclos, conectividade \\
+Dijkstra & $O((V+E)\log V)$ & 20.4s & Caminho mínimo (pesos $\geq 0$) \\
+Bellman-Ford & $O(V \cdot E)$ & N/A* & Pesos negativos, detecção ciclos \\
+\hline
+\end{tabular}
+\caption{Comparação de complexidade e desempenho (*não aplicável ao dataset grande devido a $V \cdot E \approx 3.8 \times 10^{15}$)}
+\end{table}
+
+\subsection{6.5.1. Análise Crítica}
+
+\textbf{Quando usar cada algoritmo:}
+
+\begin{enumerate}
+    \item \textbf{BFS:} Melhor escolha para grafos não-ponderados ou quando se deseja o menor número de arestas. Mais rápido que DFS em grafos densos.
+    
+    \item \textbf{DFS:} Preferível para detecção de ciclos, ordenação topológica, ou quando a estrutura em profundidade importa. Usa menos memória que BFS em grafos esparsos.
+    
+    \item \textbf{Dijkstra:} Escolha padrão para caminhos mínimos em grafos com pesos não-negativos. Eficiente até centenas de milhares de nós com fila de prioridade bem implementada.
+    
+    \item \textbf{Bellman-Ford:} Necessário apenas quando há pesos negativos ou quando se precisa detectar ciclos negativos. Inviável para grafos muito grandes ($|E| > 10^6$) devido à complexidade $O(V \cdot E)$.
+\end{enumerate}
+
+\subsection{6.5.2. Limites do Design de Pesos}
+
+O sistema de pesos implementado possui algumas limitações:
+
+\begin{itemize}
+    \item \textbf{Pesos estáticos:} Não capturam variações temporais (tráfego, clima)
+    \item \textbf{Heurísticas simplificadas:} Não baseadas em medições reais
+    \item \textbf{Ausência de contexto:} Não consideram modo de transporte, acessibilidade
+    \item \textbf{Granularidade:} Pesos discretizados podem não refletir diferenças sutis
+\end{itemize}
+
+Para aplicações críticas, seria necessário:
+\begin{itemize}
+    \item Calibração com dados reais de GPS/sensoriamento
+    \item Atualização dinâmica baseada em condições de tráfego
+    \item Pesos dependentes de contexto (hora do dia, dia da semana)
+    \item Modelagem multi-critério (tempo, distância, custo, segurança)
+\end{itemize}
+
+\chapter{7. Discussão}
+
+\section{7.1. Interpretação dos Resultados}
+
+A densidade relativamente baixa ($\rho \approx 0.056$) indica que a rede de bairros do Recife possui estrutura esparsa, com cada bairro conectado em média a aproximadamente 5 outros bairros. Este padrão é característico de malhas urbanas reais, onde as conexões são limitadas pela geografia e planejamento urbano.
+
+A presença de um único componente conexo confirma que é possível transitar entre quaisquer dois bairros seguindo as conexões viárias mapeadas, característica essencial para a mobilidade urbana.
+
+\section{7.2. Sistema de Pesos}
+
+O sistema de pesos implementado captura adequadamente as características das vias:
+
+\begin{itemize}
+    \item Vias principais (avenidas asfaltadas) recebem pesos menores
+    \item Obstáculos (pontes, viadutos) aumentam o custo
+    \item Pavimentação precária aumenta o custo de travessia
+\end{itemize}
+
+A distribuição concentrada em pesos baixos (mediana 1.0) indica que a maioria das conexões utiliza vias de boa qualidade.
+
+\section{7.3. Eficiência dos Algoritmos}
+
+A implementação utilizando listas de adjacência garantiu eficiência nas operações:
+
+\begin{itemize}
+    \item BFS/DFS: $O(V + E) = O(94 + 244) \approx O(338)$ 
+    \item Dijkstra: $O((V + E) \log V) \approx O(2284)$
+    \item Bellman-Ford: $O(V \cdot E) = O(22936)$
+\end{itemize}
+
+Todos os algoritmos executam em tempo aceitável para o tamanho da rede.
+
+\section{7.4. Limitações}
+
+Algumas limitações identificadas:
+
+\begin{itemize}
+    \item Os pesos são estimativas baseadas em heurísticas, não medições reais de tempo ou distância
+    \item O modelo não considera tráfego dinâmico ou horários de pico
+    \item Algumas conexões viárias podem não estar mapeadas
+    \item O sistema atual não suporta múltiplos modos de transporte
+\end{itemize}
+
+\chapter{8. Código-Fonte}
+
+O código-fonte completo encontra-se disponível em repositório GitHub:
+
+\href{https://github.com/MiguelBecker/Projeto-Teoria-Grafos}{https://github.com/MiguelBecker/Projeto-Teoria-Grafos}
+
+\section{8.1. Módulo Principal: Graph}
+
+\begin{lstlisting}[caption={Implementação da estrutura de grafo}]
+from dataclasses import dataclass
+from typing import Dict, List, Tuple
+
+@dataclass
+class EdgeMeta:
+    logradouro: str | None = None
+    observacao: str | None = None
+
+class Graph:
+    def __init__(self):
+        self._adj: Dict[str, List[Tuple[str, float, EdgeMeta]]] = {}
+
+    def add_node(self, u: str):
+        if u not in self._adj:
+            self._adj[u] = []
+
+    def add_edge(self, u: str, v: str, w: float = 1.0, 
+                 meta: EdgeMeta | None = None):
+        if meta is None:
+            meta = EdgeMeta()
+        self.add_node(u)
+        self.add_node(v)
+        self._adj[u].append((v, w, meta))
+        self._adj[v].append((u, w, meta))
+
+    def neighbors(self, u: str):
+        return self._adj.get(u, [])
+
+    def nodes(self):
+        return list(self._adj.keys())
+
+    def degree(self, u: str) -> int:
+        return len(self._adj.get(u, []))
+
+    def order(self) -> int:
+        return len(self._adj)
+
+    def size(self) -> int:
+        return sum(len(v) for v in self._adj.values()) // 2
+\end{lstlisting}
+
+\section{8.2. Algoritmos de Busca (BFS e DFS)}
+
+\begin{lstlisting}[caption={Implementação de BFS e DFS}]
+from collections import deque
+from typing import Dict
+
+def bfs(grafo: Graph, origem: str) -> Dict[str, int]:
+    """
+    Busca em largura (BFS) a partir de um no origem.
+    Retorna um dicionario com as distancias de cada no ate a origem.
+    """
+    if origem not in grafo.nodes():
+        return {}
+    
+    distancias = {origem: 0}
+    fila = deque([origem])
+    
+    while fila:
+        atual = fila.popleft()
+        dist_atual = distancias[atual]
+        
+        for vizinho, _, _ in grafo.neighbors(atual):
+            if vizinho not in distancias:
+                distancias[vizinho] = dist_atual + 1
+                fila.append(vizinho)
+    
+    return distancias
+
+def dfs(grafo: Graph, origem: str) -> Dict[str, int]:
+    """
+    Busca em profundidade (DFS) a partir de um no origem.
+    Retorna um dicionario com a ordem de visitacao.
+    """
+    if origem not in grafo.nodes():
+        return {}
+    
+    visitados = {}
+    pilha = [origem]
+    ordem = 0
+    
+    while pilha:
+        no = pilha.pop()
+        
+        if no in visitados:
+            continue
+        
+        visitados[no] = ordem
+        ordem += 1
+        
+        # Adiciona vizinhos a pilha
+        vizinhos = [v for v, _, _ in grafo.neighbors(no)]
+        for vizinho in reversed(vizinhos):
+            if vizinho not in visitados:
+                pilha.append(vizinho)
+    
+    return visitados
+\end{lstlisting}
+
+\section{8.3. Algoritmo de Dijkstra}
+
+\begin{lstlisting}[caption={Implementação do algoritmo de Dijkstra}]
+import heapq
+from typing import Dict, Tuple
+
+def dijkstra(grafo: Graph, origem: str) -> Tuple[Dict[str, float], Dict[str, str]]:
+    """
+    Algoritmo de Dijkstra para caminho minimo.
+    
+    Retorna:
+        distancias: dicionario {no: distancia_minima}
+        predecessores: dicionario {no: no_anterior_no_caminho}
+    """
+    distancias = {origem: 0.0}
+    predecessores = {origem: None}
+    heap = [(0.0, origem)]
+    
+    while heap:
+        dist_atual, u = heapq.heappop(heap)
+        
+        if dist_atual > distancias.get(u, float('inf')):
+            continue
+        
+        for v, peso, _ in grafo.neighbors(u):
+            nova_dist = dist_atual + peso
+            
+            if nova_dist < distancias.get(v, float('inf')):
+                distancias[v] = nova_dist
+                predecessores[v] = u
+                heapq.heappush(heap, (nova_dist, v))
+    
+    return distancias, predecessores
+
+def reconstruir_caminho(predecessores: Dict[str, str], 
+                        destino: str) -> List[str]:
+    """Reconstroi o caminho a partir dos predecessores."""
+    if destino not in predecessores:
+        return []
+    
+    caminho = []
+    atual = destino
+    
+    while atual is not None:
+        caminho.append(atual)
+        atual = predecessores[atual]
+    
+    return list(reversed(caminho))
+\end{lstlisting}
+
+\section{8.4. Algoritmo de Bellman-Ford}
+
+\begin{lstlisting}[caption={Implementação do algoritmo de Bellman-Ford}]
+def bellman_ford(grafo: Graph, origem: str) -> Tuple[Dict[str, float], 
+                                                     Dict[str, str], 
+                                                     bool]:
+    """
+    Algoritmo de Bellman-Ford para caminho minimo (aceita pesos negativos).
+    Retorna:
+        - Dicionario de distancias minimas
+        - Dicionario de predecessores
+        - Bool indicando se ha ciclo negativo
+    """
+    if origem not in grafo.nodes():
+        return {}, {}, False
+    
+    distancias = {no: float('inf') for no in grafo.nodes()}
+    distancias[origem] = 0.0
+    predecessores = {origem: None}
+    
+    nos = grafo.nodes()
+    arestas = grafo.edges()
+    
+    # Relaxamento de arestas (V-1 iteracoes)
+    for _ in range(len(nos) - 1):
+        for u, v, peso, _ in arestas:
+            if distancias[u] + peso < distancias[v]:
+                distancias[v] = distancias[u] + peso
+                predecessores[v] = u
+            # Grafo nao-direcionado: relaxa ambas direcoes
+            if distancias[v] + peso < distancias[u]:
+                distancias[u] = distancias[v] + peso
+                predecessores[u] = v
+    
+    # Detecta ciclo negativo
+    tem_ciclo_negativo = False
+    for u, v, peso, _ in arestas:
+        if distancias[u] + peso < distancias[v]:
+            tem_ciclo_negativo = True
+            break
+        if distancias[v] + peso < distancias[u]:
+            tem_ciclo_negativo = True
+            break
+    
+    return distancias, predecessores, tem_ciclo_negativo
+\end{lstlisting}
+
+\section{8.5. Cálculo de Pesos}
+
+\begin{lstlisting}[caption={Sistema de cálculo de pesos das arestas}]
+def calcular_peso(logradouro: str, observacao: str) -> float:
+    """
+    Calcula o peso de uma aresta baseado em caracteristicas da via.
+    
+    Formula: peso_final = (peso_base * fator_pav) + penalidades
+    """
+    # Peso base por tipo de via
+    peso_base = 2.0  # rua padrao
+    if 'avenida' in logradouro.lower():
+        peso_base = 1.0
+    elif 'ponte' in logradouro.lower():
+        peso_base = 1.5
+    elif 'viaduto' in logradouro.lower():
+        peso_base = 2.5
+    elif 'estrada' in logradouro.lower():
+        peso_base = 3.0
+    
+    # Fator de pavimentacao
+    fator_pav = 1.0
+    obs_lower = observacao.lower()
+    if 'paralelepipedo' in obs_lower:
+        fator_pav = 1.3
+    elif 'escadaria' in obs_lower:
+        fator_pav = 1.5
+    elif 'sem pav' in obs_lower:
+        fator_pav = 2.0
+    
+    # Penalidades
+    penalidade = 0.0
+    if 'ponte' in logradouro.lower() or 'viaduto' in logradouro.lower():
+        penalidade += 0.5
+    if 'semaforo' in obs_lower or 'sinal' in obs_lower:
+        penalidade += 0.3
+    
+    return peso_base * fator_pav + penalidade
+\end{lstlisting}
+
+\chapter{9. Conclusão}
+
+Para concluir, este projeto demonstrou a aplicabilidade da Teoria de Grafos para modelagem e análise de redes em diferentes escalas, desde redes urbanas locais até grandes datasets com milhões de arestas.
+
+\section{9.1. Parte 1: Rede de Bairros do Recife}
+
+A análise da rede de 94 bairros validou a eficácia dos algoritmos implementados:
+
+\begin{itemize}
+    \item O sistema de pesos baseado em características reais das vias permitiu encontrar rotas otimizadas
+    \item A validação através de 26 testes unitários garantiu a correção da implementação
+    \item As visualizações interativas facilitaram a exploração dos dados
+    \item O caso de estudo Nova Descoberta $\to$ Boa Viagem demonstrou aplicabilidade prática
+\end{itemize}
+
+\section{9.2. Parte 2: Dataset de Larga Escala}
+
+Os experimentos com o dataset de 220.970 nós e 17.359.346 arestas revelaram:
+
+\begin{itemize}
+    \item \textbf{BFS:} Melhor desempenho ($\sim$14s) para exploração de grafos grandes
+    \item \textbf{DFS:} Comportamento linear mantido, porém 60\% mais lento que BFS
+    \item \textbf{Dijkstra:} Escalou adequadamente para $>200k$ nós ($\sim$20s por consulta)
+    \item \textbf{Bellman-Ford:} Viável apenas para grafos pequenos devido à complexidade $O(V \cdot E)$
+\end{itemize}
+
+\section{9.3. Lições Aprendidas}
+
+A comparação empírica confirmou as previsões teóricas:
+
+\begin{itemize}
+    \item BFS é preferível a DFS para grafos densos (melhor localidade de cache)
+    \item Dijkstra é adequado para grafos com centenas de milhares de nós
+    \item Bellman-Ford deve ser reservado apenas para casos com pesos negativos
+    \item Estruturas de dados (listas de adjacência, heaps) impactam significativamente o desempenho
+\end{itemize}
+
+\begin{thebibliography}{9}
+
+\bibitem{networkrepository}
+Ryan A. Rossi and Nesreen K. Ahmed.
+\textit{The Network Data Repository with Interactive Graph Analytics and Visualization}.
+In AAAI, 2015.
+\url{https://networkrepository.com}
+
+\bibitem{brozovsky2007recommender}
+Lukas Brozovsky and Vaclav Petricek.
+\textit{Recommender system for online dating service}.
+arXiv preprint cs/0703042, 2007.
+
+\end{thebibliography}
+
+\end{document}
