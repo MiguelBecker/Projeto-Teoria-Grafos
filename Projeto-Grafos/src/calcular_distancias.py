@@ -221,7 +221,7 @@ def main():
         percurso = calcular_percurso_especial(grafo)
         
         print(f"\n{'=' * 70}")
-        print("RESUMO DA OPERAÇÃO")
+        print("RESUMO")
         print("=" * 70)
         print(f"Total de pares calculados: {len(resultados)}")
         
@@ -234,7 +234,7 @@ def main():
             print(f"  Custo: {percurso['custo_total']}")
             print(f"  Bairros percorridos: {percurso['numero_bairros']}")
         
-        print("\n✓ PARTE 6 CONCLUÍDA COM SUCESSO!")
+        print("\n✓ CONCLUÍDO!")
         print("=" * 70)
         
         return 0

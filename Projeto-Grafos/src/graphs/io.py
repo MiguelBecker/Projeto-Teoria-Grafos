@@ -42,16 +42,9 @@ def melt_bairros(input_csv: str, output_csv: str):
 
 
 def carregar_adjacencias(bairros_unique_csv: str, adj_csv: str) -> Graph:
-    df_bairros = pd.read_csv(bairros_unique_csv)
     df_adj = pd.read_csv(adj_csv)
 
     G = Graph()
-
-    for b in df_bairros["bairro"].unique():
-        if b == "Boa Viagem (Setúbal)":
-            G.add_node("Boa Viagem")
-        else:
-            G.add_node(b)
 
     for _, r in df_adj.iterrows():
         u = str(r["bairro_origem"]).strip().title()

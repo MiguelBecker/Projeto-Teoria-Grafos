@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1763248429.3543 "c:/Users/julia/Documents/GitHub/Projeto-Teoria-Grafos/Artigo-Src/artigo.tex" "artigo.pdf" "artigo" 1763248431.57737 0
+["pdflatex"] 1763254144.45393 "c:/Users/julia/Documents/GitHub/Projeto-Teoria-Grafos/Artigo-Src/artigo.tex" "artigo.pdf" "artigo" 1763254150.54702 0
   "C:/Users/julia/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1763086294 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/julia/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1200.pk" 1763086304 31952 8b7be7e496555dc8c4a044aa752e1a61 ""
   "C:/Users/julia/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1440.pk" 1763086314 40136 76d0016140fa753cbde38f422a2bb999 ""
@@ -130,11 +130,11 @@
   "C:/Users/julia/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1751104012 9684 a33a14b82ce60d6e77cb9be689d79ee6 ""
   "C:/Users/julia/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/julia/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "artigo.aux" 1763248431 10023 6917da02da6c1e16eab4081635d84d67 "pdflatex"
-  "artigo.out" 1763248431 12592 b5551eaf2fa00b3512f466f962368766 "pdflatex"
-  "artigo.tex" 1763248428 32911 20280cb5371d299864b25aaf21e803e1 ""
-  "artigo.toc" 1763248431 4694 073182e3f9a34833ac925befbdf12b3b "pdflatex"
-  "c:/Users/julia/Documents/GitHub/Projeto-Teoria-Grafos/Artigo-Src/artigo.tex" 1763248428 32911 20280cb5371d299864b25aaf21e803e1 ""
+  "artigo.aux" 1763254148 10518 e34f7863d03eb3629d655e0f89fe5fd3 "pdflatex"
+  "artigo.out" 1763254148 13560 06199fdad80675ba595e1bcc58ed7be4 "pdflatex"
+  "artigo.tex" 1763254133 36706 8c23540caaefdb18cf411f41c91e4950 ""
+  "artigo.toc" 1763254148 5025 59c3a97106f5819fdffb0672dc60002d "pdflatex"
+  "c:/Users/julia/Documents/GitHub/Projeto-Teoria-Grafos/Artigo-Src/artigo.tex" 1763254133 36706 8c23540caaefdb18cf411f41c91e4950 ""
   "logo.png" 1763244054 20584 bccfa6905c0528c1edc024349bd87cf6 ""
   (generated)
   "artigo.aux"

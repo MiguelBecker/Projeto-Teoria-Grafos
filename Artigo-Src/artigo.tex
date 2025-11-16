@@ -226,9 +226,11 @@ $$peso_{final} = (peso_{base} \times fator_{pavimentacao}) + penalidades$$
 \textbf{Fator de Pavimentação:}
 \begin{itemize}
     \item Asfalto: $\times$ 1.0
+    \item Concreto: $\times$ 1.0
     \item Paralelepípedo: $\times$ 1.3
     \item Escadaria: $\times$ 1.5
     \item Sem pavimentação: $\times$ 2.0
+    \item Terra: $\times$ 2.0
 \end{itemize}
 
 \textbf{Penalidades:}
@@ -239,7 +241,44 @@ $$peso_{final} = (peso_{base} \times fator_{pavimentacao}) + penalidades$$
 
 \section{4.3. Processamento de Dados}
 
-\subsection{4.3.1. Etapa 1: Normalização dos Bairros}
+\subsection{4.3.1. Obtenção das Interconexões}
+
+As interconexões entre bairros foram obtidas através de análise manual e consulta a múltiplas fontes:
+
+\textbf{Fontes de dados:}
+\begin{itemize}
+    \item \textbf{Mapas oficiais:} Mapas da Prefeitura do Recife e CONDEPE/FIDEM (Agência Estadual de Planejamento e Pesquisas de Pernambuco)
+    \item \textbf{Google Maps:} Identificação visual de vias que conectam bairros adjacentes
+    \item \textbf{Conhecimento local:} Validação provinda dos próprios integrantes do grupo.
+\end{itemize}
+
+\textbf{Critérios para definir uma interconexão:}
+\begin{enumerate}
+    \item Existência de via pública (rua, avenida, ponte) conectando diretamente dois bairros
+    \item Via deve ser transitável por veículos ou pedestres
+    \item Conexão deve ser geograficamente significativa (não apenas divisa técnica)
+    \item Preferência para vias principais e de maior fluxo
+\end{enumerate}
+
+\textbf{Processo de mapeamento:}
+\begin{enumerate}
+    \item Identificação dos 94 bairros oficiais do Recife
+    \item Análise de mapas para identificar bairros adjacentes
+    \item Pesquisa de logradouros que fazem a ligação
+    \item Registro das características de cada via (tipo, pavimentação, obstáculos)
+    \item Validação cruzada entre diferentes fontes
+    \item Resultado: 244 conexões mapeadas no arquivo \texttt{adjacencias\_bairros.csv}
+\end{enumerate}
+
+\textbf{Limitações da fonte de dados:}
+\begin{itemize}
+    \item Mapeamento manual pode não incluir todas as vias menores
+    \item Mudanças urbanas recentes podem não estar refletidas
+    \item Algumas conexões podem ser unidirecionais mas foram tratadas como bidirecionais
+    \item Dados de pavimentação baseados em observação visual (mapas) e relatos
+\end{itemize}
+
+\subsection{4.3.2. Etapa 1: Normalização dos Bairros}
 O dataset original continha inconsistências de nomenclatura e acentuação. Foi desenvolvido um processo de normalização que:
 \begin{itemize}
     \item Remove acentuação para chaves de busca
@@ -247,7 +286,7 @@ O dataset original continha inconsistências de nomenclatura e acentuação. Foi
     \item Resolve duplicatas e variações de nome
 \end{itemize}
 
-\subsection{4.3.2. Etapa 2: Construção do Grafo}
+\subsection{4.3.3. Etapa 2: Construção do Grafo}
 Leitura do arquivo \texttt{adjacencias\_bairros.csv} contendo:
 \begin{itemize}
     \item Bairro origem e destino
@@ -256,7 +295,7 @@ Leitura do arquivo \texttt{adjacencias\_bairros.csv} contendo:
     \item Peso calculado
 \end{itemize}
 
-\subsection{4.3.3. Etapa 3: Cálculo de Métricas}
+\subsection{4.3.4. Etapa 3: Cálculo de Métricas}
 Aplicação dos algoritmos para extrair:
 \begin{itemize}
     \item Métricas globais (densidade, grau médio, componentes)
@@ -309,7 +348,7 @@ A análise dos pesos calculados das arestas mostrou:
     \item \textbf{Peso mínimo:} 1.0 (vias ideais: avenidas asfaltadas)
     \item \textbf{Peso máximo:} 6.0 (vias de maior custo)
     \item \textbf{Peso médio:} 1.71
-    \item \textbf{Mediana:} 1.0
+    \item \textbf{Mediana:} 1.3
 \end{itemize}
 
 \section{5.3. Caso de Estudo: Nova Descoberta \texorpdfstring{$\rightarrow$}{→} Boa Viagem}
@@ -632,13 +671,35 @@ Todos os algoritmos executam em tempo aceitável para o tamanho da rede.
 
 \section{7.4. Limitações}
 
-Algumas limitações identificadas:
+Algumas limitações identificadas neste trabalho:
+
+\subsection{7.4.1. Limitações da Coleta de Dados}
 
 \begin{itemize}
-    \item Os pesos são estimativas baseadas em heurísticas, não medições reais de tempo ou distância
-    \item O modelo não considera tráfego dinâmico ou horários de pico
-    \item Algumas conexões viárias podem não estar mapeadas
-    \item O sistema atual não suporta múltiplos modos de transporte
+    \item \textbf{Mapeamento manual:} As interconexões foram identificadas manualmente através de mapas e conhecimento local, podendo haver omissões de vias secundárias
+    \item \textbf{Dados estáticos:} O mapeamento reflete um momento específico, não capturando mudanças recentes na malha urbana
+    \item \textbf{Cobertura incompleta:} Algumas conexões viárias menores podem não estar mapeadas (244 conexões das potencialmente milhares de vias)
+    \item \textbf{Simplificação bidirecional:} Vias unidirecionais foram tratadas como bidirecionais para simplificação
+    \item \textbf{Ausência de dados oficiais:} Não foram utilizados dados oficiais de conectividade viária da Prefeitura (por indisponibilidade)
+\end{itemize}
+
+\subsection{7.4.2. Limitações do Sistema de Pesos}
+
+\begin{itemize}
+    \item \textbf{Heurísticas não validadas:} Os pesos são estimativas baseadas em heurísticas, não medições reais de tempo ou distância
+    \item \textbf{Fatores não considerados:} O modelo não considera tráfego dinâmico, horários de pico, condições climáticas, ou obras
+    \item \textbf{Pesos estáticos:} Não há atualização dinâmica dos pesos baseada em condições reais
+    \item \textbf{Granularidade limitada:} Discretização dos pesos pode não capturar diferenças sutis entre vias similares
+    \item \textbf{Subjetividade:} Classificação de pavimentação e obstáculos baseada em observação visual de mapas
+\end{itemize}
+
+\subsection{7.4.3. Limitações do Modelo}
+
+\begin{itemize}
+    \item \textbf{Modo de transporte único:} O sistema não diferencia entre deslocamento a pé, carro, bicicleta ou transporte público
+    \item \textbf{Ausência de multimodalidade:} Não considera combinações de modos de transporte
+    \item \textbf{Topologia simplificada:} Cada bairro é representado como um único nó, ignorando sua extensão geográfica
+    \item \textbf{Distâncias não métricas:} Pesos não representam distâncias reais em quilômetros, mas custos abstratos
 \end{itemize}
 
 \chapter{8. Código-Fonte}
@@ -869,11 +930,13 @@ def calcular_peso(logradouro: str, observacao: str) -> float:
     # Fator de pavimentacao
     fator_pav = 1.0
     obs_lower = observacao.lower()
-    if 'paralelepipedo' in obs_lower:
+    if 'concreto' in obs_lower:
+        fator_pav = 1.0
+    elif 'paralelepipedo' in obs_lower:
         fator_pav = 1.3
     elif 'escadaria' in obs_lower:
         fator_pav = 1.5
-    elif 'sem pav' in obs_lower:
+    elif 'sem pav' in obs_lower or 'terra' in obs_lower:
         fator_pav = 2.0
     
     # Penalidades
