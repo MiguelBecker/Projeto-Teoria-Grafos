@@ -214,30 +214,62 @@ $$peso_{final} = (peso_{base} \times fator_{pavimentacao}) + penalidades$$
 
 \subsection{4.2.1. Componentes do Peso}
 
-\textbf{Peso Base (tipo de via):}
-\begin{itemize}
-    \item Avenida: 1.0
-    \item Ponte: 1.5
-    \item Rua: 2.0
-    \item Viaduto: 2.5
-    \item Estrada: 3.0
-\end{itemize}
+\textbf{Peso Base (tipo de via):} Quanto menor, melhor o acesso.
 
-\textbf{Fator de Pavimentação:}
-\begin{itemize}
-    \item Asfalto: $\times$ 1.0
-    \item Concreto: $\times$ 1.0
-    \item Paralelepípedo: $\times$ 1.3
-    \item Escadaria: $\times$ 1.5
-    \item Sem pavimentação: $\times$ 2.0
-    \item Terra: $\times$ 2.0
-\end{itemize}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|l|c|p{6cm}|}
+\hline
+\textbf{Tipo de Via} & \textbf{Peso Base} & \textbf{Justificativa} \\
+\hline
+Avenida & 1.0 & Via principal, maior fluxo \\
+Ponte & 1.5 & Travessia especial, fluxo moderado \\
+Rua & 2.0 & Via local, menor fluxo \\
+Viaduto & 2.5 & Elevado, acesso restrito \\
+Estrada & 3.0 & Via de menor categoria urbana \\
+\hline
+\end{tabular}
+\caption{Peso base por tipo de via}
+\label{tab:peso_base}
+\end{table}
 
-\textbf{Penalidades:}
-\begin{itemize}
-    \item Ponte/Viaduto: +0.5
-    \item Semáforos: +0.3 cada
-\end{itemize}
+\textbf{Fator de Pavimentação (multiplicador):} Afeta a velocidade/conforto de deslocamento.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|l|c|c|p{4.5cm}|}
+\hline
+\textbf{Pavimentação} & \textbf{Fator} & \textbf{Código CSV} & \textbf{Justificativa} \\
+\hline
+Asfalto/Concreto & 1.0 & 1, 2 & Melhor condição \\
+Paralelepípedo & 1.3 & 3 & Condição intermediária \\
+Escadaria & 1.5 & 4 & Acesso difícil \\
+Sem pavimentação & 2.0 & 0 & Pior condição \\
+\hline
+\end{tabular}
+\caption{Fatores de pavimentação}
+\label{tab:pavimentacao}
+\end{table}
+
+\textbf{Penalidades Adicionais:} Somadas ao peso final.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|l|c|p{6cm}|}
+\hline
+\textbf{Condição} & \textbf{Penalidade} & \textbf{Justificativa} \\
+\hline
+Travessia de ponte & +0.5 & Tempo extra de travessia \\
+Travessia de viaduto & +0.5 & Acesso complexo \\
+Semáforos (grandes av.) & +0.3 & Tempo de espera \\
+\hline
+\end{tabular}
+\caption{Penalidades adicionais}
+\label{tab:penalidades}
+\end{table}
 
 \section{4.3. Processamento de Dados}
 

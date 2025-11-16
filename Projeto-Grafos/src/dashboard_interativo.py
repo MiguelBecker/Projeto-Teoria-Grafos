@@ -679,11 +679,11 @@ def criar_html_unificado(grafo, df_bairros, out_dir):
             </div>
             <div class="header-stats">
                 <div class="stat-item">
-                    <div class="stat-value">98</div>
+                    <div class="stat-value">{len(grafo.nodes())}</div>
                     <div class="stat-label">Bairros</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">244</div>
+                    <div class="stat-value">{len(grafo.edges())}</div>
                     <div class="stat-label">Conexões</div>
                 </div>
                 <div class="stat-item">

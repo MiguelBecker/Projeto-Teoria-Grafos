@@ -134,7 +134,7 @@ def processar_adjacencias():
         df['observacao'] = ''
     
     if 'peso' in df.columns and df['peso'].notna().all():
-        print("\n⚠️  Os pesos já foram calculados anteriormente!")
+        print("\nOs pesos já foram calculados anteriormente!")
         print("   Extraindo apenas tipo de via para estatísticas...")
         
         tipos_via = [extrair_tipo_via(log) for log in df['logradouro']]
@@ -205,9 +205,7 @@ def processar_adjacencias():
 
 
 def gerar_estatisticas(df):
-    """
-    Gera estatísticas sobre os pesos calculados.
-    """
+    
     stats = {
         "total_arestas": int(len(df)),
         "peso_minimo": float(df['peso'].min()),
@@ -243,130 +241,11 @@ def gerar_estatisticas(df):
     return stats
 
 
-def gerar_documentacao():
-    """
-    Gera documentação detalhada sobre o sistema de pesos.
-    """
-    doc = """
-═══════════════════════════════════════════════════════════════════════════
-                    DOCUMENTAÇÃO DO SISTEMA DE PESOS
-                          Parte 5 - Projeto Grafos
-═══════════════════════════════════════════════════════════════════════════
-
-1. OBJETIVO
-───────────
-Definir pesos para as arestas do grafo de bairros do Recife, permitindo
-calcular distâncias realistas usando o algoritmo de Dijkstra.
-
-2. FÓRMULA GERAL
-────────────────
-    peso_final = (peso_base_via × fator_pavimentacao) + penalidades
-
-3. COMPONENTES DO PESO
-──────────────────────
-
-3.1. PESO BASE POR TIPO DE VIA
-Quanto menor, melhor o acesso:
-
-    Tipo          | Peso Base | Justificativa
-    ──────────────┼───────────┼─────────────────────────────────────
-    Avenida       |    1.0    | Via principal, maior fluxo
-    Ponte         |    1.5    | Travessia especial, fluxo moderado
-    Rua           |    2.0    | Via local, menor fluxo
-    Viaduto       |    2.5    | Elevado, acesso restrito
-    Estrada       |    3.0    | Via de menor categoria urbana
-
-3.2. FATOR DE PAVIMENTAÇÃO (Multiplicador)
-Afeta a velocidade/conforto de deslocamento:
-
-    Pavimentação      | Fator | Código CSV | Justificativa
-    ──────────────────┼───────┼────────────┼──────────────────────
-    Asfalto/Concreto  |  1.0  |    1, 2    | Melhor condição
-    Paralelepípedo    |  1.3  |     3      | Condição intermediária
-    Escadaria         |  1.5  |     4      | Acesso difícil
-    Sem pavimentação  |  2.0  |     0      | Pior condição
-
-3.3. PENALIDADES ADICIONAIS
-Somadas ao peso final:
-
-    Condição                | Penalidade | Justificativa
-    ────────────────────────┼────────────┼────────────────────────
-    Travessia de ponte      |   +0.5     | Tempo extra de travessia
-    Travessia de viaduto    |   +0.5     | Acesso complexo
-    Semáforos (grandes av.) |   +0.3     | Tempo de espera
-
-4. EXEMPLOS DE CÁLCULO
-──────────────────────
-
-4.1. AVENIDA BOA VIAGEM (asfalto)
-    peso = (1.0 × 1.0) + 0.3 = 1.3
-    (avenida principal com semáforos)
-
-4.2. PONTE ENTRE BAIRROS (concreto)
-    peso = (1.5 × 1.0) + 0.5 = 2.0
-    (ponte com penalidade de travessia)
-
-4.3. RUA LOCAL (paralelepípedo)
-    peso = (2.0 × 1.3) + 0.0 = 2.6
-    (rua com pavimentação intermediária)
-
-4.4. ESTRADA SEM PAVIMENTAÇÃO
-    peso = (3.0 × 2.0) + 0.0 = 6.0
-    (pior caso: estrada sem asfalto)
-
-5. INTERPRETAÇÃO DOS PESOS
-───────────────────────────
-- Pesos menores (1.0-2.0): Conexões rápidas e eficientes
-- Pesos médios (2.0-4.0): Conexões normais
-- Pesos altos (4.0+): Conexões difíceis/lentas
-
-6. VALIDAÇÃO
-────────────
-✓ Todos os pesos são positivos (requisito do Dijkstra)
-✓ Pesos refletem características reais das vias
-✓ Sistema é extensível para futuras melhorias
-
-7. LIMITAÇÕES E MELHORIAS FUTURAS
-──────────────────────────────────
-Limitações:
-- Não considera distância física real (apenas topológica)
-- Não considera horário de pico dinamicamente
-- Semáforos inferidos heuristicamente
-
-Melhorias possíveis:
-- Integrar dados de GPS/distâncias reais
-- Adicionar variação temporal (hora do dia)
-- Considerar dados de trânsito em tempo real
-- Adicionar preferências (carro vs. ônibus vs. caminhada)
-
-8. REFERÊNCIAS NO CÓDIGO
-─────────────────────────
-Arquivo: src/calcular_pesos.py
-Funções principais:
-- calcular_peso(): Calcula peso de uma aresta
-- extrair_tipo_via(): Identifica tipo de via
-- extrair_fator_pavimentacao(): Obtém fator de pavimentação
-- calcular_penalidades(): Calcula penalidades adicionais
-
-═══════════════════════════════════════════════════════════════════════════
-Gerado automaticamente pelo script src/calcular_pesos.py
-═══════════════════════════════════════════════════════════════════════════
-"""
-    
-    doc_path = os.path.join(ROOT_DIR, "out", "documentacao_pesos.txt")
-    with open(doc_path, 'w', encoding='utf-8') as f:
-        f.write(doc)
-    
-    print(f"\n✓ Documentação salva em: {doc_path}")
-
-
 def main():
     try:
         df = processar_adjacencias()
         
         stats = gerar_estatisticas(df)
-        
-        gerar_documentacao()
         
         print("\n" + "=" * 70)
         print("RESUMO DA OPERAÇÃO")

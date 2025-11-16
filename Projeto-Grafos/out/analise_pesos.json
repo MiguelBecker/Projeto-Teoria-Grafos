@@ -1,0 +1,58 @@
+{
+  "total_arestas": 244,
+  "peso_minimo": 1.0,
+  "peso_maximo": 6.0,
+  "peso_medio": 1.71,
+  "peso_mediano": 1.3,
+  "distribuicao_tipos_via": {
+    "avenida": 186,
+    "estrada": 12,
+    "ponte": 20,
+    "rua": 25,
+    "viaduto": 1
+  },
+  "distribuicao_pesos": {
+    "0.0-1.0": 80,
+    "1.0-2.0": 128,
+    "2.0-3.0": 20,
+    "3.0-4.0": 13,
+    "4.0+": 3
+  },
+  "exemplos": [
+    {
+      "tipo_via": "avenida",
+      "origem": "Caxangá",
+      "destino": "Várzea",
+      "logradouro": "Avenida Afonso Olindense",
+      "peso": 1.0
+    },
+    {
+      "tipo_via": "estrada",
+      "origem": "Casa Amarela",
+      "destino": "Casa Forte",
+      "logradouro": "Estrada das Ubaias",
+      "peso": 3.9
+    },
+    {
+      "tipo_via": "ponte",
+      "origem": "Cabanga",
+      "destino": "Pina",
+      "logradouro": "Ponte Agamenon Magalhães",
+      "peso": 2.0
+    },
+    {
+      "tipo_via": "rua",
+      "origem": "Prado",
+      "destino": "Zumbi",
+      "logradouro": "Rua Abdias de Oliveira",
+      "peso": 4.0
+    },
+    {
+      "tipo_via": "viaduto",
+      "origem": "Jaqueira",
+      "destino": "Torre",
+      "logradouro": "Viaduto Governador Cordeiro de Farias",
+      "peso": 3.0
+    }
+  ]
+}
